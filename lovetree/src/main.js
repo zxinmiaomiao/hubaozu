@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import 'amfe-flexible'
+// import Text from './components/text'
+// Vue.use(Text)
 
 import Uploader from 'vant/lib/uploader';
 import 'vant/lib/uploader/style';

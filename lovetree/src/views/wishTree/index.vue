@@ -5,7 +5,7 @@
       <h6>许愿树</h6>
       <!-- 用户信息、公益林 -->
       <div class="header">
-        <div class="userInfo">
+        <div class="userInfo" @click="gotome">
           <!-- 用户信息 -->
           <div class="info">
             <div class="userPic">
@@ -95,6 +95,9 @@ export default {
       ) {
         this.showWish = "none";
       }
+    },
+    gotome(){
+      this.$router.push({ name: "me" });
     }
   },
 

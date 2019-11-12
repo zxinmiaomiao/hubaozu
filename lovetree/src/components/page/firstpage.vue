@@ -26,13 +26,13 @@ export default {
   methods: {
     write() {
       this.$router.push({ name: "writediary" });
-      this.timefont = this.$store.state.timememory;
-      this.$store.dispatch("change", "我的日记");
+      this.timefont = this.$store.state.page.timememory;
+      this.$store.dispatch("page/change", "我的日记");
     },
     get() {
       this.$router.push({ name: "getdiary" });
-      this.timefont = this.$store.state.timememory;
-      this.$store.dispatch("change", "我的记忆");
+      this.timefont = this.$store.state.page.timememory;
+      this.$store.dispatch("page/change", "我的记忆");
     }
   }
 };

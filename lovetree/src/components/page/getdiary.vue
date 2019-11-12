@@ -26,9 +26,9 @@ export default {
   async mounted() {
     //   挂载的时候去向后端获取数据   判断他的日记是否存在  //同时获取到日记的内容，事件和ID
     //   如果不存在的话   显示false
-    await this.$store.dispatch("hasstate");
-    this.state = this.$store.state.status;
-    this.readdate = this.$store.state.readmemory;
+    await this.$store.dispatch("page/hasstate");
+    this.state = this.$store.state.page.status;
+    this.readdate = this.$store.state.page.readmemory;
     console.log(this.readdate);
   },
   methods: {
