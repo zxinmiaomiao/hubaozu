@@ -2,34 +2,16 @@ const express = require('express');
 
 const app = express();
 
-app.get('', function (req, res) {
+app.post('/waws/readdiary', function (req, res) {
 
-    setTimeout(function () {
-        res.send({
-            name: 'zhang',
-            age: 18
-        })
-    }, 3000)
+
+        res.send([{
+            text: '判断他的日记是否存在挂载的时候去向后端获取数据 判断他的日记是否存在 判断他的日记是否存在 判断他的日记是否存在',
+            time: '2019.04.12',
+            id: 1
+        }])
+ 
 });
-
-app.get('', function (req, res) {
-
-    setTimeout(function () {
-        res.send({
-            salary: 10000
-        })
-    }, 1000)
-});
-
-app.get('', function (req, res) {
-
-    setTimeout(function () {
-        res.send({
-            score: 99
-        })
-    }, 1000)
-});
-
 const port = 7000;
 app.listen(port, function (err) {
     if (err) {

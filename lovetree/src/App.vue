@@ -1,13 +1,17 @@
 <template>
   <div id="app">
-    <div id="nav"></div>
+    <router-link :to="{name:'diary'}"></router-link>
     <router-view />
   </div>
 </template>
+<script>
 
+export default {
+};
+</script>
 <style>
-  #app{
-    width: 100%;
-    height: 100%;
-  }
+#app {
+  width: 100%;
+  height: 100%;
+}
 </style>
