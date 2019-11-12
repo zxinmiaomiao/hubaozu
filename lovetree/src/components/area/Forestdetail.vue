@@ -1,0 +1,282 @@
+<template>
+  <div class="forestdetailbox">
+    <!-- 头部 -->
+    <header>
+      <div class="detail_title">
+        <span @click='back' class='back'><</span>
+        <h4>{{detailInfor.name}}</h4>
+      </div>
+    </header>
+    <!-- 中间 -->
+    <article>
+      <div class="detail_center">
+        <div class="detail_img">
+          <img src="../../../public/img/listimg.jpg" />
+        </div>
+        <!-- 信息 -->
+        <div class="detailinfor">
+          <div class="detail_inner_top">
+            <div class="treeinfor">
+              <div>
+                <p class="treename">{{detailInfor.name}}</p>
+                <span class="treelv"></span>
+              </div>
+              <p class="treeage">{{detailInfor.age+'余年'}}</p>
+              <p>{{detailInfor.area}}</p>
+            </div>
+            <span class="price">{{detailInfor.money+"元/年"}}</span>
+          </div>
+        </div>
+
+        <div class="detail_inner">
+          <h4>历史典故</h4>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;夜，结束了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却却</p>
+          <h5>=======详情 =======</h5>
+          <img src="../../../public/img/listimg.jpg" />
+          <p>&nbsp;&nbsp;夜，结束了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却</p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;夜，结束了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却却</p>
+        </div>
+      </div>
+      数量
+      {{detailInfor.count}}
+    </article>
+
+    <!-- 底部 -->
+    <footer>
+      <div class="footer_top">
+        <input type="radio" />
+        <p class='read'>您已阅读</p>
+        <p @click="toAgreement" class='read1'>古墓古树认养协议</p>
+      </div>
+      
+        <img @click='toService' class='pic' src="../../../public/img/kefu_03.jpg" />
+        <button class="button" @click="toOrder">我要认养</button>
+      
+    </footer>
+  </div>
+</template>
+<script>
+export default {
+  name: "Forestdetail",
+
+  // data() {
+  //   return { treeinfor: "" };
+  // },
+  // props:['treeinfor'],
+  computed: {
+    detailInfor() {
+      // console.log(this.$route.query.treeinfor.count);
+      return this.$route.query.treeinfor;
+    }
+  },
+  methods: {
+    forestmed(detailInfor) {
+      console.log(detailInfor.count);
+      // detailInfor.count--;
+      // console.log(n);
+    },
+    back(){
+            //跳转上一级页面
+            history.back();
+        },
+        toOrder(){
+            //跳转order页面
+            this.$router.push({name: 'order'});
+        },
+        toService(){
+            //跳转客服页面
+            this.$router.push({name: 'service'});
+        },
+        toAgreement(){
+            //跳转agreement页面
+            // console.log(this.$router)
+            this.$router.push({name: 'agreement'});
+        },
+  }
+};
+</script>
+<style scoped>
+.back {
+  font-size:30px;
+}
+
+.forestbtn {
+  color: #fff;
+  width: 260px;
+  height: 40px;
+  line-height: 40px;
+  background: #0fa87d;
+  border-radius: 28px;
+  border: none;
+  font-size: 12px;
+  float: right;
+  margin: 5px 20px 0 0;
+}
+.footer_top {
+  font-size: 16px;
+  margin: 5px 0 0 20px;
+}
+.read {
+  font-size:12px;
+  position:absolute;
+  top:0px;
+}
+.read1 {
+  top:0px;
+  left:80px;
+  position:absolute;
+  color: #0fa87d;
+  font-size: 12px;
+}
+.button {
+    position:absolute;
+    top: 30px;
+    right: 15px;
+    width:260px;
+    height:40px;
+    border-radius:20px;
+    background:#0fa87d;
+    line-height:40px;
+    text-align:center;
+    color:white;
+  }
+.pic {
+      width:50px;
+      height:45px;
+      position:absolute;
+      bottom:5px;
+      left:30px;
+  }
+body,
+html {
+  height: 100%;
+}
+header {
+  height: 54px;
+  position: fixed;
+  left: 0px;
+  top: 0;
+  right: 0px;
+  z-index: 1;
+}
+article {
+  height: 100%;
+  overflow: auto;
+  padding-top: 54px;
+  padding-bottom: 100px;
+  box-sizing: border-box;
+}
+footer {
+  background: #fff;
+  height: 80px;
+  position: fixed;
+  left: 0;
+  background:white;
+  right: 0;
+  bottom: 0;
+}
+.forestdetailbox {
+  font-size: 12px;
+  width: 100%;
+  height: 100%;
+}
+
+/* 头部 */
+.detail_title {
+  position: sticky;
+  font-size: 16px;
+  font-weight: bold;
+  height: 54px;
+  line-height: 54px;
+  width: 100%;
+  top: 0;
+  background: #fff;
+}
+.detail_title span {
+  position: absolute;
+  left: 14px;
+}
+.detail_title h4 {
+  text-align: center;
+}
+/* .detail_center {
+  height: 100%;
+  left:0;
+  right: 0;
+} */
+
+/* 共同样式 */
+
+.treeinfor {
+  float: left;
+  color: #ccc;
+  margin-left: 10px;
+  margin-top: 10px;
+  background: #fff;
+}
+.treelv {
+  width: 40px;
+  height: 14px;
+  display: inline-block;
+  background: url(../../../public/img/lv-1.jpg) no-repeat;
+}
+.treename {
+  color: #3f3f3f;
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 10px;
+}
+.treeage {
+  margin: 7px 0;
+}
+
+/* 共同样式 */
+.price {
+  color: #4fbfa0;
+  font-size: 14px;
+  font-weight: bold;
+  right: 15px;
+  top: 10px;
+  position: absolute;
+}
+
+/* 图片内容 */
+
+.detail_img {
+  width: 375px;
+  height: 280px;
+}
+.detail_img img {
+  width: 375px;
+  height: 280px;
+}
+.detailinfor {
+  position: relative;
+}
+.detail_inner_top {
+  margin: 0 15px;
+  position: absolute;
+  top: -40px;
+  border-radius: 5px;
+  background: #fff;
+  left: 0;
+  right: 0;
+}
+.detail_inner {
+  margin-top: 60px;
+  padding: 0 15px;
+  height: 100%;
+  padding-bottom: 50px;
+}
+.detail_inner h4 {
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+.detail_inner h5 {
+  font-size: 12px;
+  text-align: center;
+  color: #888;
+  margin: 20px 0;
+}
+/* 固定导航 */
+</style>
