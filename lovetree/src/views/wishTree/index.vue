@@ -34,7 +34,7 @@
       <div class="btnWrap">
         <span class="sign" @click="sign()" :style="{background:background}"></span>
         <router-link to="/#" class="wishing"></router-link>
-        <router-link to="/#" class="diary"></router-link>
+        <router-link :to="{name:'diary'}" class="diary"></router-link>
       </div>
       <!-- 签到成功 -->
       <div class="signSucceed" :style="{display:showSign}">

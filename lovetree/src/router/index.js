@@ -6,19 +6,21 @@ import getdiary from '../components/page/getdiary'
 import init from '../components/page/firstpage'
 import readdiary from '../components/page/readdiary'
 import Wish from '../views/wishTree' // 导入wish首页组件
+import PersonInfo from '../components/personCenter/PersonInfo' 
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/diary',
-    redirect: { name: 'init' }
+  // {
+  //   path: '/diary',
+  //   redirect: { name: 'init' }
 
-  },
+  // },
   {
     path: '/diary',
     name: 'diary',
     component: diary,
+    redirect:{ name: 'init' },
     children: [
       {
         path: 'init',
@@ -47,6 +49,11 @@ const routes = [
     path:'/wishtree',
     name:'wishTree',
     component:Wish,
+  },
+  {
+    path:'/myinfo',
+    name:'myinfo',
+    component:PersonInfo
   }
 
 

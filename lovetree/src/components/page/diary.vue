@@ -33,6 +33,8 @@ export default {
         this.$router.go(-1);
       } else if (this.$route.name == "readdiary") {
         this.$router.go(-1);
+      }else if(this.$route.name == 'init'){
+        this.$router.push({name:'wishTree'})
       }
     }
   }
