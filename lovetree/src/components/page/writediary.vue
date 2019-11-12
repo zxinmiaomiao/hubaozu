@@ -30,7 +30,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch("page/change", "写日记");
- console.log(this.$store)
     this.timefont = this.$store.state.page.timememory;
   },
   methods: {

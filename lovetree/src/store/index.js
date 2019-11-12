@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import page from './page';
+import Me from './me';
+import Wishtree from './wishTree'
+import page from './page'
 
 Vue.use(Vuex)
 
@@ -14,9 +16,10 @@ export default new Vuex.Store({
   },
   actions: {
 
-
   },
   modules: {
-    page
+    wishtree: Wishtree,
+    me: Me,
+    page,
   }
 })

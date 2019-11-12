@@ -6,6 +6,21 @@ import 'amfe-flexible'
 import { Popup } from 'vant';
 Vue.use(Popup);
 Vue.config.productionTip = false
+// import Text from './components/text'
+// Vue.use(Text)
+
+import Uploader from 'vant/lib/uploader';
+import 'vant/lib/uploader/style';
+Vue.use(Uploader);
+
+
+import { DatetimePicker } from 'vant';
+import 'vant/lib/datetime-picker/style'
+Vue.use(DatetimePicker);
+
+
+Vue.config.productionTip = false;
+
 
 new Vue({
   router,

@@ -81,14 +81,14 @@
         <!-- 我的助手底部 -->
         <div class="help-bottom">
           <!-- 路由跳转 设置部分 -->
-          <router-link to="/set" style="float:left">
+          <router-link to= "/setting"  style="float:left">
             <div class="set">
               <span class="iconfont icon-shezhi"></span>
               <p>设置</p>
             </div>
           </router-link>
           <!-- 路由跳转  在线客服部分 -->
-          <router-link to="/service" style="float:left">
+          <router-link to="/Service" style="float:left">
             <div class="service">
               <span class="iconfont icon-kefu"></span>
               <p>在线客服</p>
