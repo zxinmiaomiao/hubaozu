@@ -3,7 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import 'amfe-flexible'
-
+import { Popup } from 'vant';
+Vue.use(Popup);
 Vue.config.productionTip = false
 
 new Vue({

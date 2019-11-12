@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-link :to="{name:'diary'}"></router-link>
+    <router-link :to="{name:'login'}"></router-link>
     <router-view />
   </div>
 </template>

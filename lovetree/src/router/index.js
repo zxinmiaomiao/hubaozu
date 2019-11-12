@@ -5,6 +5,10 @@ import writediary from '../components/page/writediary'
 import getdiary from '../components/page/getdiary'
 import init from '../components/page/firstpage'
 import readdiary from '../components/page/readdiary'
+import login from '../views/login'
+import money from '../components/log/money'
+import moneydetail from '../components/log/moneydetail'
+import give from '../components/log/give'
 
 Vue.use(VueRouter)
 
@@ -41,7 +45,26 @@ const routes = [
       }
     ]
   },
-
+  {
+    path: '/login',
+    name: 'login',
+    component: login
+  },
+  {
+    path: '/money',
+    name: 'money',
+    component: money
+  },
+  {
+    path: '/moneydetail',
+    name: 'moneydetail',
+    component: moneydetail
+  },
+  {
+    path: '/give',
+    name: 'give',
+    component: give
+  }
 
 ]
 
