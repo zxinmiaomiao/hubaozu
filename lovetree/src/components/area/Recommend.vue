@@ -1,7 +1,7 @@
 <template>
 <div class='recommend'>
 <header>
-    <span @click='back' class='back'><</span>
+    <span @click='back' class='back'>&lt;</span>
     <span class='title'>古树名木认养</span>
 </header>
 <div class='content'>
@@ -9,7 +9,7 @@
    <img src="../../../public/img/recommend1.png">
    <img src="../../../public/img/recommend2.png">
 </div>
-   <p class='button'@click="toItem">我要认养</p>
+   <p class='button' @click="toItem">我要认养</p>
 </div>
 </template>
 <script>

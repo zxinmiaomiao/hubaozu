@@ -1,7 +1,7 @@
 <template>
 <div id='detail'>
 <header>
-    <span @click='back' class='back'><</span>
+    <span @click='back' class='back'>&lt;</span>
     <span class='title'>{{title}}</span>
 </header>
     <div class='pic'></div>
@@ -22,7 +22,7 @@
     <footer>
     <p class='select'><input type="checkbox">您已阅读并同意</p><span @click="toAgreement">《古树名木认养协议》</span>
     <img src="../../../public/img/kefu.jpg" @click='toService'>
-    <p class='button'@click="toOrder">我要认养</p>
+    <p class='button' @click="toOrder">我要认养</p>
     </footer>
     
    

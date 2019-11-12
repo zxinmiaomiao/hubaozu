@@ -1,7 +1,7 @@
 <template>
 <div class='order'>
    <header>
-    <span @click='back' class='back'><</span>
+    <span @click='back' class='back'>&lt;</span>
     <span class='title'>确认订单</span>
 </header>
    <div v-for="tree of treeslist" :key="tree.id" class='content'>

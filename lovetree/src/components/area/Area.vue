@@ -1,7 +1,7 @@
 <template>
 <div class='area'>
 <header>
-<span @click='back' class='back'><</span>
+<span @click='back' class='back'>&lt;</span>
 <span class='title'>区域认养</span>
 </header>
 

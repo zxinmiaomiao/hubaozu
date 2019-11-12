@@ -23,16 +23,19 @@ export default {
   },
   mounted() {},
   updated() {
-    this.timefont = this.$store.state.timememory;
+    this.timefont = this.$store.state.page.timememory;
   },
   methods: {
     // 点击返回按钮  显示出头部的内容
     selecthead() {
       if (this.$route.name == "writediary" || this.$route.name == "getdiary") {
-        this.$store.dispatch("change", "我的日记");
+        this.$store.dispatch("page/change", "我的日记");
         this.$router.go(-1);
       } else if (this.$route.name == "readdiary") {
         this.$router.go(-1);
+      }
+      else if(this.$route.name == "init"){
+        this.$router.push({name:'wishTree'})
       }
     }
   }

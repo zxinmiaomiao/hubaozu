@@ -1,7 +1,7 @@
 <template>
 <div id='login'>
     <header>
-        <span @click='back' class='back'><</span>
+        <span @click='back' class='back'>&lt;</span>
         <span class='title'>登录</span>
     </header>
 

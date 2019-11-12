@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <header>
       <div class="detail_title">
-        <span @click='back' class='back'><</span>
+        <span @click='back' class='back'>&lt;</span>
         <h4>{{detailInfor.name}}</h4>
       </div>
     </header>

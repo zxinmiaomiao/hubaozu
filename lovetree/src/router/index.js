@@ -22,11 +22,24 @@ import Login from '../components/Login.vue'
 import User from '../components/area/User.vue'
 import Setting from '../components/Setting.vue'
 import Service from '../components/Service.vue'
-
+import Naver from '../views/Naver'
+import Me from '../components/Me'
+import Findfriends from '../components/Findfriends'
+import Culture from '../components/feature/Culture.vue'
+import Red from '../components/feature/Red.vue'
+import Special from '../components/feature/Special.vue'
 Vue.use(VueRouter)
 
 const routes = [
-
+  {
+    path: '/',
+    redirect: '/naver'
+  },
+  {
+    path: '/naver',
+    name: 'naver',
+    component: Naver,
+  },
   {
     path: '/diary',
     redirect: { name: 'init' }
@@ -65,22 +78,23 @@ const routes = [
     name:'wishTree',
     component:Wish,
   },
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
+  // {
+  //   path: '/',
+  //   name: 'home',
+  //   component: Home
+  // },
   
   {
     path: '/area',
     name: 'area',
     component: Area,
+    redirect:{name:'forest'},
     children:[
-      {
-        path:'/',
-        redirect:'/area/forest',
+      // {
+      //   path:'/area',
+      
 
-      },
+      // },
       {
         path:'forest',
         name:'forest',
@@ -167,6 +181,71 @@ const routes = [
     component:Service
 
   },
+  {
+    path: '/me',
+    name: 'me',
+    component: Me
+  },
+  {
+    path: '/findfriends',
+    name: 'findfriends',
+    component: Findfriends
+  },
+
+
+  // 张扬&姜玄佑
+  {
+    path: '/special',
+    name: 'special',
+    redirect: {name:'culture'},
+    component: Special,
+    children: [
+      // {
+      //       path: '/',
+            
+      //   },
+        {
+            path: 'culture',
+            name: 'culture',
+            component: Culture,
+        },
+        {
+            path: 'red',
+            name: 'red',
+            component: Red,
+        }
+    ]
+},
+{
+    path: '/projectint',
+    name: 'projectint',
+    component: () =>
+        import ('../components/feature/Projectint.vue')
+},
+{
+    path: '/projectinter',
+    name: 'projectinter',
+    component: () =>
+        import ('../components/feature/Projectinter.vue')
+},
+{
+    path: '/articles',
+    name: 'articles',
+    component: () =>
+        import ('../components/feature/Articles.vue')
+},
+{
+    path: '/details/:id', //路由传参，把点击的当前列表数据通过路由传递
+    name: 'details',
+    component: () =>
+        import ('../components/feature/Details.vue')
+},
+{
+    path: '/agreeOn',
+    name: 'agreeOn',
+    component: () =>
+        import ('../components/feature/agreeOn.vue')
+},
 
 
 ]

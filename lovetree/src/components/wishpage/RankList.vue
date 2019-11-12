@@ -65,7 +65,7 @@ export default {
 
     methods: {
         findFriends(){
-            this.$router.push('/#');
+            this.$router.push({ name: "findfriends" });
         }
     },
 }

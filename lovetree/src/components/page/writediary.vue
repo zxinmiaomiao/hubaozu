@@ -29,8 +29,8 @@ export default {
     return { timefont: "", count: 0, status: false };
   },
   mounted() {
-    this.$store.dispatch("change", "写日记");
-    this.timefont = this.$store.state.timememory;
+    this.$store.dispatch("page/change", "写日记");
+    this.timefont = this.$store.state.page.timememory;
   },
   methods: {
     num() {
