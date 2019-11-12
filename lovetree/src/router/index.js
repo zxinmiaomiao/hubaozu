@@ -5,6 +5,7 @@ import writediary from '../components/page/writediary'
 import getdiary from '../components/page/getdiary'
 import init from '../components/page/firstpage'
 import readdiary from '../components/page/readdiary'
+import Wish from '../views/wishTree' // 导入wish首页组件
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,12 @@ const routes = [
       }
     ]
   },
+  // wishTree首页路径
+  {
+    path:'/wishtree',
+    name:'wishTree',
+    component:Wish,
+  }
 
 
 ]
