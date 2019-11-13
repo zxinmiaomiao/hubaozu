@@ -4,7 +4,7 @@ import axios from 'axios'
 import Me from './me';
 import Wishtree from './wishTree'
 import page from './page'
-
+import canornotwish from './canornotwish'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -21,5 +21,6 @@ export default new Vuex.Store({
     wishtree: Wishtree,
     me: Me,
     page,
+    canornotwish
   }
 })

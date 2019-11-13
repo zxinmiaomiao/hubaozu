@@ -9,7 +9,7 @@
     </template>
 
     <router-view />
-    <ul class="nav_wrap">
+    <ul class="nav_wrap" v-if="$route.path == '/naver'||$route.path == '/News'||$route.path == '/Logining'">
       <li class="navs" :key="item.id" v-for="item of navarr">
         <template v-if="item.id==1">
           <router-link to="/naver">{{item.text}}</router-link>
@@ -46,7 +46,7 @@ export default {
     gotofriends() {
       this.flag = false;
       this.$router.push({ name: "findfriends" });
-    }
+    },
   },
   components: {
     Naver

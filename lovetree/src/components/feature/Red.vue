@@ -57,7 +57,7 @@ export default {
         name: "details",
         params: { id: itme.id },
         query: { nm: itme.name },
-        url:{pic:itme.pic},
+        // url:{pic:itme.pic},
       });
     }
     },
