@@ -4,22 +4,19 @@ import router from './router'
 import store from './store'
 import 'amfe-flexible'
 import { Popup } from 'vant';
-Vue.use(Popup);
-Vue.config.productionTip = false
-// import Text from './components/text'
-// Vue.use(Text)
-
+import { Picker } from 'vant';
+import 'vant/lib/picker/style';
 import Uploader from 'vant/lib/uploader';
 import 'vant/lib/uploader/style';
-Vue.use(Uploader);
-
-
 import { DatetimePicker } from 'vant';
 import 'vant/lib/datetime-picker/style'
+
 Vue.use(DatetimePicker);
+Vue.use(Popup);
+Vue.use(Uploader);
+Vue.use(Picker);
+Vue.config.productionTip = false
 
-
-Vue.config.productionTip = false;
 
 
 new Vue({

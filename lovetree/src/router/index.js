@@ -33,7 +33,10 @@ import Findfriends from '../components/Findfriends'
 import Culture from '../components/feature/Culture.vue'
 import Red from '../components/feature/Red.vue'
 import Special from '../components/feature/Special.vue'
-
+import personInfo from '../components/personCenter/PersonInfo'
+import wishingread from '../components/sharewish/wishingread'
+import wishinglook from '../components/sharewish/wishinglook'
+import achievement from '../components/log/achievement'
 Vue.use(VueRouter)
 
 const routes = [
@@ -278,6 +281,26 @@ const routes = [
     component: () =>
       import('../components/feature/agreeOn.vue')
   },
+  {
+    path: '/personInfo',
+    name: 'personInfo',
+    component: personInfo
+  },
+  {
+    path: '/wishingread',
+    name: 'wishingread',
+    component: wishingread
+  },
+  {
+    path: '/wishinglook',
+    name: 'wishinglook',
+    component: wishinglook
+  },
+  {
+    path: '/achievement',
+    name: 'achievement',
+    component: achievement
+  }
 
 
 ]

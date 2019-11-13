@@ -97,6 +97,7 @@ export default {
   input {
       outline:none;
       width:250px;
+      height: 40px;
   }
   .num {
       margin-top:50px;

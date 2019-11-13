@@ -7,7 +7,7 @@
       <div class="loginame">
         <!-- 头像部分 -->
         <!-- 路由跳转  个人信息部分 -->
-        <router-link to="/headlog">
+        <router-link to="/personInfo">
           <div class="headlog">
             <!-- 头像 -->
             <img src alt class="head" />
@@ -42,12 +42,12 @@
         <div class="flie-bottom">
           <div class="logo">
             <!-- 路由跳转  认养记录部分 -->
-            <router-link to="/adopt">
-              <div>
-                <span class="iconfont icon-shu"></span>
-                <p>认养记录</p>
-              </div>
-            </router-link>
+
+            <div class="pushme" @click="pushme()">
+              <span class="iconfont icon-shu"></span>
+              <p>认养记录</p>
+            </div>
+
             <!-- 路由跳转  转赠记录部分 -->
             <router-link to="/give">
               <div>
@@ -81,7 +81,7 @@
         <!-- 我的助手底部 -->
         <div class="help-bottom">
           <!-- 路由跳转 设置部分 -->
-          <router-link to= "/setting"  style="float:left">
+          <router-link to="/setting" style="float:left">
             <div class="set">
               <span class="iconfont icon-shezhi"></span>
               <p>设置</p>
@@ -105,7 +105,17 @@
 </template>
 <script>
 export default {
-  name: "login"
+  name: "login",
+  data() {
+    return {};
+  },
+  methods: {
+    pushme() {
+      let loginstatus = true;
+      this.$store.dispatch("me/changeme", loginstatus);
+      this.$router.push({ name: "me" });
+    }
+  }
 };
 </script>
 <style  scoped>
