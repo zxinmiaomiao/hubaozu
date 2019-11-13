@@ -44,7 +44,7 @@ export default {
         toUser(){
             //跳转agreement页面
             // console.log(this.$router)
-            this.$router.push({name: 'user'});
+            this.$router.push({name: 'agreeOn'});
         },
         
         back(){
