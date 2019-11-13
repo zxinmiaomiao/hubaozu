@@ -8,7 +8,11 @@
     <template></template>
 
     <router-view />
-    <ul class="nav_wrap">
+    <ul
+      ref="list"
+      class="nav_wrap"
+      v-if="$route.path == '/naver'||$route.path == '/News'||$route.path == '/login'"
+    >
       <li class="navs" :key="item.id" v-for="item of navarr">
         <template v-if="item.id==1">
           <router-link to="/naver">{{item.text}}</router-link>
@@ -64,6 +68,7 @@ export default {
   bottom: 0px;
   background-color: #fff;
   border-top: 1px solid #ccc;
+  /* z-index: 1; */
 }
 .navs {
   height: 100%;

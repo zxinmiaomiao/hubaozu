@@ -2,7 +2,13 @@
   <div class="Culture">
     <!-- 大图片 -->
     <div class="culturebig">
-      <img src="../../../public/img/Culturesbig.jpg" />
+      <!-- <img src="../../../public/img/Culturesbig.jpg" /> -->
+      <!-- <img src="../../../public/img/Culturebig.jpg" /> -->
+      <van-swipe :autoplay="3000" indicator-color="white">
+        <van-swipe-item :key="image.id" v-for="image of images">
+          <img :src="image.pic" alt />
+        </van-swipe-item>
+      </van-swipe>
     </div>
     <!-- 项目详情 -->
     <div class="projectInt">
@@ -13,11 +19,10 @@
       </p>
     </div>
     <!-- 区域  -->
-
     <!-- 树 -->
     <div class="item">
       <ul>
-        <li @click="goDetails(itme)" :key="itme.id" v-for="itme of treelist">
+        <li @click="goDetails(itme)" :key="itme.id" v-for="itme of itmes">
           <div class="div_img">
             <img :src="itme.pic" />
           </div>
@@ -36,44 +41,54 @@
 <script>
 export default {
   name: "Culture",
-
   data() {
+    const itmes = [
+      {
+        id: 1,
+        name: "生态树",
+        title: "大愿文化园提供",
+        price: 8888,
+        pic: require("../../assets/tree.png")
+      },
+      {
+        id: 2,
+        name: "生态林",
+        title: "大愿文化园提供",
+        price: 8888,
+        pic: require("../../assets/tree.png")
+      },
+      {
+        id: 3,
+        name: "生态林",
+        title: "大愿文化园提供",
+        price: 8888,
+        pic: require("../../assets/tree.png")
+      },
+      {
+        id: 4,
+        name: "生态树",
+        title: "大愿文化园提供",
+        price: 8888,
+        pic: require("../../assets/tree.png")
+      }
+    ];
+    const images=[
+        {
+        id: 1,
+        pic:require("../../../public/img/Culturesbig.jpg")
+        },
+         {
+        id: 2,
+        pic:require("../../../public/img/redf-1.jpg")
+        },
+    ]
     return {
-      treelist: [
-        {
-          id: 1,
-          name: "生态树",
-          title: "大愿文化园提供",
-          price: 8888,
-          pic: require("../../assets/tree.png")
-        },
-        {
-          id: 2,
-          name: "生态林",
-          title: "大愿文化园提供",
-          price: 8888,
-          pic: require("../../assets/tree.png")
-        },
-        {
-          id: 3,
-          name: "生态林",
-          title: "大愿文化园提供",
-          price: 8888,
-          pic: require("../../assets/tree.png")
-        },
-        {
-          id: 4,
-          name: "生态树",
-          title: "大愿文化园提供",
-          price: 8888,
-          pic: require("../../assets/tree.png")
-        }
-      ],
+      itmes,
+      images,
     };
   },
 
   methods: {
-  
     goInt() {
       this.$router.push({ path: "/projectint" });
     },
@@ -86,9 +101,6 @@ export default {
         query: { nm: itme.name },
         url: { pic: itme.pic }
       });
-    },
-    onChange(picker, values) {
-      picker.setColumnValues(1, citys[values[0]]);
     }
   }
 };
@@ -103,10 +115,12 @@ export default {
   bottom: 0;
 }
 .culturebig {
-  padding-top: 10px;
-  width: 345px;
-  height: 153px;
-  margin: auto;
+  width: 100%;
+  height: 4.08rem;
+  position: absolute;
+  left: 0.38rem;
+  right: 0;
+  top: 10px;
 }
 .culturebig img {
   width: 345px;
@@ -114,10 +128,11 @@ export default {
   border-radius: 10px;
 }
 .region {
-  font-size: 14px;
+  font-size: 16px;
   padding: 10px 16px;
   letter-spacing: 2px;
   position: absolute;
+  top: 5.1rem;
 }
 .container {
   width: 0;
@@ -201,7 +216,10 @@ export default {
 .projectInt {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0 0 16px;
+  position: absolute;
+  left: 16px;
+  right: 0;
+  top: 4.65rem;
 }
 .project {
   font-size: 20px;
@@ -219,13 +237,13 @@ export default {
   border-color: transparent transparent transparent #333;
   position: absolute;
   right: 0.3rem;
-  top: 4.75rem;
+  top: 4.5px;
 }
 .Int span::after {
   content: "";
   position: absolute;
   right: -0.0733rem;
-  top: -0.1432rem;
+  top: -0.13rem;
   border: 5px solid;
   border-color: transparent transparent transparent white;
 }

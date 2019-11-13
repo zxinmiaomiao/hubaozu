@@ -1,7 +1,7 @@
 <template>
   <div id="myInfo">
     <div class="title">
-      <span class="iconfont icon-arrow-left"></span>
+      <router-link :to="{name:'login'}"><span class="iconfont icon-arrow-left"></span></router-link>
       <h6>个人信息</h6>
     </div>
     <div class="changePhoto">

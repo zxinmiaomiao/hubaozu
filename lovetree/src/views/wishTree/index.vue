@@ -33,7 +33,7 @@
       <!-- 签到、许愿、记日记 -->
       <div class="btnWrap">
         <span class="sign" @click="sign()" :style="{background:background}"></span>
-        <router-link to="/wishingread" class="wishing"></router-link>
+        <router-link :to="{name:'wishcomponent'}" class="wishing"></router-link>
         <router-link :to="{name:'diary'}" class="diary"></router-link>
       </div>
       <!-- 签到成功 -->

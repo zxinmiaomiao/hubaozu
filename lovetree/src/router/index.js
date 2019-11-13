@@ -11,7 +11,6 @@ import moneydetail from '../components/log/moneydetail'
 import give from '../components/log/give'
 import Wish from '../views/wishTree' // 导入wish首页组件
 import PersonInfo from '../components/personCenter/PersonInfo'
-import Home from '../views/Home.vue'
 import Area from '../components/area/Area.vue'
 import Forest from '../components/area/Forest.vue'
 import Forestdetail from '../components/area/Forestdetail.vue'
@@ -40,15 +39,18 @@ import achievement from '../components/log/achievement'
 Vue.use(VueRouter)
 
 const routes = [
+  // 主界面
   {
     path: '/',
     redirect: '/naver'
   },
+  // 主界面
   {
     path: '/naver',
     name: 'naver',
     component: Naver,
   },
+// 日记开始
   {
     path: '/diary',
     redirect: { name: 'init' }
@@ -82,6 +84,9 @@ const routes = [
       }
     ]
   },
+  // 日记结束
+
+  // 
   {
     path: '/login',
     name: 'login',
@@ -168,12 +173,14 @@ const routes = [
     component: Order
 
   },
+  // 项目介绍
   {
     path: '/recommend',
     name: 'recommend',
     component: Recommend
 
   },
+  // 我要认养(认养说明)
   {
     path: '/item',
     name: 'item',
@@ -216,15 +223,24 @@ const routes = [
     component: Service
 
   },
+  // 许愿树界面左上角我的资料
   {
     path: '/me',
     name: 'me',
     component: Me
   },
+  // 好友查找
   {
     path: '/findfriends',
     name: 'findfriends',
     component: Findfriends
+  },
+  // goto许愿
+  {
+    path: '/wishcomponent',
+    name: 'wishcomponent',
+    component: () =>
+      import('../components/towish/Wishcomponent.vue')
   },
 
 

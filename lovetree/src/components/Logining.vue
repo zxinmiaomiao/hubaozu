@@ -66,7 +66,7 @@ export default {
   }
   header {
       height:40px;
-      margin-top:10px;  
+      /* margin-top:10px;   */
   }
   header .back {
       position: absolute;

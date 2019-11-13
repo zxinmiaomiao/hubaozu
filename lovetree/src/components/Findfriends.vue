@@ -97,6 +97,7 @@ export default {
   height: 16px;
   outline: none;
   margin: 12px 0 0 15px;
+  font-size: 14px;
 }
 ul li {
   width: 375px;
