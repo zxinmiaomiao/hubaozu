@@ -1,12 +1,8 @@
 <template>
   <div id="app">
-    <!-- <router-link :to="{name:'diary'}"></router-link> -->
     <!-- 登入后的路由跳转 -->
     <router-link :to="{name:'login'}"></router-link>
-    <!-- <router-link to='/readwish'></router-link> -->
-    <!-- <router-link :to="{name:'diary'}"></router-link> -->
     <template></template>
-
     <router-view />
     <ul
       ref="list"

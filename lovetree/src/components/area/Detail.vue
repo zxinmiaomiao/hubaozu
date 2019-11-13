@@ -80,6 +80,7 @@ export default {
   }
   #detail {
       position:relative;
+      overflow: hidden;
   }
   header {
       height:40px;

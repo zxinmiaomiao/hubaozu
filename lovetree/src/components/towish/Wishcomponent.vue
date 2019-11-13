@@ -34,10 +34,10 @@ export default {
     name:'wishcomponent',
     methods:{
         back(){
-            this.$router.go(-1)
+            this.$router.push({name:'wishTree'})
         },
         gotomywish(){
-            this.$router.push({name:''})
+            this.$router.push({name:'wishingread'})
         }
     },
     async mounted(){

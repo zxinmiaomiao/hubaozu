@@ -2,7 +2,9 @@
   <div class="wishtop">
     <div class="wishtop-font">
       <!-- @click="selecthead" -->
-      <span class="left iconfont icon-arrow-left"></span>
+      <router-link :to="{name:'wishcomponent'}">
+        <span class="left iconfont icon-arrow-left"></span>
+      </router-link>
       <!-- <router-link :to="{name:'init'}"> -->
       <span>我的心愿</span>
       <!-- </router-link> -->
@@ -17,7 +19,6 @@
         <div class="smalllog"></div>
         <div class="lookstatus">公开</div>
       </div>
-      
     </div>
   </div>
 </template>
@@ -36,9 +37,9 @@ export default {
     // console.log(this.readdate);
   },
   methods: {
-   read(){
-    //  需要传许愿的id  然后获取到许愿的内容
-      this.$router.push({name:'wishinglook'})
+    read() {
+      //  需要传许愿的id  然后获取到许愿的内容
+      this.$router.push({ name: "wishinglook" });
     }
   }
 };
@@ -70,6 +71,7 @@ export default {
   width: 100%;
   height: 41px;
   text-align: center;
+  margin-top: 10px;
 }
 .left {
   float: left;

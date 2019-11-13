@@ -57,6 +57,9 @@ export default {
     padding:0;
     margin:0;
 }
+.order{
+    overflow: hidden;
+}
 header {
       height:40px;
       margin-top:10px;  

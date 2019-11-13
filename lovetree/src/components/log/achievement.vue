@@ -45,6 +45,10 @@ export default {
 #detail {
   position: relative;
 }
+#achievement {
+  overflow: hidden;
+}
+
 header {
   height: 40px;
   margin-top: 10px;

@@ -44,6 +44,7 @@ export default {
   width: 100%;
   height: 41px;
   text-align: center;
+  margin-top: 10px;
 }
 .left {
   float: left;
