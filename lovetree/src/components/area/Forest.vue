@@ -1,6 +1,12 @@
 <template>
   <div class="forest">
-    <div class="banner"></div>
+    <div class="banner">
+      <van-swipe :autoplay="3000" indicator-color="white">
+        <van-swipe-item :key="image.id" v-for="image of images">
+          <img :src="image.pic" alt />
+        </van-swipe-item>
+      </van-swipe>
+    </div>
     <div class="introduce">
       <strong>生态公益林认养</strong>
       <span @click="toRecommend">项目介绍></span>
@@ -38,6 +44,16 @@
 export default {
   name: "Forest",
   data() {
+    const images = [
+      {
+        id: 1,
+        pic: require("../../../public/img/Culturebig.jpg")
+      },
+      {
+        id: 2,
+        pic: require("../../../public/img/redf-1.jpg")
+      }
+    ];
     return {
       trees: [
         {
@@ -76,11 +92,10 @@ export default {
           money: 8888,
           count: 600
         }
-      ]
+      ],
+      images,
     };
   },
-
-
 
   methods: {
     fosterjump(tree) {
@@ -90,9 +105,9 @@ export default {
         query: { treeinfor: tree }
       }); //点击认养要跳转的连接
     },
-    toRecommend(){
-            this.$router.push({name: 'recommend'});
-        }
+    toRecommend() {
+      this.$router.push({ name: "recommend" });
+    }
   }
 };
 </script>            
@@ -105,8 +120,7 @@ export default {
 /* 轮播 */
 .forest .banner {
   height: 188px;
-  background: red;
-  background: url(../../../public/img/banner.jpg);
+  width: 100%;
 }
 /* 树木认养 */
 .forest .introduce {
@@ -121,7 +135,7 @@ export default {
 }
 .forest .introduce > span {
   float: right;
-  margin-top: 14px;
+  margin-top: 8px;
   color: #bcbcbc;
 }
 /* 区域 */
