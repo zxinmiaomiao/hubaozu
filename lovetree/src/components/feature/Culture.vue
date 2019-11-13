@@ -162,7 +162,7 @@ export default {
 .item ul li {
   width: 345px;
   height: 101px;
-  box-shadow: 0px 0px 8px #666;
+  border: 1px solid #ccc;
   margin: 8px 0 16px 15px;
   border-radius: 6px;
   position: relative;

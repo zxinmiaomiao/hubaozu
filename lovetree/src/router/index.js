@@ -32,6 +32,8 @@ import Findfriends from '../components/Findfriends'
 import Culture from '../components/feature/Culture.vue'
 import Red from '../components/feature/Red.vue'
 import Special from '../components/feature/Special.vue'
+import Writewish from '../components/wishpage/Writewish.vue'
+
 import personInfo from '../components/personCenter/PersonInfo'
 import wishingread from '../components/sharewish/wishingread'
 import wishinglook from '../components/sharewish/wishinglook'
@@ -39,292 +41,304 @@ import achievement from '../components/log/achievement'
 Vue.use(VueRouter)
 
 const routes = [
-  // 主界面
-  {
-    path: '/',
-    redirect: '/naver'
-  },
-  // 主界面
-  {
-    path: '/naver',
-    name: 'naver',
-    component: Naver,
-  },
-// 日记开始
-  {
-    path: '/diary',
-    redirect: { name: 'init' }
+    // 主界面
+    {
+        path: '/',
+        redirect: '/naver'
+    },
+    // 主界面
+    {
+        path: '/naver',
+        name: 'naver',
+        component: Naver,
+    },
+    // 日记开始
+    {
+        path: '/diary',
+        redirect: { name: 'init' }
 
-  },
-  {
-    path: '/diary',
-    name: 'diary',
-    component: diary,
-    redirect: { name: 'init' },
-    children: [
-      {
-        path: 'init',
-        name: 'init',
-        component: init
-      },
-      {
-        path: 'writediary',
-        name: 'writediary',
-        component: writediary
-      },
-      {
-        path: 'getdiary',
-        name: 'getdiary',
-        component: getdiary
-      },
-      {
-        path: 'readdiary',
-        name: 'readdiary',
-        component: readdiary
-      }
-    ]
-  },
-  // 日记结束
+    },
+    {
+        path: '/diary',
+        name: 'diary',
+        component: diary,
+        redirect: { name: 'init' },
+        children: [{
+            path: 'init',
+            name: 'init',
+            component: init
+        },
+        {
+            path: 'writediary',
+            name: 'writediary',
+            component: writediary
+        },
+        {
+            path: 'getdiary',
+            name: 'getdiary',
+            component: getdiary
+        },
+        {
+            path: 'readdiary',
+            name: 'readdiary',
+            component: readdiary
+        }
+        ]
+    },
+    // 日记结束
 
-  // 
-  {
-    path: '/login',
-    name: 'login',
-    component: login
-  },
-  {
-    path: '/money',
-    name: 'money',
-    component: money
-  },
-  {
-    path: '/moneydetail',
-    name: 'moneydetail',
-    component: moneydetail
-  },
-  {
-    path: '/give',
-    name: 'give',
-    component: give
-  },
-  // wishTree首页路径
-  {
-    path: '/wishtree',
-    name: 'wishTree',
-    component: Wish,
-  },
-  {
-    path: '/myinfo',
-    name: 'myinfo',
-    component: PersonInfo
-  },
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: Home
-  // },
+    // 
+    {
+        path: '/login',
+        name: 'login',
+        component: login
+    },
+    {
+        path: '/money',
+        name: 'money',
+        component: money
+    },
+    {
+        path: '/moneydetail',
+        name: 'moneydetail',
+        component: moneydetail
+    },
+    {
+        path: '/give',
+        name: 'give',
+        component: give
+    },
+    // wishTree首页路径
+    {
+        path: '/wishtree',
+        name: 'wishTree',
+        component: Wish,
+    },
+    {
+        path: '/myinfo',
+        name: 'myinfo',
+        component: PersonInfo
+    },
 
-  {
-    path: '/area',
-    name: 'area',
-    component: Area,
-    redirect: { name: 'forest' },
-    children: [
-      // {
-      //   path:'/area',
-
-
-      // },
-      {
-        path: 'forest',
-        name: 'forest',
-        component: Forest
-      },
-      {
-        path: 'oldtree',
-        name: 'oldtree',
-        component: Oldtree
-      },
+    {
+        path: '/area',
+        name: 'area',
+        component: Area,
+        redirect: { name: 'forest' },
+        children: [
+            {
+                path: 'forest',
+                name: 'forest',
+                component: Forest
+            },
+            {
+                path: 'oldtree',
+                name: 'oldtree',
+                component: Oldtree
+            },
 
 
-    ]
-  },
-  {
-    path: '/detail',
-    name: 'detail',
-    component: Detail
+        ]
+    },
+    {
+        path: '/detail',
+        name: 'detail',
+        component: Detail
 
-  },
-  {
-    path: '/forestdetail',
-    name: 'forestdetail',
-    component: Forestdetail
+    },
+    {
+        path: '/forestdetail',
+        name: 'forestdetail',
+        component: Forestdetail
 
-  },
-  {
-    path: '/agreement',
-    name: 'agreement',
-    component: Agreement
+    },
+    {
+        path: '/agreement',
+        name: 'agreement',
+        component: Agreement
+    },
+    {
+        path: '/order',
+        name: 'order',
+        component: Order
 
-  },
-  {
-    path: '/order',
-    name: 'order',
-    component: Order
+    },
+    // 项目介绍
+    {
+        path: '/recommend',
+        name: 'recommend',
+        component: Recommend
 
-  },
-  // 项目介绍
-  {
-    path: '/recommend',
-    name: 'recommend',
-    component: Recommend
+    },
+    // 我要认养(认养说明)
+    {
+        path: '/item',
+        name: 'item',
+        component: Item
 
-  },
-  // 我要认养(认养说明)
-  {
-    path: '/item',
-    name: 'item',
-    component: Item
+    },
+    {
+        path: '/news',
+        name: 'news',
+        component: News
 
-  },
-  {
-    path: '/news',
-    name: 'news',
-    component: News
+    },
+    {
+        path: '/newsdetail',
+        name: 'newsdetail',
+        component: Newsdetail
 
-  },
-  {
-    path: '/newsdetail',
-    name: 'newsdetail',
-    component: Newsdetail
+    },
+    {
+        path: '/logining',
+        name: 'logining',
+        component: Logining
 
-  },
-  {
-    path: '/logining',
-    name: 'logining',
-    component: Logining
+    },
+    {
+        path: '/user',
+        name: 'user',
+        component: User
 
-  },
-  {
-    path: '/user',
-    name: 'user',
-    component: User
+    },
+    {
+        path: '/setting',
+        name: 'setting',
+        component: Setting
 
-  },
-  {
-    path: '/setting',
-    name: 'setting',
-    component: Setting
+    },
+    {
+        path: '/service',
+        name: 'service',
+        component: Service
 
-  },
-  {
-    path: '/service',
-    name: 'service',
-    component: Service
-
-  },
-  // 许愿树界面左上角我的资料
-  {
-    path: '/me',
-    name: 'me',
-    component: Me
-  },
-  // 好友查找
-  {
-    path: '/findfriends',
-    name: 'findfriends',
-    component: Findfriends
-  },
-  // goto许愿
-  {
-    path: '/wishcomponent',
-    name: 'wishcomponent',
-    component: () =>
-      import('../components/towish/Wishcomponent.vue')
-  },
+    },
+    // 许愿树界面左上角我的资料
+    {
+        path: '/me',
+        name: 'me',
+        component: Me
+    },
+    // 好友查找
+    {
+        path: '/findfriends',
+        name: 'findfriends',
+        component: Findfriends
+    },
+    // goto许愿
+    {
+        path: '/wishcomponent',
+        name: 'wishcomponent',
+        component: () =>
+            import('../components/towish/Wishcomponent.vue')
+    },
 
 
-  // 张扬&姜玄佑
-  {
-    path: '/special',
-    name: 'special',
-    redirect: { name: 'culture' },
-    component: Special,
-    children: [
-      // {
-      //       path: '/',
+    // 张扬&姜玄佑
+    {
+        path: '/special',
+        name: 'special',
+        redirect: { name: 'culture' },
+        component: Special,
+        children: [
+            {
+                path: 'culture',
+                name: 'culture',
+                component: Culture,
+            },
+            {
+                path: 'red',
+                name: 'red',
+                component: Red,
+            }
+        ]
+    },
+    {
+        path: '/projectint',
+        name: 'projectint',
+        component: () =>
+            import('../components/feature/Projectint.vue')
+    },
+    {
+        path: '/articles',
+        name: 'articles',
+        component: () =>
+            import('../components/feature/Articles.vue')
+    },
+    {
+        path: '/details/:id', //路由传参，把点击的当前列表数据通过路由传递
+        name: 'details',
+        component: () =>
+            import('../components/feature/Details.vue')
+    },
+    {
+        path: '/agreeOn',
+        name: 'agreeOn',
+        component: () =>
+            import('../components/feature/agreeOn.vue')
+    },
+    {
+        path: '/writewish',
+        name: 'writewish',
+        component: Writewish,
+    },
 
-      //   },
-      {
+    {
         path: 'culture',
         name: 'culture',
         component: Culture,
-      },
-      {
+    },
+    {
         path: 'red',
         name: 'red',
         component: Red,
-      }
-    ]
-  },
-  {
-    path: '/projectint',
-    name: 'projectint',
-    component: () =>
-      import('../components/feature/Projectint.vue')
-  },
-  {
-    path: '/projectinter',
-    name: 'projectinter',
-    component: () =>
-      import('../components/feature/Projectinter.vue')
-  },
-  {
-    path: '/articles',
-    name: 'articles',
-    component: () =>
-      import('../components/feature/Articles.vue')
-  },
-  {
-    path: '/details/:id', //路由传参，把点击的当前列表数据通过路由传递
-    name: 'details',
-    component: () =>
-      import('../components/feature/Details.vue')
-  },
-  {
-    path: '/agreeOn',
-    name: 'agreeOn',
-    component: () =>
-      import('../components/feature/agreeOn.vue')
-  },
-  {
-    path: '/personInfo',
-    name: 'personInfo',
-    component: personInfo
-  },
-  {
-    path: '/wishingread',
-    name: 'wishingread',
-    component: wishingread
-  },
-  {
-    path: '/wishinglook',
-    name: 'wishinglook',
-    component: wishinglook
-  },
-  {
-    path: '/achievement',
-    name: 'achievement',
-    component: achievement
-  }
+    },
+    {
+        path: '/projectinter',
+        name: 'projectinter',
+        component: () =>
+            import('../components/feature/Projectinter.vue')
+    },
+    {
+        path: '/articles',
+        name: 'articles',
+        component: () =>
+            import('../components/feature/Articles.vue')
+    },
+    {
+        path: '/details/:id', //路由传参，把点击的当前列表数据通过路由传递
+        name: 'details',
+        component: () =>
+            import('../components/feature/Details.vue')
+    },
+    {
+        path: '/personInfo',
+        name: 'personInfo',
+        component: personInfo
+    },
+    {
+        path: '/wishingread',
+        name: 'wishingread',
+        component: wishingread
+    },
+    {
+        path: '/achievement',
+        name: 'achievement',
+        component: achievement
+    },
+    {
+        path:'/wishinglook',
+        name:'wishinglook',
+        component:wishinglook
+    }
 
 
 ]
 
 const router = new VueRouter({
-  mode: 'hash',
-  base: process.env.BASE_URL,
-  routes
+    mode: 'hash',
+    base: process.env.BASE_URL,
+    routes
 })
 
 export default router

@@ -3,17 +3,19 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import 'amfe-flexible'
-import 'vant/lib/picker/style'
-import Uploader from 'vant/lib/uploader';
+
+
+import { Popup , Uploader , DatetimePicker,RadioGroup, Radio,Picker, Swipe, SwipeItem, } from 'vant';
 import 'vant/lib/uploader/style';
-import { DatetimePicker } from 'vant';
-import { Popup } from 'vant';
-import { Picker } from 'vant';
-import { Swipe, SwipeItem, } from 'vant';
+import 'vant/lib/picker/style'
+import 'vant/lib/uploader/style';
 import 'vant/lib/datetime-picker/style'
-Vue.use(DatetimePicker);
-Vue.use(Popup);
+import 'vant/lib/radio/style'
 Vue.use(Uploader);
+Vue.use(Popup);
+Vue.use(DatetimePicker);
+Vue.use(RadioGroup);
+Vue.use(Radio);
 Vue.use(Picker);
 Vue.use(Swipe).use(SwipeItem);
 Vue.config.productionTip = false

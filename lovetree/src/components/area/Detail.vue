@@ -54,7 +54,7 @@ export default {
         toAgreement(){
             //跳转agreement页面
             // console.log(this.$router)
-            this.$router.push({name: 'agreement'});
+            this.$router.push({name: 'agreeOn'});
         },
         toOrder(){
             //跳转order页面

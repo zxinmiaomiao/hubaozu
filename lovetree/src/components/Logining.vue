@@ -29,24 +29,29 @@
 </template>
 <script>
 export default {
-  name: "Logining",
-  data() {
-    return {};
-  },
-  methods: {},
-  computed: {},
-  methods: {
-    toUser() {
-      //跳转agreement页面
-      // console.log(this.$router)
-      this.$router.push({ name: "user" });
-    },
+    name:'Logining',
+    data(){
+        return{
+            
 
-    back() {
-      //跳转上一级页面
-      history.back();
-    }
-  }
+        }
+        
+    },
+    computed:{
+        
+    },
+    methods:{
+        toUser(){
+            //跳转agreement页面
+            // console.log(this.$router)
+            this.$router.push({name: 'agreeOn'});
+        },
+        
+        back(){
+            //跳转上一级页面
+            history.back();
+        }
+    },
 };
 </script>
 

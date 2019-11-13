@@ -4,11 +4,11 @@
       <router-link :to="{name:'login'}"><span class="iconfont icon-arrow-left"></span></router-link>
       <h6>个人信息</h6>
     </div>
-    <div class="changePhoto">
+    <div class="changePhoto" is-link @click="photo()">
       <span>头像</span>
       <div class="pic">
         <img src alt />
-        <span class="rightArr">></span>
+        <span class="rightArr iconfont icon-arrow-right"></span>
       </div>
     </div>
     <ul class="info">
@@ -20,7 +20,7 @@
         <span>昵称</span>
         <div class="name">
           <em class="userName">{{user.currentName}}</em>
-          <span class="rightArr">></span>
+          <span class="rightArr iconfont icon-arrow-right"></span>
         </div>
       </li>
       <li>
@@ -31,23 +31,33 @@
         <span>性别</span>
         <div class="sex">
           <em>{{user.sex}}</em>
-          <span class="rightArr">></span>
+          <span class="rightArr iconfont icon-arrow-right"></span>
         </div>
       </li>
       <li is-link @click="showdate">
         <span>生日</span>
         <div class="birth">
           <em>{{user.changeDate | dateFormat()}}</em>
-          <span class="rightArr">></span>
+          <span class="rightArr iconfont icon-arrow-right"></span>
         </div>
       </li>
     </ul>
+    <button class="exit" >确认修改</button>
     <router-link to="/#" class="exit">退出登录</router-link>
 
-    <!-- <van-uploader>
-      <van-button icon="photo" type="primary">上传图片</van-button>
-    </van-uploader>-->
 
+
+    <!-- 上传头像 -->
+    <van-popup  v-model="showphoto" class="selectphoto">
+      <h5>请选择图片来源</h5>
+      <van-uploader :after-read="onRead">
+        <button class="album">相册</button>
+      </van-uploader>
+      <div class="btn">
+        <button class="no" @click="qx()">取消</button>
+        <button class="yes" @click="qr()">确认</button>
+      </div>
+    </van-popup>
     <!-- 日期 -->
     <van-popup v-model="showDate" position="bottom" :style="{ height: '40%' }">
       <van-datetime-picker
@@ -102,16 +112,22 @@ export default {
         sex: "保密",
         currentName: "123"
       },
+      picUrl:'',
       afterName: "",
       currentDate: new Date(),
       minDate: new Date(1900, 0, 1),
       showDate: false,
       showSex: false,
-      showName: false
+      showName: false,
+      showphoto: false,
     };
   },
 
   methods: {
+    // 返回上一页
+    back(){
+      this.$router.go(-1);
+    },
     // 打开时间弹窗
     showdate() {
       this.showDate = true;
@@ -148,7 +164,34 @@ export default {
         this.afterName = "";
         this.showName = false;
       }
-    }
+    },
+    // 打开更换头像
+    photo(){
+      this.showphoto = true;
+    },
+    // 取消修改
+    qx(){
+      this.showphoto = false;
+    },
+    // 确认修改
+    qr(){
+      this.showphoto =false;
+    },
+    onRead(file) {
+      let params = new FormData(); //创建form对象
+      params.append("file", file.file); //通过append向form对象添加数据//第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
+      let config = {
+        headers: { //添加请求头
+          "Content-Type": "multipart/form-data"
+        }
+      };
+     let url = "";
+      axios.post(url, params, config).then(res => {
+          console.log(res); // 获得后端url
+        }).catch(err => {
+          console.log(err)
+        });
+    },
   },
 
   filters: {
@@ -172,14 +215,14 @@ export default {
 
 /* 头部 */
 .title {
-  padding-left: 30px;
+  padding-left: 25px;
   height: 44px;
   background: #fff;
   line-height: 44px;
   border-bottom: 1px solid #f2f2f2;
 }
 .title > span {
-  font-size: 20px;
+  font-size: 30px;
   vertical-align: middle;
 }
 .title > h6 {
@@ -216,6 +259,7 @@ export default {
 /* 右箭头 */
 .rightArr {
   margin-left: 10px;
+  font-size: 30px;
 }
 /* 个人信息 */
 .info {
@@ -232,14 +276,22 @@ export default {
 .info > li > span {
   color: #000;
   font-size: 16px;
+
 }
-.info > li em {
+.info > li >div{
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+.info li em {
+  display: inline-block;
   color: #898989;
   font-size: 16px;
 }
 /* 退出登录 */
 .exit {
   display: block;
+  width: 100%;
   height: 48px;
   font-size: 16px;
   color: red;
@@ -247,16 +299,19 @@ export default {
   line-height: 48px;
   background: #fff;
   margin-top: 10px;
+  border: none;
 }
 /* 性别选择框 */
 .selectSex,
-.changeNm {
+.changeNm,
+.selectphoto {
   padding: 20px;
   width: 300px;
   border-radius: 10px;
 }
 .selectSex > h5,
-.changeNm > h5 {
+.changeNm > h5,
+.selectphoto>h5 {
   font-size: 18px;
   font-weight: 500;
 }
@@ -275,17 +330,28 @@ export default {
   border-bottom: 2px solid orange;
   font-size: 14px;
 }
-.changeNm .btn {
+ .btn {
   font-size: 12px;
   margin-top: 40px;
   text-align: right;
 }
-.changeNm .btn > button {
+ .btn > button {
   border: none;
   background: #fff;
   color: orange;
 }
-.changeNm .btn .no {
+ .btn .no {
   margin-right: 40px;
 }
+/* 选择相册按钮 */
+.album{
+  display: block;
+  width: 300px;
+  margin-top: 30px;
+  text-align: left;
+  border: none;
+  background: #fff;
+  font-size: 18px;
+}
+
 </style>
