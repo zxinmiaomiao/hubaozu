@@ -33,6 +33,7 @@ import Findfriends from '../components/Findfriends'
 import Culture from '../components/feature/Culture.vue'
 import Red from '../components/feature/Red.vue'
 import Special from '../components/feature/Special.vue'
+import Writewish from '../components/wishpage/Writewish.vue'
 
 Vue.use(VueRouter)
 
@@ -278,7 +279,11 @@ const routes = [
     component: () =>
       import('../components/feature/agreeOn.vue')
   },
-
+  {
+    path:'/writewish',
+    name:'writewish',
+    component:Writewish,
+  },
 
 ]
 

@@ -3,20 +3,17 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import 'amfe-flexible'
-import { Popup } from 'vant';
-Vue.use(Popup);
-Vue.config.productionTip = false
-// import Text from './components/text'
-// Vue.use(Text)
 
-import Uploader from 'vant/lib/uploader';
+
+import { Popup , Uploader , DatetimePicker,RadioGroup, Radio} from 'vant';
 import 'vant/lib/uploader/style';
-Vue.use(Uploader);
-
-
-import { DatetimePicker } from 'vant';
 import 'vant/lib/datetime-picker/style'
+import 'vant/lib/radio/style'
+Vue.use(Uploader);
+Vue.use(Popup);
 Vue.use(DatetimePicker);
+Vue.use(RadioGroup);
+Vue.use(Radio);
 
 
 Vue.config.productionTip = false;
