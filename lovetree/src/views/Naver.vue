@@ -144,6 +144,7 @@ export default {
     gotowish() {
       this.flag = false;
       this.$router.push({ name: "wishTree" });
+      
     },
     gotoareasupport(){
       this.$router.push({ name: "area" });
@@ -154,6 +155,7 @@ export default {
     },
     gotored(){
       this.$router.push({ name: "special" });
+      console.log(this.$route)
     }
   }
 };

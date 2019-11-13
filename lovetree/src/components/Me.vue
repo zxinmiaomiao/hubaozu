@@ -42,32 +42,40 @@
     </template>
     <!-- 我的能量 -->
     <template v-if="$store.state.me.detail==1">
-        <ul>
-            <li class="energy_list"  v-for="item of $store.state.me.energylist">
-                <div class="energy_logo"><img :src="item.img" alt="" ></div>
-                <span class="signedto">{{ item.way }}</span>
-                <div class="infor">
-                    <template >
-                        <span class="amount">{{ item.sum }}能量</span >
-                    </template>
-                    <span class="time">{{ item.time }}</span>
-                </div>
-                
-            </li>
-        </ul>
+      <ul>
+        <li class="energy_list" v-for="item of $store.state.me.energylist">
+          <div class="energy_logo">
+            <img :src="item.img" alt />
+          </div>
+          <span class="signedto">{{ item.way }}</span>
+          <div class="infor">
+            <template>
+              <span class="amount">{{ item.sum }}能量</span>
+            </template>
+            <span class="time">{{ item.time }}</span>
+          </div>
+        </li>
+      </ul>
     </template>
     <!-- 我的树 -->
     <template v-if="$store.state.me.detail==2">
-        <div class="personalinfo">
-            <div class="touxiang"><img src="" alt=""></div>
-            <p class="name">1</p>
-            <p class="chengjiu">已累计认养了0颗树，消耗碳0.00吨</p>
+      <div class="personalinfo">
+        <div class="touxiang">
+          <img src alt />
         </div>
-        <div class="tree_nav">
-            <ul>
-                <li :key="one.id" :class="[{active:nowseled==one}]" @click="select(one)" v-for="one of treekindarr">{{one.title}}</li>
-            </ul>
-        </div>
+        <p class="name">1</p>
+        <p class="chengjiu">已累计认养了0颗树，消耗碳0.00吨</p>
+      </div>
+      <div class="tree_nav">
+        <ul>
+          <li
+            :key="one.id"
+            :class="[{active:nowseled==one}]"
+            @click="select(one)"
+            v-for="one of treekindarr"
+          >{{one.title}}</li>
+        </ul>
+      </div>
     </template>
   </div>
 </template>
@@ -76,38 +84,46 @@ export default {
   name: "Me",
   methods: {
     back() {
-        if(this.$store.state.me.detail==0){
-            this.$router.go(-1);
-        }
-        else if(this.$store.state.me.detail==1){
-            this.$store.state.me.detail=0
-        }
-        else if(this.$store.state.me.detail==2){
-            this.$store.state.me.detail=0
-        }
+      if (this.$store.state.me.detail == 0) {
+        this.$router.go(-1);
+      } else if (this.$store.state.me.detail == 1) {
+        this.$store.state.me.detail = 0;
+      } else if (
+        this.$store.state.me.detail == 2 &&
+        this.$store.state.me.loginstatus == false
+      ) {
+        this.$store.state.me.detail = 0;
+      } else if (
+        this.$store.state.me.detail == 2 &&
+        this.$store.state.me.loginstatus == true
+      ) {
+        this.$router.push({ name: "login" });
+        this.$store.state.me.detail = 0;
+        this.$store.state.me.loginstatus = false;
+      }
     },
-    details(){
-        this.$store.dispatch('me/details',1);
-        this.$store.dispatch('me/getlist');
+    details() {
+      this.$store.dispatch("me/details", 1);
+      this.$store.dispatch("me/getlist");
     },
-    tree_details(){
-        this.$store.dispatch('me/treedetails',2);
+    tree_details() {
+      this.$store.dispatch("me/treedetails", 2);
     },
-    select(one){
-        this.nowseled=one
+    select(one) {
+      this.nowseled = one;
     }
   },
-  data(){
-      const arr = [
-              {id:1,title:'生态公益林',flag:true},
-              {id:2,title:'古树名木',flag:false},
-              {id:3,title:'红色认养',flag:false},
-              {id:4,title:'文化认养',flag:false},
-      ]
-      return {
-          treekindarr:arr,
-          nowseled:arr[0]
-      }
+  data() {
+    const arr = [
+      { id: 1, title: "生态公益林", flag: true },
+      { id: 2, title: "古树名木", flag: false },
+      { id: 3, title: "红色认养", flag: false },
+      { id: 4, title: "文化认养", flag: false }
+    ];
+    return {
+      treekindarr: arr,
+      nowseled: arr[0]
+    };
   }
 };
 </script>
@@ -221,76 +237,76 @@ export default {
   color: #0fa87d;
 }
 .energy_list {
-    width: 375px;
-    height: 75px;
-    border-top:1px solid #ccc; 
-    display: flex;
-    align-items: center;
-    
+  width: 375px;
+  height: 75px;
+  border-top: 1px solid #ccc;
+  display: flex;
+  align-items: center;
 }
 .energy_logo {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background-color: #ccc;
-    margin-right: 15px;
-    margin-left: 14.6px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-right: 15px;
+  margin-left: 14.6px;
 }
 .signedto {
-    font-size: 14px;
+  font-size: 14px;
 }
 .infor {
-    width: 90px;
-    height: 38px;
-    margin-left: 170px;
+  width: 90px;
+  height: 38px;
+  margin-left: 170px;
 }
-.amount,.time {
-    float: right;
-    font-size: 14px;
+.amount,
+.time {
+  float: right;
+  font-size: 14px;
 }
 /* 我的树 */
 .personalinfo {
-    width: 350px;
-    height: 82px;
-    margin: 0 auto;
-    overflow: hidden;
+  width: 350px;
+  height: 82px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 .personalinfo .name {
-    font-size: 14px;
-    margin-top: 22px;
-    float: left;
-    margin-left: 15px;
+  font-size: 14px;
+  margin-top: 22px;
+  float: left;
+  margin-left: 15px;
 }
 .personalinfo .touxiang {
-    height: 37px;
-    width: 37px;
-    border-radius: 50%;
-    background-color: #ccc;
-    float: left;
-    margin-top: 22px;
-    margin-left: 5px;
+  height: 37px;
+  width: 37px;
+  border-radius: 50%;
+  background-color: #ccc;
+  float: left;
+  margin-top: 22px;
+  margin-left: 5px;
 }
 .personalinfo .chengjiu {
-    float: left;
-    font-size: 12px;
-    color: #ccc;
-    margin-top: 45px;
-    margin-left: -8px;
+  float: left;
+  font-size: 12px;
+  color: #ccc;
+  margin-top: 45px;
+  margin-left: -8px;
 }
 .tree_nav {
-    width: 350px;
-    height: 45px;
-    margin: auto;
+  width: 350px;
+  height: 45px;
+  margin: auto;
 }
-.tree_nav  li {
-    font-size: 14px;
-    float: left;
-    width: 25%;
-    text-align: center;
-    height: 100%;
-    line-height: 45px;
+.tree_nav li {
+  font-size: 14px;
+  float: left;
+  width: 25%;
+  text-align: center;
+  height: 100%;
+  line-height: 45px;
 }
 .active {
-    color: #0fa87d
+  color: #0fa87d;
 }
 </style>

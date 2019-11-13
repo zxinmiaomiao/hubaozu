@@ -44,7 +44,7 @@ export default {
         toUser(){
             //跳转agreement页面
             // console.log(this.$router)
-            this.$router.push({name: 'user'});
+            this.$router.push({name: 'agreeOn'});
         },
         
         back(){
@@ -66,7 +66,7 @@ export default {
   }
   header {
       height:40px;
-      margin-top:10px;  
+      /* margin-top:10px;   */
   }
   header .back {
       position: absolute;
@@ -97,6 +97,7 @@ export default {
   input {
       outline:none;
       width:250px;
+      height: 40px;
   }
   .num {
       margin-top:50px;

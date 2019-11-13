@@ -85,7 +85,9 @@ export default {
       this.$router.push({path:"/Order"})
     }
   },
-  mounted() {},
+  mounted() {
+    console.log(this.$route)
+  },
   computed: {
     nm() {
       return this.$route.query.nm; //头部点击当前树木的名称

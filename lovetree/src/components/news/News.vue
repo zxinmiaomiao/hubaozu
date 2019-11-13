@@ -52,7 +52,9 @@ header {
       font-size:18px;
       margin:10px 0;
   }
-  
+  .news{
+      overflow: hidden;
+  }
   .news li {
       padding:15px;
       width:315px;
