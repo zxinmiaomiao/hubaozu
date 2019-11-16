@@ -9,7 +9,23 @@ module.exports = {
                 target: 'http://localhost:7000',
                 ws: true,
                 changeOrigin: true
-            }
+            },  // 全  新增
+            '/homepage': {
+               target: 'http://localhost:7000',
+               ws: true,
+               changeOrigin: true
+           },
+           '/treedetail': {
+               target: 'http://localhost:7000',
+               ws: true,
+               changeOrigin: true
+           },
+           '/order': {
+               target: 'http://localhost:7000',
+               ws: true,
+               changeOrigin: true
+           }
+        //    ----------------------------------------
         }
     },
     css: {

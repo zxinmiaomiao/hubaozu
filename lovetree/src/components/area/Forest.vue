@@ -14,23 +14,23 @@
     <div class="areaforest">区域</div>
     <div class="treeslist">
       <ul>
-        <li v-for="tree of trees" :key="tree.id" @click="fosterjump(tree)">
+        <li v-for="tree of treeslist" :key="tree.id" @click="fosterjump(tree)">
           <div class="tree_left">
             <div class="treeimg">
-              <img src="../../../public/img/treelist.jpg" />
+              <img :src="tree.tree_thumbnail" />
             </div>
             <div class="treeinfor">
               <div>
-                <p class="treename">{{tree.name}}</p>
+                <p class="treename">{{tree.tree_name}}</p>
                 <span class="treelv"></span>
               </div>
 
-              <p class="treeage">{{tree.age}}</p>
-              <p>{{tree.area}}</p>
+              <p class="treeage">{{tree.tree_age}}</p>
+              <p>{{tree.tree_publisher}}</p>
             </div>
           </div>
           <div class="tree_right">
-            <p class="moneyage">{{tree.money+"元/年"}}</p>
+            <p class="moneyage">{{tree.tree_price+"元/年"}}</p>
             <p>
               <button>我要认养</button>
             </p>
@@ -41,6 +41,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "Forest",
   data() {
@@ -55,45 +56,46 @@ export default {
       }
     ];
     return {
-      trees: [
-        {
-          id: 111,
-          name: "凤凰松1",
-          age: 140,
-          lev: 1,
-          area: "安徽省九华镇",
-          money: 5555,
-          count: 200
-        },
-        {
-          id: 222,
-          name: "凤凰松2",
-          age: 140,
-          lev: 1,
-          area: "安徽省九华镇",
-          money: 6666,
-          count: 300
-        },
-        {
-          id: 333,
-          name: "凤凰松3",
-          age: 140,
-          lev: 1,
-          area: "安徽省九华镇",
-          money: 7777,
-          count: 500
-        },
-        {
-          id: 4444,
-          name: "松松4",
-          age: 240,
-          lev: 2,
-          area: "安徽省九华镇",
-          money: 8888,
-          count: 600
-        }
-      ],
+      // trees: [
+      //   {
+      //     id: 111,
+      //     name: "凤凰松1",
+      //     age: 140,
+      //     lev: 1,
+      //     area: "安徽省九华镇",
+      //     money: 5555,
+      //     count: 200
+      //   },
+      //   {
+      //     id: 222,
+      //     name: "凤凰松2",
+      //     age: 140,
+      //     lev: 1,
+      //     area: "安徽省九华镇",
+      //     money: 6666,
+      //     count: 300
+      //   },
+      //   {
+      //     id: 333,
+      //     name: "凤凰松3",
+      //     age: 140,
+      //     lev: 1,
+      //     area: "安徽省九华镇",
+      //     money: 7777,
+      //     count: 500
+      //   },
+      //   {
+      //     id: 4444,
+      //     name: "松松4",
+      //     age: 240,
+      //     lev: 2,
+      //     area: "安徽省九华镇",
+      //     money: 8888,
+      //     count: 600
+      //   }
+      // ],
       images,
+      treeslist:''
     };
   },
 
@@ -101,14 +103,20 @@ export default {
     fosterjump(tree) {
       this.$router.push({
         name: "forestdetail",
-        params: { id: tree.id },
-        query: { treeinfor: tree }
+        query: { 'nm': tree.tree_name ,'treeid':tree.tree_id}
       }); //点击认养要跳转的连接
     },
     toRecommend() {
       this.$router.push({ name: "recommend" });
     }
-  }
+  },
+  async mounted() {
+    //请求 1.2、特色认养/区域认养（首页进入）4古树认养区域的数据
+   await axios.get('/homepage/treetype',{params:{treeType:3}}).then((result)=>{
+        // console.log(result.data);
+        this.treeslist=result.data.data.treeList;
+    })    
+  },
 };
 </script>            
 <style scoped>

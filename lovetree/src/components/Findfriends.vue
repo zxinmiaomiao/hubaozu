@@ -13,12 +13,14 @@
       <span @click="cleartext" class="cleartext">X</span>
     </div>
     <ul v-if="flag">
-        <li :key="item.name" v-for="item of list" @click="find">
-            <div class="block"><img :src="item.img" alt=""></div>
-            <span class="nickname">{{ item.name }}</span>
-            <span class="ph">{{ item.phonenumber }}</span>
-            <span class="goto">&gt;</span>
-        </li>
+      <li :key="item.name" v-for="item of list" @click="find">
+        <div class="block">
+          <img :src="item.img" alt />
+        </div>
+        <span class="nickname">{{ item.name }}</span>
+        <span class="ph">{{ item.phonenumber }}</span>
+        <span class="goto">&gt;</span>
+      </li>
     </ul>
   </div>
 </template>
@@ -29,7 +31,7 @@ export default {
   data() {
     return {
       list: [],
-      flag:true,
+      flag: true
     };
   },
   methods: {
@@ -38,22 +40,25 @@ export default {
     },
     cleartext() {
       this.$refs.text.value = "";
-      this.flag=false
+      this.flag = false;
     },
     search() {
-        this.flag=true;
-      axios.post("/waws/wish/find/friends", {
-          username: this.$refs.text.value,
+      this.flag = true;
+      axios
+        .post("/waws/wish/find/friends", {
+          data: { username: this.$refs.text.value }
         })
-        .then((response)=>{
-          this.list = response.data
-          for(let i of this.list){
-            i.phonenumber=i.phonenumber.replace(/^(\d{3})\d*(\d{4})$/g,'$1****$2')
+        .then(response => {
+          this.list = response.data;
+          for (let i of this.list) {
+            i.phonenumber = i.phonenumber.replace(
+              /^(\d{3})\d*(\d{4})$/g,
+              "$1****$2"
+            );
           }
-          
         });
     },
-    find(){
+    find() {
       this.$router.go(-1);
       // 发请求
     }
@@ -122,15 +127,15 @@ ul li {
   float: left;
 }
 .ph {
-    font-size: 14px;
-    position: absolute;
-    right: 80px;
+  font-size: 14px;
+  position: absolute;
+  right: 80px;
 }
 .goto {
-    font-size: 16px;
-    position: absolute;
-    right: 20px;
-    color: #ccc
+  font-size: 16px;
+  position: absolute;
+  right: 20px;
+  color: #ccc;
 }
 .cleartext {
   font-size: 14px;
