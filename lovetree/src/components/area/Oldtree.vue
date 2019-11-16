@@ -133,8 +133,13 @@ export default {
       // console.log(this.$router)
       this.$router.push({
         name: "detail",
-        params: { id: tree.id },
-        query: { nm: tree.name }
+        query: {
+          id: tree.id,
+          treename: tree.name,
+          treeage: tree.age,
+          treemoney: tree.price,
+          treeaddress: tree.address
+        }
       });
     },
     toRecommend() {
@@ -225,7 +230,7 @@ li {
   position: absolute;
 }
 
- span {
+span {
   font-size: 12px;
   display: inline-block;
   margin: 0 11px;

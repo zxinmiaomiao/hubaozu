@@ -16,9 +16,13 @@
         <template v-if="item.id==2">
           <router-link to="/News">{{item.text}}</router-link>
         </template>
-        <template v-if="item.id==3">
-          <router-link to="/Logining">{{item.text}}</router-link>
+        <div @click="cook()">{{item.text}}</div>
+        <!-- <template v-if="item.id==3 && hascook">
+          <router-link to="/login">{{item.text}}</router-link>
         </template>
+         <template v-else-if="item.id==3 && !hascook">
+          <router-link to="/Logining">{{item.text}}</router-link>
+        </template>-->
       </li>
     </ul>
   </div>
@@ -32,10 +36,22 @@ export default {
         { id: 1, text: "首页" },
         { id: 2, text: "咨询" },
         { id: 3, text: "个人中心" }
-      ]
+      ],
+      hascook: ""
     };
   },
+  mounted() {},
   methods: {
+    cook() {
+      this.hascook = window.sessionStorage.getItem("userId");
+      if (this.hascook) {
+        console.log(1);
+        this.$router.push({ name: "login" });
+      } else {
+        console.log(2);
+        this.$router.push({ name: "logining" });
+      }
+    },
     gotowish() {
       this.flag = false;
       this.$router.push({ name: "wish" });
@@ -73,5 +89,8 @@ export default {
   text-align: center;
   font-size: 16px;
   line-height: 48px;
+}
+.navs div{
+color: #969696;
 }
 </style>

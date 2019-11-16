@@ -25,12 +25,24 @@ export default {
             context.commit('write', data)
         },
         async hasstate(context, state) {
-            await axios.post('/waws/readdiary'
+            await axios.get('/dream/querydiarylist', { params: state }
             ).then(res => {
                 context.commit('readdiary', res.data)
                 //获取你需要的数据
-                console.log(res)
             });
+        },
+        // 写日记利用POST请求发送给后端  后端会返回一个success
+        async writediary(context, state) {
+            return await axios.post('/dream/writediary', { data: state }).then((res) => {
+             
+                return res.data.message
+            })
+        },
+        // 读取日记  发送post请求   里面跟  userid和diaryid  日记详情
+        async readdiary(context, state) {
+            return await axios.post('/dream/queryDiarydetail', { data: state }).then((res) => {
+                return res.data.data
+            })
         }
 
     },

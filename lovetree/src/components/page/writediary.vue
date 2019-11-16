@@ -26,7 +26,7 @@ export default {
   name: "writediary",
 
   data() {
-    return { timefont: "", count: 0, status: false };
+    return { timefont: "", count: 0, status: false, successd: "" };
   },
   mounted() {
     this.$store.dispatch("page/change", "写日记");
@@ -36,15 +36,23 @@ export default {
     num() {
       this.count = this.$refs.text.value.length;
     },
-    success() {
+    async success() {
       if (this.$refs.text.value != "") {
-        this.status = true;
+        // 把日记的  用户名  和日记的内容传给后端
+        this.successd = await this.$store.dispatch("page/writediary", {
+          Userid: 111,
+          Diarycontext: this.$refs.text.value
+        });
+        if (this.successd == "成功") {
+          this.status = true;
+        }
       }
     },
     close() {
       this.status = false;
       this.$refs.text.value = "";
       this.count = 0;
+      this.$router.push({ name: "init" });
     }
   }
 };
@@ -79,6 +87,7 @@ export default {
   background: rgba(69, 96, 172, 0.3);
   border: none;
   color: white;
+  border: 1px solid #4953a2;
 }
 .writefont p {
   font-size: 15px;

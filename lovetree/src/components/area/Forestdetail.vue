@@ -3,8 +3,8 @@
     <!-- 头部 -->
     <header>
       <div class="detail_title">
-        <span @click='back' class='back'>&lt;</span>
-        <h4>{{detailInfor.name}}</h4>
+        <span @click="back" class="back">&lt;</span>
+        <h4>{{detailInfor.treename}}</h4>
       </div>
     </header>
     <!-- 中间 -->
@@ -18,13 +18,13 @@
           <div class="detail_inner_top">
             <div class="treeinfor">
               <div>
-                <p class="treename">{{detailInfor.name}}</p>
+                <p class="treename">{{detailInfor.treename}}</p>
                 <span class="treelv"></span>
               </div>
-              <p class="treeage">{{detailInfor.age+'余年'}}</p>
+              <p class="treeage">{{detailInfor.treeage+'余年'}}</p>
               <p>{{detailInfor.area}}</p>
             </div>
-            <span class="price">{{detailInfor.money+"元/年"}}</span>
+            <span class="price">{{detailInfor.treemoney+"元/年"}}</span>
           </div>
         </div>
 
@@ -45,13 +45,12 @@
     <footer>
       <div class="footer_top">
         <input type="radio" />
-        <p class='read'>您已阅读</p>
-        <p @click="toAgreement" class='read1'>古墓古树认养协议</p>
+        <p class="read">您已阅读</p>
+        <p @click="toAgreement" class="read1">古墓古树认养协议</p>
       </div>
-      
-        <img @click='toService' class='pic' src="../../../public/img/kefu_03.jpg" />
-        <button class="button" @click="toOrder">我要认养</button>
-      
+
+      <img @click="toService" class="pic" src="../../../public/img/kefu_03.jpg" />
+      <button class="button" @click="toOrder">我要认养</button>
     </footer>
   </div>
 </template>
@@ -65,9 +64,12 @@ export default {
   // props:['treeinfor'],
   computed: {
     detailInfor() {
-      // console.log(this.$route.query.treeinfor.count);
-      return this.$route.query.treeinfor;
+      console.log(this.$route.query);
+      return this.$route.query;
     }
+  },
+  mounted() {
+    console.log();
   },
   methods: {
     forestmed(detailInfor) {
@@ -75,29 +77,29 @@ export default {
       // detailInfor.count--;
       // console.log(n);
     },
-    back(){
-            //跳转上一级页面
-            history.back();
-        },
-        toOrder(){
-            //跳转order页面
-            this.$router.push({name: 'order'});
-        },
-        toService(){
-            //跳转客服页面
-            this.$router.push({name: 'service'});
-        },
-        toAgreement(){
-            //跳转agreement页面
-            // console.log(this.$router)
-            this.$router.push({name: 'agreeOn'});
-        },
+    back() {
+      //跳转上一级页面
+      history.back();
+    },
+    toOrder() {
+      //跳转order页面
+      this.$router.push({ name: "order" });
+    },
+    toService() {
+      //跳转客服页面
+      this.$router.push({ name: "service" });
+    },
+    toAgreement() {
+      //跳转agreement页面
+      // console.log(this.$router)
+      this.$router.push({ name: "agreeOn" });
+    }
   }
 };
 </script>
 <style scoped>
 .back {
-  font-size:30px;
+  font-size: 30px;
 }
 
 .forestbtn {
@@ -117,36 +119,36 @@ export default {
   margin: 5px 0 0 20px;
 }
 .read {
-  font-size:12px;
-  position:absolute;
-  top:0px;
+  font-size: 12px;
+  position: absolute;
+  top: 0px;
 }
 .read1 {
-  top:0px;
-  left:80px;
-  position:absolute;
+  top: 0px;
+  left: 80px;
+  position: absolute;
   color: #0fa87d;
   font-size: 12px;
 }
 .button {
-    position:absolute;
-    top: 30px;
-    right: 15px;
-    width:260px;
-    height:40px;
-    border-radius:20px;
-    background:#0fa87d;
-    line-height:40px;
-    text-align:center;
-    color:white;
-  }
+  position: absolute;
+  top: 30px;
+  right: 15px;
+  width: 260px;
+  height: 40px;
+  border-radius: 20px;
+  background: #0fa87d;
+  line-height: 40px;
+  text-align: center;
+  color: white;
+}
 .pic {
-      width:50px;
-      height:45px;
-      position:absolute;
-      bottom:5px;
-      left:30px;
-  }
+  width: 50px;
+  height: 45px;
+  position: absolute;
+  bottom: 5px;
+  left: 30px;
+}
 body,
 html {
   height: 100%;
@@ -171,7 +173,7 @@ footer {
   height: 80px;
   position: fixed;
   left: 0;
-  background:white;
+  background: white;
   right: 0;
   bottom: 0;
 }

@@ -93,7 +93,7 @@ export default {
           count: 600
         }
       ],
-      images,
+      images
     };
   },
 
@@ -101,8 +101,16 @@ export default {
     fosterjump(tree) {
       this.$router.push({
         name: "forestdetail",
-        params: { id: tree.id },
-        query: { treeinfor: tree }
+        query: {
+          id: tree.id,
+          treename: tree.name,
+          treeage: tree.age,
+          treelev: tree.lev,
+          treearea: tree.area,
+          treemoney: tree.money,
+          treecount: tree.count
+        }
+        // query: {  }
       }); //点击认养要跳转的连接
     },
     toRecommend() {
