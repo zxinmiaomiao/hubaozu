@@ -34,7 +34,8 @@ export default {
   async mounted() {
     //   挂载的时候去向后端获取数据   判断他的心愿是否存在  //同时获取到心愿的内容，事件和ID
     //   如果不存在的话   显示false
-    this.wishlist = await this.$store.dispatch("wishtree/hasstate");
+    // console.log(sessionStorage.getItem('userId'))
+    this.wishlist = await this.$store.dispatch("wishtree/hasstate",{userId:sessionStorage.getItem('userId')});
     if (this.wishlist.length !== 0) {
       this.state = false;
     } else {

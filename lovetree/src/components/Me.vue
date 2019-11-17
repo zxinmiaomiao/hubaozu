@@ -73,7 +73,24 @@
             :class="[{active:nowseled==one}]"
             @click="select(one)"
             v-for="one of treekindarr"
-          >{{one.title}}</li>
+          >{{one.title}}
+          </li>
+        </ul>
+      </div>
+      <div class="kind">
+        <ul class="kindtitle">
+          <li>订单编号</li>
+          <li>树名</li>
+          <li>数量</li>
+          <li>总价</li>
+        </ul>
+        <ul class="datainfo">
+          <li :key="one.orderId" v-for="one of $store.state.me.treearr.data.treeList.data.myTreeList">
+            <span>{{ one.orderCode }}</span>
+            <span>{{ one.treeName }}</span>
+            <span>{{ one.orderTreenum }}</span>
+            <span>{{ one.orderAccount }}</span>
+            </li>
         </ul>
       </div>
     </template>
@@ -111,19 +128,26 @@ export default {
     },
     select(one) {
       this.nowseled = one;
+      this.$store.dispatch('me/getecology',one.id)
     }
   },
   data() {
     const arr = [
-      { id: 1, title: "生态公益林", flag: true },
-      { id: 2, title: "古树名木", flag: false },
-      { id: 3, title: "红色认养", flag: false },
-      { id: 4, title: "文化认养", flag: false }
+      { id: 3, title: "生态公益林", flag: true },
+      { id: 4, title: "古树名木", flag: false },
+      { id: 1, title: "红色认养", flag: false },
+      { id: 2, title: "文化认养", flag: false }
     ];
     return {
       treekindarr: arr,
       nowseled: arr[0]
     };
+  },
+  
+  mounted(){
+    // 挂载时请求认养记录数据
+    // 生态公益林认养
+    this.$store.dispatch('me/getecology',3)
   }
 };
 </script>
@@ -294,7 +318,7 @@ export default {
   margin-left: -8px;
 }
 .tree_nav {
-  width: 350px;
+  width: 300px;
   height: 45px;
   margin: auto;
 }
@@ -305,6 +329,36 @@ export default {
   text-align: center;
   height: 100%;
   line-height: 45px;
+}
+.kind {
+  width: 350px;
+  height: 45px;
+  margin: auto; 
+}
+.kind .kindtitle {
+  overflow: hidden;
+}
+.kind .kindtitle li {
+  font-size: 14px;
+  float: left;
+  width: 25%;
+  text-align: center;
+  height: 100%;
+  line-height: 45px;
+
+}
+.kind .datainfo {
+  overflow: hidden;
+}
+.kind .datainfo li {
+  font-size: 14px;
+  height: 100%;
+  line-height: 45px;
+}
+.kind .datainfo li span {
+  display: inline-block;
+  width: 25%;
+  text-align: center;
 }
 .active {
   color: #0fa87d;

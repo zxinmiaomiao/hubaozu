@@ -2,65 +2,79 @@
   <div id="detail">
     <header>
       <span @click="back" class="back">&lt;</span>
-      <span class="title">{{title.treename}}</span>
+      <span class="title">{{title}}</span>
     </header>
-    <div class="pic"></div>
+    <div class="pic">
+      <img :src="detaillist.tree_thumbnail" />
+    </div>
     <div class="detail_">
-      <h4>{{title.treename}}</h4>
-      <p class="age">树龄：{{title.treeage}}</p>
-      <p class="address">{{title.treeaddress}}</p>
-      <p class="price">{{title.treemoney}}</p>
+      <h4>{{detaillist['tree_name']}}</h4>
+      <p class="age">树龄：{{detaillist['tree_age']}}年</p>
+      <p class="address">{{detaillist['tree_publisher']}}</p>
+      <p class="price">{{detaillist['tree_price']}}.00/株</p>
     </div>
     <div class="history">
       <h4>历史典故</h4>
-      <p
-        class="history_"
-      >蓝湖是一款产品文档和设计图的共享平台,帮助互联网团队更好地管理文档和设计图。蓝湖可以在线展示Axure,自动生成设计图标注,与团队共享设计图,展示页面之间的跳转关系</p>
+      <p class="history_">{{detaillist['tree_detail_desc']}}</p>
     </div>
-    <div class="detail_inner">
-      <!-- <h4>历史典故</h4>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;夜，结束了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却却</p>-->
-      <h5>=======详情 =======</h5>
-      <img class="detail_img" src="../../../public/img/listimg.jpg" />
-      <p>&nbsp;&nbsp;夜，结束了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;夜，结束了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却却</p>
-    </div>
-
+    <div class="content">{{detaillist['tree_detail_desc']}}</div>
     <footer>
       <p class="select">
         <input type="checkbox" />您已阅读并同意
       </p>
       <span @click="toAgreement">《古树名木认养协议》</span>
-      <img class="imgtop" src="../../../public/img/kefu.jpg" @click="toService" />
+      <img class="thislogo" src="../../../public/img/kefu.jpg" @click="toService" />
       <p class="button" @click="toOrder">我要认养</p>
     </footer>
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
-  name: "Area",
+  name: "Detail",
   data() {
-    return {};
+    return {
+      detaillist: {},
+      treeid: ""
+    };
   },
 
   computed: {
     title() {
-      //获取path路径的query name名字
-      // console.log(this.$route);
-      console.log(this.$route.query);
-      return this.$route.query;
+      //获取path路径的query name名
+      return this.$route.query.nm;
     }
+  },
+  async mounted() {
+    //请求 1.3、查询树木详情/homepage/treedetail
+    // console.log(this.$route.query.treeid)
+    this.treeid = this.$route.query.treeid;
+    console.log(this.treeid);
+    await axios
+      .get("/treedetail", { params: { treeId: this.treeid } })
+      .then(result => {
+        //   console.log(result.data);
+        console.log(result);
+        this.detaillist = result.data.data;
+      });
   },
   methods: {
     toAgreement() {
       //跳转agreement页面
-      // console.log(this.$router)
       this.$router.push({ name: "agreeOn" });
     },
     toOrder() {
       //跳转order页面
-      this.$router.push({ name: "order" });
+      if (window.sessionStorage.getItem("userId")) {
+        this.$router.push({ name: "order", query: { treeid: this.treeid } });
+      } else {
+        this.$router.push({ name: "logining" });
+      }
+
+      // this.$router.push({ name: "order",
+      // query: { name: this.detaillist['tree_name'] , age: this.detaillist['tree_age'], price: this.detaillist['tree_price'], publisher: this.detaillist['tree_publisher']}});
     },
+
     toService() {
       //跳转客服页面
       this.$router.push({ name: "service" });
@@ -94,14 +108,14 @@ header .back {
 }
 header .title {
   position: absolute;
-  left: 40%;
+  left: 45%;
   line-height: 30px;
   font-size: 18px;
 }
 .pic {
   width: 100%;
   height: 280px;
-  background: url(../../../public/img/pic1.jpg) no-repeat;
+  /* background: url(../../../public/img/pic1.jpg) no-repeat; */
 }
 .detail_ {
   padding: 15px;
@@ -150,8 +164,14 @@ h4 {
   line-height: 20px;
 }
 .content {
-  height: 1000px;
-  text-align: center;
+  height: 500px;
+  /* text-align: center; */
+  padding: 15px;
+  word-wrap: break-word;
+  width: 315px;
+  /* border: 1px solid #ccc; */
+  margin-left: 14px;
+  margin-top: 15px;
 }
 footer {
   position: fixed;
@@ -170,7 +190,7 @@ span {
   position: absolute;
   left: 100px;
 }
-imgtop {
+.thislogo {
   width: 50px;
   height: 45px;
   position: absolute;
@@ -188,26 +208,6 @@ imgtop {
   line-height: 40px;
   text-align: center;
   color: white;
-}
-.detail_inner {
-  margin-top: 60px;
-  padding: 0 15px;
-  height: 100%;
-  padding-bottom: 125px;
-}
-.detail_inner h4 {
-  margin-bottom: 10px;
-  margin-left: 10px;
-}
-.detail_inner h5 {
-  font-size: 12px;
-  text-align: center;
-  color: #888;
-  margin: 20px 0;
-}
-.detail_img{
-    width: 345px;
-    height: 309px;
 }
 </style>
 

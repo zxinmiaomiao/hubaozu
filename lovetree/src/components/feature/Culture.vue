@@ -22,14 +22,14 @@
     <!-- 树 -->
     <div class="item">
       <ul>
-        <li @click="goDetails(itme)" :key="itme.id" v-for="itme of itmes">
+        <li @click="goDetails(tree)" :key="tree.id" v-for="tree of treeslist">
           <div class="div_img">
-            <img :src="itme.pic" />
+            <img :src="tree.tree_thumbnail" />
           </div>
           <div class="title">
-            <p class="title_name">{{itme.name}}</p>
-            <p class="title_title">{{itme.title}}</p>
-            <p class="title_price">{{itme.price}}元/年</p>
+            <p class="title_name">{{tree.tree_name}}</p>
+            <p class="title_title">{{tree.tree_publisher}}</p>
+            <p class="title_price">{{tree.tree_price+"元/年"}}</p>
           </div>
           <div class="but">我要认养</div>
         </li>
@@ -39,67 +39,44 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Culture",
   data() {
-    const itmes = [
+    const images = [
       {
         id: 1,
-        name: "生态树",
-        title: "大愿文化园提供",
-        price: 8888,
-        pic: require("../../assets/tree.png")
+        pic: require("../../../public/img/Culturesbig.jpg")
       },
       {
         id: 2,
-        name: "生态林",
-        title: "大愿文化园提供",
-        price: 8888,
-        pic: require("../../assets/tree.png")
-      },
-      {
-        id: 3,
-        name: "生态林",
-        title: "大愿文化园提供",
-        price: 8888,
-        pic: require("../../assets/tree.png")
-      },
-      {
-        id: 4,
-        name: "生态树",
-        title: "大愿文化园提供",
-        price: 8888,
-        pic: require("../../assets/tree.png")
+        pic: require("../../../public/img/redf-1.jpg")
       }
     ];
-    const images=[
-        {
-        id: 1,
-        pic:require("../../../public/img/Culturesbig.jpg")
-        },
-         {
-        id: 2,
-        pic:require("../../../public/img/redf-1.jpg")
-        },
-    ]
     return {
-      itmes,
       images,
+      treeslist: ""
     };
   },
-
+  async mounted() {
+    //请求 1.2、特色认养/区域认养（首页进入）4古树认养区域的数据
+    await axios
+      .get("/homepage/treetype", { params: { treeType: 1 } })
+      .then(result => {
+        // console.log(result.data);
+        this.treeslist = result.data.data.treeList;
+      });
+  },
   methods: {
     goInt() {
       this.$router.push({ path: "/projectint" });
     },
-    goDetails(itme) {
+    goDetails(tree) {
       //点击事件 传参 把当前页面的点击itme 传给转跳的详情页
       // console.log(itme);
       this.$router.push({
-        name: "details",
-        params: { id: itme.id },
-        query: { nm: itme.name },
-        url: { pic: itme.pic }
+        name: "detail",
+        query: { nm: tree.tree_name, treeid: tree.tree_id }
       });
     }
   }

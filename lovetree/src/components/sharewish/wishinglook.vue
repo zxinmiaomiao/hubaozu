@@ -30,7 +30,7 @@ export default {
   async mounted() {
     this.readitem = await this.$store.dispatch(
       "wishtree/readlist",
-      this.$route.query.wishid
+      {userId:sessionStorage.getItem('userId'),dreamId:this.$route.query.wishid}
     );
     console.log(this.readitem);
   },

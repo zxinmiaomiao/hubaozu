@@ -34,7 +34,7 @@ export default {
     return {
       navarr: [
         { id: 1, text: "首页" },
-        { id: 2, text: "咨询" },
+        { id: 2, text: "资讯" },
         { id: 3, text: "个人中心" }
       ],
       hascook: ""
