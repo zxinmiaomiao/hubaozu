@@ -16,12 +16,12 @@
       <!--<span>综合排序</span>-->
     </div>
     <ul class="list">
-      <li v-for="tree of treeslist" :key="tree.id" @click="toDetail(tree)">
-        <img src="../../../public/img/tree.jpg" />
-        <p class="name">{{tree.name}}</p>
-        <p class="price">{{tree.price}}</p>
-        <p class="age">树龄：{{tree.age}}</p>
-        <p class="address">{{tree.address}}</p>
+      <li v-for="tree of treeslist" :key="tree.tree_id" @click="toDetail(tree)">
+        <img :src="tree.tree_thumbnail" />
+        <p class="name">{{tree.tree_name}}</p>
+        <p class="price">{{tree.tree_price}}.00/株</p>
+        <p class="age">树龄：{{tree.tree_age}}年</p>
+        <p class="address">{{tree.tree_publisher}}</p>
 
         <p class="click">我要认养</p>
       </li>
@@ -45,102 +45,33 @@ export default {
       }
     ];
     return {
-      treeslist: [
-        {
-          id: "111",
-          name: "细叶青冈",
-          price: "42000.00/株",
-          age: "820年",
-          address: "安徽省九华镇人民政府",
-          img: ""
-        },
-        {
-          id: "222",
-          name: "银杏",
-          price: "42000.00/株",
-          age: "800年",
-          address: "安徽省九华镇人民政府",
-          img: ""
-        },
-        {
-          id: "333",
-          name: "枫杨",
-          price: "42000.00/株",
-          age: "760年",
-          address: "安徽省九华镇人民政府",
-          img: ""
-        },
-        {
-          id: "444",
-          name: "细叶青冈",
-          price: "42000.00/株",
-          age: "820年",
-          address: "安徽省九华镇人民政府",
-          img: ""
-        },
-        {
-          id: "555",
-          name: "银杏",
-          price: "42000.00/株",
-          age: "800年",
-          address: "安徽省九华镇人民政府",
-          img: ""
-        },
-        {
-          id: "666",
-          name: "枫杨",
-          price: "42000.00/株",
-          age: "760年",
-          address: "安徽省九华镇人民政府",
-          img: ""
-        },
-        {
-          id: "777",
-          name: "细叶青冈",
-          price: "42000.00/株",
-          age: "820年",
-          address: "安徽省九华镇人民政府",
-          img: ""
-        },
-        {
-          id: "888",
-          name: "银杏",
-          price: "42000.00/株",
-          age: "800年",
-          address: "安徽省九华镇人民政府",
-          img: ""
-        },
-        {
-          id: "999",
-          name: "枫杨",
-          price: "42000.00/株",
-          age: "760年",
-          address: "安徽省九华镇人民政府",
-          img: ""
-        }
-      ],
+      treeslist: [],
       images
     };
   },
-  mounted() {
-    // axios.get('/oldtree').then((result)=>{
-    //     console.log(result.data);
-    //     this.treeslist=result.data.goodsList;
-    // })
+  
+  async mounted() {
+    //请求 1.2、特色认养/区域认养（首页进入）4古树认养区域的数据
+   await axios.get('/homepage/treetype',{params:{treeType:4}}).then((result)=>{
+        // console.log(result.data);
+        this.treeslist=result.data.data.treeList;
+    })    
   },
+
   methods: {
     toDetail(tree) {
       // console.log(this.$router)
       this.$router.push({
         name: "detail",
-        params: { id: tree.id },
-        query: { nm: tree.name }
+        // params: { id: tree.tree_id },
+        query: { 'nm': tree.tree_name ,'treeid':tree.tree_id}
       });
     },
     toRecommend() {
       this.$router.push({ name: "recommend" });
     }
-  }
+  },
+  
 };
 </script>
 
@@ -225,7 +156,7 @@ li {
   position: absolute;
 }
 
- span {
+span {
   font-size: 12px;
   display: inline-block;
   margin: 0 11px;

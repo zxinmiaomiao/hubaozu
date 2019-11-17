@@ -4,13 +4,18 @@
       <p>还没有写日记哦~</p>
     </div>
     <div class="wishlist" v-else>
-      <div class="list" @click="read()">
+      <div
+        class="list"
+        @click="read(items.diaryId,items.userId)"
+        :key="items.uerId"
+        v-for="items in readdate"
+      >
         <div class="time">
-          <p class="month">04.12</p>
-          <p class="year">2019</p>
+          <p class="month">{{items.createTime|month()}}</p>
+          <p class="year">{{items.createTime|year()}}</p>
         </div>
         <!-- 内容部分 -->
-        <p class="item">判断他的日记是否存在挂载的时候去向后端获取数据 判断他的日记是否存在 判断他的日记是否存在 判断他的日记是否存在</p>
+        <p class="item">{{items.diaryContent}}</p>
       </div>
     </div>
   </div>
@@ -20,21 +25,33 @@ export default {
   name: "getdiary",
   data() {
     return {
-      state: ""
+      state: "",
+      readdate: "",
+      time: ""
     };
   },
   async mounted() {
     //   挂载的时候去向后端获取数据   判断他的日记是否存在  //同时获取到日记的内容，事件和ID
     //   如果不存在的话   显示false
-    await this.$store.dispatch("page/hasstate");
+    await this.$store.dispatch("page/hasstate", { userId: 111 });
     this.state = this.$store.state.page.status;
-    this.readdate = this.$store.state.page.readmemory;
-    console.log(this.readdate);
+    this.readdate = this.$store.state.page.readmemory.data;
   },
   methods: {
     //   点击的时候 传一个日记的ID参数    从store的对象里 把这个id参数对应的 文档信息获取
-    read() {
-      this.$router.push({ name: "readdiary" });
+    read(diaryid, userid) {
+      this.$router.push({
+        name: "readdiary",
+        query: { diaryId: diaryid ,userId:userid}
+      });
+    }
+  },
+  filters: {
+    year(value) {
+      return value.substr(0, 4);
+    },
+    month(value) {
+      return value.substr(5, 5);
     }
   }
 };

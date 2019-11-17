@@ -57,7 +57,7 @@ export default {
     name:'agreeOn',
     methods:{
         revert(){
-        this.$router.go(-1)
+        history.back();
         },
     }
 }

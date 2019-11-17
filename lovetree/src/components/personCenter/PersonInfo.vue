@@ -224,14 +224,9 @@ export default {
     // 确认保存所有修改信息
     confirm() {
       let time = this.$refs.time.innerHTML;
-      console.log({
-        name: this.currentName,
-        birth: time,
-        sex: this.sex,
-        pic: this.picUrl
-      });
+
       axios
-        .post("user/usernewinfo", {
+        .post("/user/usernewinfo", {
           userId: this.userId,
           userName: this.currentName,
           userBirthday: time,

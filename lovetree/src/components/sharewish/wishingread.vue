@@ -13,11 +13,14 @@
       <p>还没有写心愿哦~</p>
     </div>
     <div class="haswishread" v-else>
-      <div class="list" @click="read()">
+      <div class="list" @click="read(list.dreamId)" :key="list.dreamId" v-for="list in wishlist">
         <!-- 内容部分 -->
-        <p class="item">判断他的日记是否存在挂载的时候去向后端获取数据 判断他的日记是否存在 判断他的日记是否存在 判断他的日记是否存在</p>
+        <p class="item">{{list.dreamContent}}</p>
+        <p class="time">{{list.dreamCreatetime}}</p>
         <div class="smalllog"></div>
-        <div class="lookstatus">公开</div>
+        <div class="lookstatus" v-if="list.dreamStatus==0">公开</div>
+        <div class="lookstatus" v-else-if="list.dreamStatus==1">付费可见</div>
+        <div class="lookstatus" v-else-if="list.dreamStatus==2">能量可见</div>
       </div>
     </div>
   </div>
@@ -26,20 +29,24 @@
 export default {
   name: "wishingread",
   data() {
-    return { state: false };
+    return { state: "", wishlist: "" };
   },
   async mounted() {
     //   挂载的时候去向后端获取数据   判断他的心愿是否存在  //同时获取到心愿的内容，事件和ID
     //   如果不存在的话   显示false
-    // await this.$store.dispatch("wishtree/hasstate");
-    // this.state = this.$store.state.wishtree.status;
-    // this.readdate = this.$store.state.wishtree.readwish;
-    // console.log(this.readdate);
+    // console.log(sessionStorage.getItem('userId'))
+    this.wishlist = await this.$store.dispatch("wishtree/hasstate",{userId:sessionStorage.getItem('userId')});
+    if (this.wishlist.length !== 0) {
+      this.state = false;
+    } else {
+      this.state = true;
+    }
   },
+  computed: {},
   methods: {
-    read() {
+    read(id) {
       //  需要传许愿的id  然后获取到许愿的内容
-      this.$router.push({ name: "wishinglook" });
+      this.$router.push({ name: "wishinglook", query: { wishid: id } });
     }
   }
 };
@@ -149,5 +156,13 @@ export default {
   position: absolute;
   bottom: 10px;
   right: 20px;
+}
+.time {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 200px;
+  height: 20px;
+  font-size: 12px;
 }
 </style>

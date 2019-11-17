@@ -82,7 +82,13 @@ export default {
       this.$router.push({path:"/Service"})
     },
     toOrder(){
-      this.$router.push({path:"/Order"})
+      // this.$router.push({path:"/Order"})
+      if(window.sessionStorage.getItem('userId')){
+        this.$router.push({ name: "Order" });
+      }
+      else{
+        this.$router.push({ name: "logining" });
+      }
     }
   },
   mounted() {

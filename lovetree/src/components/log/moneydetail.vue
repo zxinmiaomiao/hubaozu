@@ -6,17 +6,28 @@
       <span class="me">余额明细</span>
     </div>
     <!-- 余额明细的  查询余额明细部分    循环渲染-->
-    <div class="moneylist">
+    <div class="moneylist" :key="detail.balanceId" v-for="detail in details">
       <p class="moneylist-one">
-        <span>支付宝充值</span>
+        <template v-if="detail.balanceType==1">
+          <span>支付宝充值</span>
+        </template>
+        <template v-else-if="detail.balanceType==2">
+          <span>支付宝支出</span>
+        </template>
+
         <!-- 时间从后端获取 -->
-        <span>2019-04-12</span>
+        <span>{{detail.balanceTime}}</span>
       </p>
       <p class="moneylist-two">
         <!-- 金额从后端获取 -->
-        <span>余额：580.00</span>
+        <span></span>
         <!-- 金额从后端获取 -->
-        <span>+100.00</span>
+        <template v-if="detail.balanceType==1">
+          <span>+100.00</span>
+        </template>
+        <template v-if="detail.balanceType==2">
+          <span style="color:red">-100.00</span>
+        </template>
       </p>
     </div>
   </div>
@@ -25,10 +36,15 @@
 export default {
   name: "moneydetail",
   data() {
-    return {};
+    return {
+      details: ""
+    };
   },
-  mounted(){
+  async mounted() {
     // 挂载的时候    获取到数据
+    this.details = await this.$store.dispatch("login/moneydetail", {
+      uesrId: sessionStorage.getItem("userId")
+    });
   },
   methods: {
     back() {
@@ -69,6 +85,7 @@ export default {
   justify-content: space-between;
 }
 .moneylist span {
+  float: right;
   font-size: 14px;
   font-weight: 600;
 }
@@ -76,6 +93,8 @@ export default {
 .moneylist-two span:last-child {
   font-size: 14px;
   font-weight: 600;
-  color: red;
+  display: block;
+  color: green;
+  float: right;
 }
 </style>

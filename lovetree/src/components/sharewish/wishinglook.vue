@@ -13,17 +13,26 @@
         <span class="headlog"></span>
         <span class="name">11111111</span>
       </p>
-      <div
-        class="mainItem"
-      >阿萨德撒大大大打开了胜阿萨德撒大大大打开了胜利阿萨德撒大大大打开了胜利阿萨德撒大大大打开了胜利利大街案阿萨德撒大大大打开了胜利大街案阿萨德撒大大大打开了胜利大街案阿萨德撒大大大打开了胜利大街案例就是大了</div>
-      <div class="mainstatus">付费可见</div>
+      <div class="mainItem">{{readitem.dreamContent}}</div>
+      <div class="mainstatus" v-if="readitem.dreamStatus==0">公开</div>
+      <div class="mainstatus" v-else-if="readitem.dreamStatus==1">付费可见</div>
+      <div class="mainstatus" v-else-if="readitem.dreamStatus==2">能量可见</div>
     </div>
   </div>
 </template>
 <script>
 export default {
   data() {
-    return {};
+    return {
+      readitem: ""
+    };
+  },
+  async mounted() {
+    this.readitem = await this.$store.dispatch(
+      "wishtree/readlist",
+      {userId:sessionStorage.getItem('userId'),dreamId:this.$route.query.wishid}
+    );
+    console.log(this.readitem);
   },
   methods: {
     back() {

@@ -1,16 +1,26 @@
 <template>
   <div>
     <p class="time">
-      <span>2019.04.11</span>
+      <span>{{detail.createTime}}</span>
     </p>
-    <div
-      class="item"
-    >判断他的日记是否存在 判断他的日记是否存在 判断他的日记是否存在判断他的日记是否存在挂载的时候去向后端获取数据 判断他的日记是否存在 判断他的日记是否存在 判断他的日记是否存在判断他的日记是否存在挂载的时候去向后端获取数据 判断他的日记是否存在 判断他的日记是否存在 判断他的日记是否存在</div>
+    <div class="item">{{detail.diaryContent}}</div>
   </div>
 </template>
 <script>
 export default {
-  name: "readdiary"
+  name: "readdiary",
+  data() {
+    return {
+      detail: ""
+    };
+  },
+  async mounted() {
+    // 发送数据请求   给后端 获取到  日记的详细信息
+    this.detail = await this.$store.dispatch("page/readdiary", {
+      userId: this.$route.query.userId,
+      diaryId: this.$route.query.diaryId
+    });
+  }
 };
 // 根据前一个页面发过来的ID去store里进行匹配内容  然后在渲染
 </script>
@@ -22,7 +32,8 @@ export default {
   color: white;
   font-weight: 600px;
   margin-top: 30px;
-  margin-left: 20px;
+  padding-left: 20px;
+  box-sizing: border-box;
 }
 .item {
   text-align: justify;

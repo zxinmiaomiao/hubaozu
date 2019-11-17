@@ -139,6 +139,23 @@ export default {
             // })
             let result = true;
             commit('signTrue', result)
-        }
+        },
+            // -------------------------------------------
+        async hasstate(context, data) {
+            // 如果读取的到数据  则可以显示出  心愿内容表
+            console.log(data)
+            return await axios.get('/dream/dreamlist',{params:data}).then((res) => {
+                return res.data.data  //返回心愿的数据直接给前端 不需要存store
+            })
+        },
+        // 读取的是心愿的列表
+        async readlist(context, state) {
+            return await axios.post('/dream/dreamdetail', state).then((res) => {
+                return res.data.data
+            })
+        },
+
+
+
     }
 }

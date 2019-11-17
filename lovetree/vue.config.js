@@ -6,11 +6,37 @@ module.exports = {
     devServer: {
         proxy: {
             '/dream': {
-                target: 'http://116.62.38.0:8888',
+                target: 'http://localhost:7000',
                 ws: true,
                 changeOrigin: true
             },
-            
+            '/waws': {
+                target: 'http://localhost:7000',
+                ws: true,
+                changeOrigin: true
+            },
+            '/user': {
+                target: 'http://localhost:7000',
+                ws: true,
+                changeOrigin: true
+            },
+              // 全  新增
+            '/homepage': {
+               target: 'http://localhost:7000',
+               ws: true,
+               changeOrigin: true
+           },
+           '/treedetail': {
+               target: 'http://localhost:7000',
+               ws: true,
+               changeOrigin: true
+           },
+           '/order': {
+               target: 'http://localhost:7000',
+               ws: true,
+               changeOrigin: true
+           }
+        //    ----------------------------------------
         }
     },
     css: {

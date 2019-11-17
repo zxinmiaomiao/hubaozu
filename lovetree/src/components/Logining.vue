@@ -9,15 +9,18 @@
       <h4>登录/注册</h4>
       <p>欢迎来到我爱我树</p>
       <div class="num">
-        <input type="text" placeholder="请输入手机号码" />
+        <input type="text" placeholder="请输入手机号码" ref="phone" @change="phonetext" />
       </div>
       <div class="yzm">
-        <input type="text" placeholder="请输入验证码" />
-        <span class="getyzm">获取验证码</span>
+        <input type="text" placeholder="请输入验证码" ref="successyzm" maxlength="4" @blur="erroyzm" />
+        <span ref="showyzm" class="showyzm"></span>
+        <span is-link class="getyzm" ref="getyzm">{{yzmfont}}</span>
+        <van-popup v-model="show" class="readyzm">{{font}}</van-popup>
       </div>
       <span class="select">确定即表明您同意</span>
       <span @click="toUser" class="click">《用户注册协议》</span>
-      <div class="button">确定</div>
+      <p class="erro">{{errofont}}</p>
+      <div class="button" @click="submitphone()">确定</div>
       <div class="other">第三方登录</div>
       <div class="flex">
         <img src="../../public/img/1.jpg" class="img1" />
@@ -29,29 +32,103 @@
 </template>
 <script>
 export default {
-    name:'Logining',
-    data(){
-        return{
-            
+  name: "Logining",
+  data() {
+    return {
+      errofont: "",
+      num: "",
+      showyzm: "",
+      show: false,
+      yzmfont: "获取验证码",
+      time: "",
+      font: "",
+      person: ""
+    };
+  },
+  mounted() {
+    this.time = 61;
+    let yzm = async () => {
+      // 后端获取到的验证码  到时候要进行匹配
+      this.showyzm = await this.$store.dispatch(
+        "login/sendyzm",
+        this.$refs.phone.value
+      );
+      this.$refs.getyzm.removeEventListener("click", yzm);
+      if (this.showyzm.success == true) {
+        this.font = "验证码发送成功";
+        this.show = true;
+        let timer = setInterval(() => {
+          this.time--;
+          this.yzmfont = this.time;
+          if (this.time == 0) {
+            clearInterval(timer);
+            this.time = 61;
+            this.yzmfont = "获取验证码";
+            this.$refs.getyzm.addEventListener("click", yzm);
+          }
+        }, 1000);
+      } else {
+        this.font = "验证码发送失败";
+      }
+    };
+    this.aa = yzm;
+    this.$refs.getyzm.addEventListener("click", this.yzm);
+  },
+  computed: {},
+  methods: {
+    erroyzm() {
+      console.log(this.$refs.successyzm.value);
+      if (this.$refs.successyzm.value == "") {
+        this.errofont = "验证码不能为空";
+      } else {
+        this.errofont = "";
+      }
+    },
+    phonetext() {
+      console.log(this.$refs.phone.value);
+      if (!/^1[3456789]\d{9}$/.test(this.$refs.phone.value)) {
+        this.errofont = "手机号码有误，请重填";
+        if (this.$refs.phone.value == "") {
+          this.errofont = "";
+        }
+        return false;
+      } else {
+        this.$refs.getyzm.addEventListener("click", this.aa);
+        this.errofont = "";
+      }
+    },
+    async submitphone() {
+      // 提交按钮  当 验证码正确  手机号码正确的时候  提交等后端返回数据  根据状态判断是否能登入
+      if (
+        this.$refs.phone.value != "" &&
+        this.$refs.successyzm.value.length == 4
+      ) {
+        // 发送数据给后端同时存储数据
+        this.person = await this.$store.dispatch("login/sendphone", {
+          mobile: this.$refs.phone.value,
+          phoneCode: this.$refs.successyzm.value
+        });
+        if (this.person.success == true) {
+          sessionStorage.setItem('userId', this.person.data.userId);
+          this.$router.push({ name: "login" });
+        } else {
+          this.errofont = "验证码有误";
+        }
+      } else if (0 < this.$refs.successyzm.value.length < 4) {
+        this.errofont = "验证码长度需4位";
+      }
+    },
+    toUser() {
+      //跳转agreement页面
+      // console.log(this.$router)
+      this.$router.push({ name: "agreeOn" });
+    },
 
-        }
-        
-    },
-    computed:{
-        
-    },
-    methods:{
-        toUser(){
-            //跳转agreement页面
-            // console.log(this.$router)
-            this.$router.push({name: 'agreeOn'});
-        },
-        
-        back(){
-            //跳转上一级页面
-            history.back();
-        }
-    },
+    back() {
+      //跳转上一级页面
+      history.back();
+    }
+  }
 };
 </script>
 
@@ -59,6 +136,22 @@ export default {
 * {
   padding: 0;
   margin: 0;
+}
+.readyzm {
+  width: 150px;
+  height: 50px;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 50px;
+  font-weight: 700;
+}
+.erro {
+  margin-top: 20px;
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  font-size: 16px;
+  color: red;
 }
 #login {
   overflow: hidden;
@@ -130,7 +223,7 @@ input {
   color: green;
 }
 .button {
-  margin-top: 80px;
+  margin-top: 30px;
   margin-left: 5px;
   width: 330px;
   height: 50px;
@@ -146,11 +239,11 @@ input {
   font-size: 16px;
   text-align: center;
 }
-.flex{
-    width: 100%;
-    display: flex;
-    flex: 1;
-    justify-content: space-around
+.flex {
+  width: 100%;
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
 }
 img {
   width: 40px;

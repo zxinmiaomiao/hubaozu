@@ -4,70 +4,84 @@
     <header>
       <div class="detail_title">
         <span @click='back' class='back'>&lt;</span>
-        <h4>{{detailInfor.name}}</h4>
+        <h4>{{detaillist.tree_name}}</h4>
       </div>
     </header>
     <!-- 中间 -->
     <article>
       <div class="detail_center">
         <div class="detail_img">
-          <img src="../../../public/img/listimg.jpg" />
+          <img :src="detaillist.tree_detail_img" />
         </div>
         <!-- 信息 -->
         <div class="detailinfor">
           <div class="detail_inner_top">
             <div class="treeinfor">
               <div>
-                <p class="treename">{{detailInfor.name}}</p>
+                <p class="treename">{{detaillist.tree_name}}</p>
                 <span class="treelv"></span>
               </div>
-              <p class="treeage">{{detailInfor.age+'余年'}}</p>
-              <p>{{detailInfor.area}}</p>
+              <p class="treeage">{{detaillist.tree_age+'余年'}}</p>
+              <p>{{detaillist.tree_publisher}}</p>
             </div>
-            <span class="price">{{detailInfor.money+"元/年"}}</span>
+            <span class="price">{{detaillist.tree_price+'元'}}</span>
           </div>
         </div>
 
         <div class="detail_inner">
           <h4>历史典故</h4>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;夜，结束了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却却</p>
+          <p>{{detaillist.tree_detail_desc}}</p>
           <h5>=======详情 =======</h5>
-          <img src="../../../public/img/listimg.jpg" />
-          <p>&nbsp;&nbsp;夜，结束了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却</p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;夜，结束了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却了一天的喧嚣后安静下来，伴随着远处路灯那微弱的光。风，毫无预兆地席卷整片旷野，撩动人的思绪万千。星，遥遥地挂在天空之中，闪烁着它那微微星光，不如阳光般灿烂却却</p>
+          <img :src="detaillist.tree_detail_img" />
+          
+          <p>{{detaillist.tree_detail_desc}}</p>
         </div>
       </div>
       数量
-      {{detailInfor.count}}
+      <!-- {{detailInfor.count}} -->
     </article>
 
     <!-- 底部 -->
     <footer>
       <div class="footer_top">
         <input type="radio" />
-        <p class='read'>您已阅读</p>
-        <p @click="toAgreement" class='read1'>古墓古树认养协议</p>
+        <p class="read">您已阅读</p>
+        <p @click="toAgreement" class="read1">古墓古树认养协议</p>
       </div>
-      
-        <img @click='toService' class='pic' src="../../../public/img/kefu_03.jpg" />
-        <button class="button" @click="toOrder">我要认养</button>
-      
+
+      <img @click="toService" class="pic" src="../../../public/img/kefu_03.jpg" />
+      <button class="button" @click="toOrder">我要认养</button>
     </footer>
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "Forestdetail",
 
-  // data() {
-  //   return { treeinfor: "" };
-  // },
-  // props:['treeinfor'],
+  data() {
+    return {
+      detaillist: {},
+      treeid:''
+    };
+  },
+  props:['treeinfor'],
   computed: {
     detailInfor() {
-      // console.log(this.$route.query.treeinfor.count);
       return this.$route.query.treeinfor;
     }
+  },
+  async mounted() {
+    //请求 1.3、查询树木详情/homepage/treedetail
+    // console.log(this.$route.query.treeid)
+    this.treeid=this.$route.query.treeid
+    // console.log(this.treeid)
+    await axios.get("/treedetail",{params:{treeId:this.treeid}}).then(result => {
+    //   console.log(result.data);
+    console.log(result)
+      this.detaillist = result.data.data;
+
+    });
   },
   methods: {
     forestmed(detailInfor) {
@@ -81,7 +95,13 @@ export default {
         },
         toOrder(){
             //跳转order页面
-            this.$router.push({name: 'order'});
+            // this.$router.push({name: 'order'});
+            if(window.sessionStorage.getItem('userId')){
+              this.$router.push({ name: "order", query: { treeid: this.treeid } });
+            }
+            else{
+              this.$router.push({ name: "logining" });
+            }
         },
         toService(){
             //跳转客服页面
@@ -97,7 +117,7 @@ export default {
 </script>
 <style scoped>
 .back {
-  font-size:30px;
+  font-size: 30px;
 }
 
 .forestbtn {
@@ -117,36 +137,36 @@ export default {
   margin: 5px 0 0 20px;
 }
 .read {
-  font-size:12px;
-  position:absolute;
-  top:0px;
+  font-size: 12px;
+  position: absolute;
+  top: 0px;
 }
 .read1 {
-  top:0px;
-  left:80px;
-  position:absolute;
+  top: 0px;
+  left: 80px;
+  position: absolute;
   color: #0fa87d;
   font-size: 12px;
 }
 .button {
-    position:absolute;
-    top: 30px;
-    right: 15px;
-    width:260px;
-    height:40px;
-    border-radius:20px;
-    background:#0fa87d;
-    line-height:40px;
-    text-align:center;
-    color:white;
-  }
+  position: absolute;
+  top: 30px;
+  right: 15px;
+  width: 260px;
+  height: 40px;
+  border-radius: 20px;
+  background: #0fa87d;
+  line-height: 40px;
+  text-align: center;
+  color: white;
+}
 .pic {
-      width:50px;
-      height:45px;
-      position:absolute;
-      bottom:5px;
-      left:30px;
-  }
+  width: 50px;
+  height: 45px;
+  position: absolute;
+  bottom: 5px;
+  left: 30px;
+}
 body,
 html {
   height: 100%;
@@ -171,7 +191,7 @@ footer {
   height: 80px;
   position: fixed;
   left: 0;
-  background:white;
+  background: white;
   right: 0;
   bottom: 0;
 }

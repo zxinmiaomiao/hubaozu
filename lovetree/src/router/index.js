@@ -267,7 +267,7 @@ const routes = [
             import('../components/feature/Articles.vue')
     },
     {
-        path: '/details/:id', //路由传参，把点击的当前列表数据通过路由传递
+        path: '/details', //路由传参，把点击的当前列表数据通过路由传递
         name: 'details',
         component: () =>
             import('../components/feature/Details.vue')

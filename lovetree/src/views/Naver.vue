@@ -1,8 +1,8 @@
 <template>
-  <div >
+  <div>
     <div class="toparea">
       <div class="bgblock">
-        <img class="applogo" src="/img/applogo.png" alt="">
+        <img class="applogo" src="/img/applogo.png" alt />
       </div>
       <div class="bgimg">
         <img src="/img/bg.png" alt />
@@ -39,7 +39,15 @@
     </div>
     <div class="ul_wrap">
       <ul class="tree_list">
-        <li>
+        <li :key="item.tree_id" v-for="item of ul_wrap.prpularList" @click="viewdetail(item)">
+          <img src alt />
+          <p class="treename">{{item.tree_name }}</p>
+          <div class="showprice">
+            <span class="price">{{item.tree_price }}</span>
+            <span>元</span>
+          </div>
+        </li>
+        <!-- <li>
           <img src alt />
           <p class="treename">112</p>
           <div class="showprice">
@@ -70,93 +78,165 @@
             <span class="price">1</span>
             <span>元</span>
           </div>
-        </li>
+        </li>-->
       </ul>
     </div>
     <div class="poster">
-        <img src="/img/poster.jpg" alt="">
+      <img src="/img/poster.jpg" alt />
     </div>
-    <div class="support"> 
-        <p class="title">古树名木认养</p>
-        <ul class="oldtree">
-          <li>
-            <img src="" alt="">
-            <h3 class="tree_name">细叶青冈</h3>
-            <p class="tree_age">树龄：820年</p>
-            <div class="tree_price"><span>42000.00</span>元<span class="gettree">认养></span></div>
-          </li>
-          <li>
-            <img src="" alt="">
-            <h3 class="tree_name">细叶青冈</h3>
-            <p class="tree_age">树龄：820年</p>
-            <div class="tree_price"><span>42000.00</span>元<span class="gettree">认养></span></div>
-          </li>
-          <li>
-            <img src="" alt="">
-            <h3 class="tree_name">细叶青冈</h3>
-            <p class="tree_age">树龄：820年</p>
-            <div class="tree_price"><span>42000.00</span>元<span class="gettree">认养></span></div>
-          </li>
-          <li>
-            <img src="" alt="">
-            <h3 class="tree_name">细叶青冈</h3>
-            <p class="tree_age">树龄：820年</p>
-            <div class="tree_price"><span>42000.00</span>元<span class="gettree">认养></span></div>
-          </li>
-        </ul>
+    <div class="support">
+      <p class="title">古树名木认养</p>
+      <ul class="oldtree">
+         <li :key="item.tree_id" v-for="item of ul_wrap.ecologyList" @click="viewdetail(item)">
+          <img src="" alt />
+          <h3 class="tree_name">{{item.tree_name }}</h3>
+          <p class="tree_age">树龄：{{item.tree_age }}年</p>
+          <div class="tree_price">
+            <span>{{item.tree_price }}</span>元
+            <span class="gettree">认养></span>
+          </div>
+        </li>
+        <!-- <li>
+          <img src alt />
+          <h3 class="tree_name">细叶青冈</h3>
+          <p class="tree_age">树龄：820年</p>
+          <div class="tree_price">
+            <span>42000.00</span>元
+            <span class="gettree">认养></span>
+          </div>
+        </li>
+        <li>
+          <img src alt />
+          <h3 class="tree_name">细叶青冈</h3>
+          <p class="tree_age">树龄：820年</p>
+          <div class="tree_price">
+            <span>42000.00</span>元
+            <span class="gettree">认养></span>
+          </div>
+        </li>
+        <li>
+          <img src alt />
+          <h3 class="tree_name">细叶青冈</h3>
+          <p class="tree_age">树龄：820年</p>
+          <div class="tree_price">
+            <span>42000.00</span>元
+            <span class="gettree">认养></span>
+          </div>
+        </li>
+        <li>
+          <img src alt />
+          <h3 class="tree_name">细叶青冈</h3>
+          <p class="tree_age">树龄：820年</p>
+          <div class="tree_price">
+            <span>42000.00</span>元
+            <span class="gettree">认养></span>
+          </div>
+        </li> -->
+      </ul>
     </div>
-    <div class="support_sec"> 
-        <p class="title">生态公益林认养</p>
-        <ul class="oldtree">
-          <li>
-            <img src="" alt="">
-            <h3 class="tree_name">细叶青冈</h3>
-            <p class="tree_age">树龄：820年</p>
-            <div class="tree_price"><span>42000.00</span>元<span class="gettree">认养></span></div>
-          </li>
-          <li>
-            <img src="" alt="">
-            <h3 class="tree_name">细叶青冈</h3>
-            <p class="tree_age">树龄：820年</p>
-            <div class="tree_price"><span>42000.00</span>元<span class="gettree">认养></span></div>
-          </li>
-          <li>
-            <img src="" alt="">
-            <h3 class="tree_name">细叶青冈</h3>
-            <p class="tree_age">树龄：820年</p>
-            <div class="tree_price"><span>42000.00</span>元<span class="gettree">认养></span></div>
-          </li>
-          <li>
-            <img src="" alt="">
-            <h3 class="tree_name">细叶青冈</h3>
-            <p class="tree_age">树龄：820年</p>
-            <div class="tree_price"><span>42000.00</span>元<span class="gettree">认养></span></div>
-          </li>
-        </ul>
+    <div class="support_sec">
+      <p class="title">生态公益林认养</p>
+      <ul class="oldtree">
+        <li :key="item.tree_id" v-for="item of ul_wrap.ancientList" @click="viewdetail(item)">
+          <img src="" alt />
+          <h3 class="tree_name">{{item.tree_name }}</h3>
+          <p class="tree_age">树龄：{{item.tree_age }}年</p>
+          <div class="tree_price">
+            <span>{{item.tree_price }}</span>元
+            <span class="gettree">认养></span>
+          </div>
+        </li>
+        <!-- <li>
+          <img src alt />
+          <h3 class="tree_name">细叶青冈</h3>
+          <p class="tree_age">树龄：820年</p>
+          <div class="tree_price">
+            <span>42000.00</span>元
+            <span class="gettree">认养></span>
+          </div>
+        </li>
+        <li>
+          <img src alt />
+          <h3 class="tree_name">细叶青冈</h3>
+          <p class="tree_age">树龄：820年</p>
+          <div class="tree_price">
+            <span>42000.00</span>元
+            <span class="gettree">认养></span>
+          </div>
+        </li>
+        <li>
+          <img src alt />
+          <h3 class="tree_name">细叶青冈</h3>
+          <p class="tree_age">树龄：820年</p>
+          <div class="tree_price">
+            <span>42000.00</span>元
+            <span class="gettree">认养></span>
+          </div>
+        </li>
+        <li>
+          <img src alt />
+          <h3 class="tree_name">细叶青冈</h3>
+          <p class="tree_age">树龄：820年</p>
+          <div class="tree_price">
+            <span>42000.00</span>元
+            <span class="gettree">认养></span>
+          </div>
+        </li> -->
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Naver",
+  data() {
+    return {
+      ul_wrap: []
+    };
+  },
+  mounted() {
+    axios.post("/waws/homepage/queryData").then(res => {
+      this.ul_wrap = res.data.data;
+    });
+    window.sessionStorage.setItem('userId','w63234')
+  },
   methods: {
     gotowish() {
-      this.flag = false;
-      this.$router.push({ name: "wishTree" });
+      if(window.sessionStorage.getItem('userId')){
+        this.$router.push({ name: "wishTree" });
+      }
+      else{
+        this.$router.push({ name: "logining" });
+      }
       
     },
-    gotoareasupport(){
+    gotoareasupport() {
       this.$router.push({ name: "area" });
     },
     gotofriends() {
-      this.flag = false;
       this.$router.push({ name: "findfriends" });
     },
-    gotored(){
+    gotored() {
       this.$router.push({ name: "special" });
-      console.log(this.$route)
-    }
+    },
+
+    // 查看树详情的方法
+    viewdetail(item) {
+      this.$router.push({
+        name: "forestdetail",
+        query: {
+          tree_id: 1,
+          tree_name: item.tree_name,
+          tree_price: item.tree_price,
+          tree_age: item.tree_age,
+          tree_type_id: item.tree_type_id,
+          tree_publisher: item.tree_publisher
+        }
+      });
+    },
+    
   }
 };
 </script>
@@ -225,7 +305,7 @@ export default {
 }
 .tree_list {
   white-space: nowrap;
-  overflow-x:scroll;
+  overflow-x: scroll;
   background-color: #ccc;
   overflow-x: auto;
 }
@@ -249,7 +329,7 @@ export default {
   text-align: center;
 }
 .price {
-  color: red
+  color: red;
 }
 .support {
   width: 345px;
@@ -264,15 +344,15 @@ export default {
 .oldtree {
   overflow: hidden;
 }
-.oldtree li{
+.oldtree li {
   width: 167px;
   height: 247px;
   float: left;
 }
-.oldtree li:nth-child(odd){
+.oldtree li:nth-child(odd) {
   padding-right: 5px;
 }
-.oldtree li img{
+.oldtree li img {
   display: block;
   width: 167px;
   height: 165px;

@@ -5,7 +5,8 @@ export default {
     state: {
         detail: 0,
         energylist: [],
-        loginstatus:false
+        loginstatus:false,
+        treearr:[]
     },
     mutations: {
         details(state, status) {
@@ -19,8 +20,11 @@ export default {
 
         },
         changeme(state,loginstatus) {
-            state.detail = 2,
+            state.detail = 2;
             state.loginstatus=loginstatus
+        },
+        getecology(state,arr){
+            state.treearr = arr;
         }
     },
     actions: {
@@ -37,6 +41,10 @@ export default {
         },
         changeme(context, loginstatus) {
             context.commit('changeme', loginstatus)
+        },
+        async getecology(context,treetypenumber){
+            let res = await axios.post('/waws/order/queryOrder',{userId:window.sessionStorage.getItem('userId'),treeTypeId:treetypenumber})
+            context.commit('getecology',res.data)
         }
     },
     modules: {

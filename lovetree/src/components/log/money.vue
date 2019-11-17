@@ -13,7 +13,7 @@
     <div class="show">
       <span class="showfont">账户余额(元)</span>
       <!-- 账户余额   后端显示的  直接显示在这里 -->
-      <span class="shownum">0.00</span>
+      <span class="shownum">{{moneyinfo.myMoney}}</span>
     </div>
 
     <!-- 充值功能 -->
@@ -49,8 +49,19 @@ export default {
   name: "money",
   data() {
     return {
-      show: false
+      show: false,
+      moneyinfo: "",
+      userId: "",
+      recharge: ""
     };
+  },
+  async mounted() {
+    this.userId = sessionStorage.getItem("userId");
+    this.moneyinfo = await this.$store.dispatch(
+      "login/getusermoney",
+      this.userId
+    );
+    console.log(this.moneyinfo);
   },
   methods: {
     back() {
@@ -60,18 +71,25 @@ export default {
       this.show = true;
     },
     // 充值成功后   把金额传给  后端
-    submit() {
+    async submit() {
       console.log(this.$refs.num.value);
-      if (this.$refs.num.value != "") {
-        Dialog.alert({
-          title: "充值提示",
-          message: "恭喜你充值成功"
-        }).then(() => {
-          // 发送金额给后端
-          close;
-          this.show = false;
-          this.$refs.num.value = "";
+      if (this.$refs.num.value != "" && this.$refs.num.value != 0) {
+        // 点击充值按钮  发数据给后端  进行充值
+        this.recharge = await this.$store.dispatch("login/recharge", {
+          userId: this.userId,
+          money: this.$refs.num.value
         });
+        if (this.recharge.success == true) {
+          Dialog.alert({
+            title: "充值提示",
+            message: "恭喜你充值成功"
+          }).then(() => {
+            // 发送金额给后端
+            close;
+            this.show = false;
+            this.$refs.num.value = "";
+          });
+        }
       } else {
         Dialog.alert({
           title: "充值提示",
