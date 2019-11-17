@@ -8,52 +8,31 @@
       </p>
     </div>
     <ul class="friendsList">
-      <li class="my">
-        <div class="rankNum">20</div>
+      <li :key="rank.userId" v-for="(rank,index) of friendList">
+        <!-- 我的排名 -->
+        <template v-if="index === 0">
+          <div class="rankNum">{{myRink.userRank}}</div>
+        </template>
+        <!-- 前三名 -->
+        <template v-else-if="index>0&&index<4">
+          <div :class="'rankNum rank-'+index"></div>
+        </template>
+        <!-- 4-10名 -->
+        <template v-else>
+          <div class="rankNum">{{index}}</div>
+        </template>
         <div class="photo">
-          <img src alt />
+          <img :src="rank.userImage" />
         </div>
         <div class="name">
-          <p class="friendsNm">世界好大</p>
-          <p class="treeNum">认领2棵树</p>
+          <p class="friendsNm">{{rank.userName}}</p>
+          <p class="treeNum">认领{{rank.userTreenum}}棵树</p>
         </div>
-        <div class="power">300能量</div>
-      </li>
-      <li>
-        <div class="rankNum rank-one"></div>
-        <div class="photo">
-          <img src alt />
-        </div>
-        <div class="name">
-          <p class="friendsNm">世界好大哈大</p>
-          <p class="treeNum">认领2棵树</p>
-        </div>
-        <div class="power">300能量</div>
-        <div class="look">查看TA的愿望</div>
-      </li>
-      <li>
-        <div class="rankNum rank-two"></div>
-        <div class="photo">
-          <img src alt />
-        </div>
-        <div class="name">
-          <p class="friendsNm">世界好大哈大</p>
-          <p class="treeNum">认领2棵树</p>
-        </div>
-        <div class="power">300能量</div>
-        <div class="look">查看TA的愿望</div>
-      </li>
-      <li>
-        <div class="rankNum rank-three"></div>
-        <div class="photo">
-          <img src alt />
-        </div>
-        <div class="name">
-          <p class="friendsNm">世界好大哈大</p>
-          <p class="treeNum">认领2棵树</p>
-        </div>
-        <div class="power">300能量</div>
-        <div class="look">查看TA的愿望</div>
+        <div class="power">{{rank.userEnergy}}能量</div>
+        <!-- 传一个好友ID参数 -->
+        <template v-if="index>0">
+          <div class="look" @click="toFriendTree(rank)">查看TA的愿望</div>
+        </template>
       </li>
     </ul>
   </div>
@@ -61,14 +40,32 @@
 
 <script>
 export default {
-    name: 'RankList',
+  name: "rankList",
 
-    methods: {
-        findFriends(){
-            this.$router.push({ name: "findfriends" });
-        }
+  methods: {
+    findFriends() {
+      this.$router.push({ name: "findfriends" });
     },
-}
+    // 接收一个id参数
+    toFriendTree(rank) {
+      let userInfo = {'userName':rank.userName,"userEnergy":rank.userEnergy,"userImage":rank.userImage}
+      sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
+      this.$router.push({
+        name: "friendtree",
+        query: { userId: rank.userId, myEnergy: this.myRink.userEnergy }
+      });
+    }
+  },
+
+  computed: {
+    myRink() {
+      return this.$store.state.wishtree.userInfo;
+    },
+    friendList() {
+      return this.$store.state.wishtree.rankList;
+    }
+  }
+};
 </script>
 
 
@@ -84,7 +81,7 @@ export default {
   align-items: center;
 }
 
-.title>h6 {
+.title > h6 {
   font-size: 17px;
   font-weight: 600;
   margin-left: 10px;
@@ -104,11 +101,11 @@ export default {
   text-align: center;
 }
 
-.title .search>span {
+.title .search > span {
   display: inline-block;
   width: 18px;
   height: 18px;
-  background: url('/img/search.png');
+  background: url("/img/search.png");
   background-size: 100%;
   margin-top: 5px;
   vertical-align: top;
@@ -120,7 +117,7 @@ export default {
   padding-bottom: 10px;
 }
 
-.friendsList>li {
+.friendsList > li {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -136,22 +133,23 @@ export default {
   width: 23px;
   height: 30px;
   line-height: 30px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
+  text-align: center;
 }
 
-.rank-one {
-  background: url('/img/rank.png');
+.rank-1 {
+  background: url("/img/rank.png");
   background-size: 100%;
 }
 
-.rank-two {
-  background: url('/img/rank.png') no-repeat 0px -90px;
+.rank-2 {
+  background: url("/img/rank.png") no-repeat 0px -90px;
   background-size: 100%;
 }
 
-.rank-three {
-  background: url('/img/rank.png') no-repeat 0px -180px;
+.rank-3 {
+  background: url("/img/rank.png") no-repeat 0px -180px;
   background-size: 100%;
 }
 
@@ -165,7 +163,7 @@ export default {
   background: yellow;
 }
 
-.photo>img {
+.photo > img {
   width: 100%;
   height: 100%;
 }

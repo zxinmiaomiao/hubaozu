@@ -1,7 +1,7 @@
 <template>
   <div id="wrap">
     <!-- 许愿树外框 -->
-    <div class="wishTreeBox" @click="closeWish($event)">
+    <div class="wishTreeBox">
       <h6>许愿树</h6>
       <!-- 用户信息、公益林 -->
       <div class="header">
@@ -9,14 +9,14 @@
           <!-- 用户信息 -->
           <div class="info">
             <div class="userPic">
-              <img src alt />
+              <img :src="user.userImage" />
             </div>
-            <span class="userName">世界好大</span>
+            <span class="userName">{{user.userName}}</span>
           </div>
           <!-- 能量值 -->
           <div class="info energy">
             <div class="energyLogo"></div>
-            <span class="energyNum">300</span>
+            <span class="energyNum">{{user.userEnergy}}</span>
           </div>
         </div>
         <!-- 公益林 -->
@@ -25,14 +25,29 @@
       <!-- 许愿树 -->
       <ul class="tree">
         <!-- 心愿签 -->
-        <li @click.stop="lookWish()" class="myWish-1"></li>
-        <li @click.stop="lookWish()" class="myWish-2"></li>
-        <li @click.stop="lookWish()" class="myWish-3"></li>
+        <li
+          :key="dream.dreamId"
+          v-for="(dream,index) of dreamList"
+          @click.stop="lookWish($event)"
+          :class="'myWish-'+ index"
+        >
+          <div :class="'wishContent wishContent-'+index">
+            <div class="text">{{dream.dreamContent}}</div>
+            <div class="type">{{dream.dreamStatus|wishType()}}</div>
+            <span @click="closeWish($event)">×</span>
+          </div>
+        </li>
       </ul>
 
       <!-- 签到、许愿、记日记 -->
       <div class="btnWrap">
-        <span class="sign" @click="sign()" :style="{background:background}"></span>
+        <button
+          class="sign"
+          @click="sign()"
+          :style="{background:background}"
+ 
+          ref="signing"
+        ></button>
         <router-link :to="{name:'wishcomponent'}" class="wishing"></router-link>
         <router-link :to="{name:'diary'}" class="diary"></router-link>
       </div>
@@ -46,11 +61,6 @@
         </div>
         <div class="close" @click="closeSign()">X</div>
       </div>
-      <!-- 心愿内容 -->
-      <div class="wishContent" :style="{display:showWish}">
-        <div class="text">我的愿望是。。</div>
-        <div class="type">公开</div>
-      </div>
     </div>
     <!-- 排行榜 -->
     <RinkList></RinkList>
@@ -61,22 +71,60 @@
 import RinkList from "../../components/wishpage/RankList";
 
 export default {
-    name:'wishTree',
+  name: "wishTree",
   data() {
     return {
-      showSign: "none",
-      showWish: "none",
+      // signFlag: "",
+      showSign: "none", // 显示签到框
+      userId: "",
       // 签到的背景图更换
-      background: "url('/img/sign.png') 0 0px",
+      background: "url('/img/sign.png') 0 0px"
     };
   },
+  computed: {
+    // 心愿数据
+    dreamList() {
+      return this.$store.state.wishtree.dreamList;
+    },
+    // 用户数据
+    user() {
+      return this.$store.state.wishtree.userInfo;
+    },
 
+    // 签到标记
+    signed(){
+      return this.$store.state.wishtree.signFlag;
+    }
 
-  methods: {
-    // 签到
-    sign() {
-      this.showSign = "block";
+  },
+
+  async mounted() {
+    sessionStorage.setItem("userId", 123);
+    // 获取用户ID
+    this.userId = sessionStorage.getItem("userId");
+     // 向后端获取用户信息
+    await this.$store.dispatch("wishtree/wishtree", this.userId);
+     // 获取签到信息
+    // this.signFlag = this.$store.state.wishtree.signFlag;
+    // console.log(this.signFlag)
+    // if (this.signFlag) {
+    //   // 已签到
+    //   this.background = "url('/img/sign.png') 0 54px";
+    
+    if(this.signed){
       this.background = "url('/img/sign.png') 0 54px";
+    }
+  },
+  methods: {
+    // 签到按钮
+    sign() {
+      // 未签到
+      if (!this.signed) {
+        // 向后端发送签到请求
+        this.$store.dispatch("wishtree/signed", this.userId); 
+        this.showSign = "block";
+        this.background = "url('/img/sign.png') 0 54px";
+      }
     },
     // 关闭签到框
     closeSign() {
@@ -84,28 +132,49 @@ export default {
     },
 
     // 查看心愿
-    lookWish() {
-      this.showWish = "block";
+    lookWish($event) {
+      if ($event.target.tagName === "LI") {
+        $event.target.children[0].style.display = "block";
+      }
     },
     // 关闭心愿
     closeWish($event) {
-      if (
-        $event.target.className === "wishTreeBox" ||
-        $event.target.className === "tree"
-      ) {
-        this.showWish = "none";
+      if ($event.target.tagName === "SPAN") {
+        $event.path[1].style.display = "none";
       }
     },
-    gotome(){
+    gotome() {
       this.$router.push({ name: "me" });
     }
   },
 
-  mounted() {},
+  filters: {
+    // 愿望类型转换
+    wishType: function(value) {
+      let dreamType = null;
+      switch (Number(value)) {
+        case 1:
+          dreamType = "公开";
+          break;
+        case 2:
+          dreamType = "付费可见";
+          break;
+        case 3:
+          dreamType = "送能量可见";
+          break;
+      }
+      return dreamType;
+    },
+    // 签到标记转换
+    signType: function(value){
+      switch(Number(value)){
+        case 0: return false;break;
+        case 1: return true; break;
+      }
+    }
+  },
 
-  components: {
-    RinkList
-  }
+  components: { RinkList }
 };
 </script>
 
@@ -171,7 +240,7 @@ export default {
 .info .energyLogo {
   float: left;
   width: 23px;
-  height: 23px;
+  height: 30px;
   background: url("/img/wish.png");
   background-size: 100%;
   margin-right: 5px;
@@ -217,17 +286,75 @@ export default {
   background: url("/img/wishlabel.png");
   background-size: 100%;
 }
-.wishTreeBox .tree .myWish-1{
-      left: 194px;
+/* 愿望标签 */
+.wishTreeBox .tree .myWish-0 {
+  left: 194px;
   top: 120px;
 }
-.wishTreeBox .tree .myWish-2{
-      left: 154px;
+.wishTreeBox .tree .myWish-1 {
+  left: 154px;
   top: 131px;
 }
-.wishTreeBox .tree .myWish-3{
-      left: 54px;
+.wishTreeBox .tree .myWish-2 {
+  left: 54px;
   top: 120px;
+}
+/* 查看我的心愿的内容 */
+.wishContent {
+  width: 242px;
+  height: 178px;
+  padding: 40px 20px 0;
+  background: url("/img/mywish.png");
+  background-size: 100%;
+  z-index: 99999;
+  position: absolute;
+  display: none;
+}
+.wishContent > span {
+  display: block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 25px;
+  position: absolute;
+  right: 10px;
+  top: 20px;
+}
+.wishContent-0 {
+  left: -180px;
+  top: -150px;
+}
+.wishContent-1 {
+  left: -140px;
+  top: -160px;
+}
+.wishContent-2 {
+  left: -40px;
+  top: -150px;
+}
+.text {
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: #fe8236;
+  text-align: justify;
+}
+.type {
+  width: 60px;
+  padding: 3px;
+  height: 18px;
+  border: 1px solid #fe8236;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 20px;
+  left: 112px;
+  text-align: center;
+  line-height: 18px;
+  color: #fe8236;
+  font-size: 12px;
 }
 /* 签到、许愿、记日记 */
 .wishTreeBox .btnWrap {
@@ -246,6 +373,7 @@ export default {
   display: inline-block;
   width: 64px;
   height: 100%;
+  border: none;
 }
 .wishing {
   background: url("/img/wishing.png");
@@ -263,7 +391,6 @@ export default {
   left: 0;
   top: 0;
   background: rgba(0, 0, 0, 0.3);
-  /* display: none; */
 }
 /* 签到内容 */
 .signSucceed .signContent {
@@ -308,41 +435,5 @@ export default {
   margin-left: -18px;
   bottom: 140px;
   text-align: center;
-}
-/* 查看我的心愿 */
-.wishContent {
-  width: 242px;
-  height: 178px;
-  padding: 40px 20px 0;
-  background: url("/img/mywish.png");
-  background-size: 100%;
-  position: absolute;
-  margin: auto;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
-.text {
-  position: absolute;
-  top: 40px;
-  left: 20px;
-  font-size: 16px;
-  letter-spacing: 1px;
-  color: #fe8236;
-  text-align: justify;
-}
-.type {
-  width: 56px;
-  height: 18px;
-  border: 1px solid #fe8236;
-  border-radius: 5px;
-  position: absolute;
-  bottom: 20px;
-  left: 112px;
-  text-align: center;
-  line-height: 18px;
-  color: #fe8236;
-  font-size: 12px;
 }
 </style>

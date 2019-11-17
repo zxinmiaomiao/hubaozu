@@ -5,7 +5,7 @@ import store from './store'
 import 'amfe-flexible'
 
 
-import { Popup , Uploader , DatetimePicker,RadioGroup, Radio,Picker, Swipe, SwipeItem, } from 'vant';
+import { Popup, Uploader, DatetimePicker, RadioGroup, Radio, Picker, Swipe, SwipeItem, Dialog } from 'vant';
 import 'vant/lib/uploader/style';
 import 'vant/lib/picker/style'
 import 'vant/lib/uploader/style';
@@ -18,9 +18,8 @@ Vue.use(RadioGroup);
 Vue.use(Radio);
 Vue.use(Picker);
 Vue.use(Swipe).use(SwipeItem);
+Vue.use(Dialog);
 Vue.config.productionTip = false
-
-
 
 new Vue({
     router,

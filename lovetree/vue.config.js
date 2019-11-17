@@ -5,11 +5,12 @@ module.exports = {
     publicPath: './',
     devServer: {
         proxy: {
-            '/waws': {
-                target: 'http://localhost:7000',
+            '/dream': {
+                target: 'http://116.62.38.0:8888',
                 ws: true,
                 changeOrigin: true
-            }
+            },
+            
         }
     },
     css: {

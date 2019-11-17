@@ -33,11 +33,11 @@ import Culture from '../components/feature/Culture.vue'
 import Red from '../components/feature/Red.vue'
 import Special from '../components/feature/Special.vue'
 import Writewish from '../components/wishpage/Writewish.vue'
-
-import personInfo from '../components/personCenter/PersonInfo'
+import personInfo from '../components/personCenter/PersonInfo'  // 个人信息修改
 import wishingread from '../components/sharewish/wishingread'
 import wishinglook from '../components/sharewish/wishinglook'
 import achievement from '../components/log/achievement'
+import FriendTree from '../components/wishpage/FriendTree'  // 好友的树
 Vue.use(VueRouter)
 
 const routes = [
@@ -108,12 +108,13 @@ const routes = [
         name: 'give',
         component: give
     },
-    // wishTree首页路径
+    // wishTree许愿树首页路径
     {
         path: '/wishtree',
         name: 'wishTree',
         component: Wish,
     },
+    // 个人信息修改页
     {
         path: '/myinfo',
         name: 'myinfo',
@@ -277,6 +278,7 @@ const routes = [
         component: () =>
             import('../components/feature/agreeOn.vue')
     },
+    // 写心愿页面
     {
         path: '/writewish',
         name: 'writewish',
@@ -330,6 +332,12 @@ const routes = [
         path:'/wishinglook',
         name:'wishinglook',
         component:wishinglook
+    },
+    // 好友许愿树
+    {
+        path:'/friendtree',
+        name:'friendtree',
+        component:FriendTree,
     }
 
 

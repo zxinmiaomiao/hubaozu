@@ -1,67 +1,68 @@
 <template>
   <div id="myInfo">
     <div class="title">
-      <router-link :to="{name:'login'}"><span class="iconfont icon-arrow-left"></span></router-link>
+      <router-link :to="{name:'login'}">
+        <span class="iconfont icon-arrow-left"></span>
+      </router-link>
       <h6>个人信息</h6>
     </div>
+    <!-- 头像显示栏 -->
     <div class="changePhoto" is-link @click="photo()">
       <span>头像</span>
       <div class="pic">
-        <img src alt />
+        <img :src="picUrl" />
         <span class="rightArr iconfont icon-arrow-right"></span>
       </div>
     </div>
     <ul class="info">
-      <li>
-        <span>ID</span>
-        <em class="userId">12345789</em>
-      </li>
+      <!-- 昵称显示栏 -->
       <li is-link @click="changeName()">
         <span>昵称</span>
         <div class="name">
-          <em class="userName">{{user.currentName}}</em>
+          <em class="userName">{{currentName}}</em>
           <span class="rightArr iconfont icon-arrow-right"></span>
         </div>
       </li>
       <li>
         <span>手机号</span>
-        <em class="phone">12345789</em>
+        <em class="phone">{{phone}}</em>
       </li>
+      <!-- 性别显示栏 -->
       <li is-link @click="showsex">
         <span>性别</span>
         <div class="sex">
-          <em>{{user.sex}}</em>
+          <em>{{sex|sexFormat()}}</em>
           <span class="rightArr iconfont icon-arrow-right"></span>
         </div>
       </li>
+      <!-- 生日显示栏 -->
       <li is-link @click="showdate">
         <span>生日</span>
         <div class="birth">
-          <em>{{user.changeDate | dateFormat()}}</em>
+          <em ref="time">{{currentDate}}</em>
           <span class="rightArr iconfont icon-arrow-right"></span>
         </div>
       </li>
     </ul>
-    <button class="exit" >确认修改</button>
-    <router-link to="/#" class="exit">退出登录</router-link>
+    <button class="exit" @click="confirm()">确认修改</button>
+    <router-link :to="{name:'logining'}" class="exit" @click="quit()">退出登录</router-link>
 
-
-
-    <!-- 上传头像 -->
-    <van-popup  v-model="showphoto" class="selectphoto">
+    <!-- 上传头像弹窗 -->
+    <van-popup v-model="showphoto" class="selectphoto">
       <h5>请选择图片来源</h5>
       <van-uploader :after-read="onRead">
         <button class="album">相册</button>
       </van-uploader>
       <div class="btn">
         <button class="no" @click="qx()">取消</button>
-        <button class="yes" @click="qr()">确认</button>
+        <button class="yes" @click="qx()">确认</button>
       </div>
     </van-popup>
-    <!-- 日期 -->
+
+    <!-- 日期修改弹窗 -->
     <van-popup v-model="showDate" position="bottom" :style="{ height: '40%' }">
       <van-datetime-picker
-        v-model="currentDate"
+        v-model="changeDate"
         type="date"
         :min-date="minDate"
         title="选择日期"
@@ -70,24 +71,24 @@
       />
     </van-popup>
 
-    <!-- 性别 -->
+    <!-- 修改性别弹窗 -->
     <van-popup v-model="showSex" class="selectSex">
       <h5>请选择性别</h5>
       <p>
         <label for="m">男</label>
-        <input type="radio" name="sex" value="男" id="m" v-model="user.sex" @click="changeSex" />
+        <input type="radio" name="sex" value="1" id="m" v-model="sex" @click="changeSex" />
       </p>
       <p>
         <label for="w">女</label>
-        <input type="radio" name="sex" value="女" id="w" v-model="user.sex" @click="changeSex" />
+        <input type="radio" name="sex" value="2" id="w" v-model="sex" @click="changeSex" />
       </p>
       <p>
         <label for="s">保密</label>
-        <input type="radio" name="sex" value="保密" id="s" v-model="user.sex" @click="changeSex" />
+        <input type="radio" name="sex" value="3" id="s" v-model="sex" @click="changeSex" />
       </p>
     </van-popup>
 
-    <!-- 修改昵称 -->
+    <!-- 修改昵称弹窗 -->
     <van-popup v-model="showName" class="changeNm">
       <h5>设置用户名</h5>
       <p>
@@ -102,30 +103,36 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "personInfo",
 
   data() {
     return {
-      user: {
-        changeDate: new Date(),
-        sex: "保密",
-        currentName: "123"
-      },
-      picUrl:'',
+      userId: "",
+      currentDate: this.$store.state.changeInfo.userInfo.userBirthday,
+      sex: this.$store.state.changeInfo.userInfo.userSex,
+      currentName: this.$store.state.changeInfo.userInfo.userName,
+      picUrl: this.$store.state.changeInfo.userInfo.userImage,
+      phone: this.$store.state.changeInfo.userInfo.userPhone,
       afterName: "",
-      currentDate: new Date(),
+      changeDate: new Date(),
       minDate: new Date(1900, 0, 1),
       showDate: false,
       showSex: false,
       showName: false,
-      showphoto: false,
+      showphoto: false
     };
+  },
+
+  async mounted() {
+    this.userId = sessionStorage.getItem("userId");
+    await this.$store.dispatch("changeInfo/getInfo", this.userId);
   },
 
   methods: {
     // 返回上一页
-    back(){
+    back() {
       this.$router.go(-1);
     },
     // 打开时间弹窗
@@ -134,7 +141,10 @@ export default {
     },
     // 确认修改时间
     sureDate(value) {
-      this.user.changeDate = value;
+      let year = value.getFullYear();
+      let month = value.getMonth() + 1;
+      let date = value.getDate();
+      this.currentDate = year + "-" + month + "-" + date;
       this.showDate = false;
     },
     // 取消修改时间
@@ -157,50 +167,103 @@ export default {
     deselect() {
       this.showName = false;
     },
-    // 确认修改
+    // 确认修改昵称
     ensure() {
+      let reg = /^(?!\d)([\da-zA-Z]|[\u4e00-\u9fa5])+$/;
       if (this.afterName !== "") {
-        this.user.currentName = this.afterName;
-        this.afterName = "";
-        this.showName = false;
+        if (this.afterName.length < 7 && this.afterName.length > 1) {
+          if (reg.test(this.afterName)) {
+            this.currentName = this.afterName;
+            this.showName = false;
+            this.afterName = "";
+          } else {
+            this.$dialog.alert({
+              message: "用户名不能纯数字或者以数字开头"
+            });
+          }
+        } else {
+          this.$dialog.alert({
+            message: "请输入2-6位用户名"
+          });
+        }
+      } else {
+        this.$dialog.alert({
+          message: "用户名不能为空"
+        });
       }
     },
     // 打开更换头像
-    photo(){
+    photo() {
       this.showphoto = true;
     },
-    // 取消修改
-    qx(){
+    // 取消/确认修改头像
+    qx() {
       this.showphoto = false;
     },
-    // 确认修改
-    qr(){
-      this.showphoto =false;
-    },
-    onRead(file) {
+    async onRead(file) {
       let params = new FormData(); //创建form对象
       params.append("file", file.file); //通过append向form对象添加数据//第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
       let config = {
-        headers: { //添加请求头
+        headers: {
+          //添加请求头
           "Content-Type": "multipart/form-data"
         }
       };
-     let url = "";
-      axios.post(url, params, config).then(res => {
+      let url = "user/portrait";
+      await axios
+        .post(url, params, config)
+        .then(res => {
           console.log(res); // 获得后端url
-        }).catch(err => {
-          console.log(err)
+          this.picUrl = res;
+        })
+        .catch(err => {
+          console.log(err);
         });
     },
+
+    // 确认保存所有修改信息
+    confirm() {
+      let time = this.$refs.time.innerHTML;
+      console.log({
+        name: this.currentName,
+        birth: time,
+        sex: this.sex,
+        pic: this.picUrl
+      });
+      axios
+        .post("user/usernewinfo", {
+          userId: this.userId,
+          userName: this.currentName,
+          userBirthday: time,
+          userSex: this.sex,
+          userImage: this.picUrl
+        })
+        .then(result => {
+          if (result.success) {
+            this.$dialog.alert({
+              message: "修改成功"
+            });
+          }
+        });
+    },
+    quit(){
+      sessionStorage.clear();
+    }
   },
 
   filters: {
-    //   格式化日期
-    dateFormat: function(value) {
-      let year = value.getFullYear();
-      let month = value.getMonth() + 1;
-      let date = value.getDate();
-      return year + "-" + month + "-" + date;
+    sexFormat: function(value) {
+      switch (Number(value)) {
+        case 1:
+          return "男";
+          break;
+        case 2:
+          return "女";
+          break;
+        case 3:
+          return "未知";
+          break;
+      }
     }
   }
 };
@@ -276,12 +339,11 @@ export default {
 .info > li > span {
   color: #000;
   font-size: 16px;
-
 }
-.info > li >div{
+.info > li > div {
   display: flex;
   justify-content: center;
-  align-items: center
+  align-items: center;
 }
 .info li em {
   display: inline-block;
@@ -311,7 +373,7 @@ export default {
 }
 .selectSex > h5,
 .changeNm > h5,
-.selectphoto>h5 {
+.selectphoto > h5 {
   font-size: 18px;
   font-weight: 500;
 }
@@ -330,21 +392,21 @@ export default {
   border-bottom: 2px solid orange;
   font-size: 14px;
 }
- .btn {
+.btn {
   font-size: 12px;
   margin-top: 40px;
   text-align: right;
 }
- .btn > button {
+.btn > button {
   border: none;
   background: #fff;
   color: orange;
 }
- .btn .no {
+.btn .no {
   margin-right: 40px;
 }
 /* 选择相册按钮 */
-.album{
+.album {
   display: block;
   width: 300px;
   margin-top: 30px;
@@ -353,5 +415,4 @@ export default {
   background: #fff;
   font-size: 18px;
 }
-
 </style>

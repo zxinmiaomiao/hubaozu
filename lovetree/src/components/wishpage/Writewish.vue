@@ -11,7 +11,8 @@
       </p>
       <!-- 文本框 -->
       <div class="content">
-        <textarea placeholder="写下我的心愿，90字以内"></textarea>
+        <textarea placeholder="写下我的心愿，90字以内" v-model="wishContent" @input="words()"></textarea>
+        <span>{{textNum}}/90</span>
       </div>
       <!-- 权限 -->
       <p class="subTitle">
@@ -46,20 +47,22 @@
       <button class="confirm" is-link @click="succeed"></button>
 
       <!-- 保存成功 -->
-      <van-popup v-model="showSave" class='shadow'>
-        <div class='savewish'>
-          <button class="share"></button>
-        </div>
+      <van-popup v-model="showSave" class="shadow">
+        <div class="savewish"></div>
       </van-popup>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
+      textNum: 0,
+      wishContent: "",
       limit: "",
+      userId: "",
       tips: "",
       money: "",
       energy: "",
@@ -68,33 +71,128 @@ export default {
       showSave: false
     };
   },
+
+  mounted() {
+    this.userId = sessionStorage.getItem("userId");
+  },
+
   methods: {
+    // 返回前一页
     back() {
       this.$router.go(-1);
     },
+    // 权限设置选择
     select() {
       switch (Number(this.limit)) {
         case 0:
           this.tips = "*完成后，任何人能查看到愿望";
           this.showM = "none";
           this.showE = "none";
+          this.money = "";
+          this.energy = "";
           break;
         case 1:
           this.tips =
             "*分享后好友需要支付设置金额才能查看愿望，支付的金额将返回至您的余额";
           this.showM = "block";
           this.showE = "none";
+          this.energy = "";
           break;
         case 2:
           this.tips = "*好友送设置的能量后能查看愿望，能量将累计至您的能量账户";
           this.showE = "block";
           this.showM = "none";
+          this.money = "";
           break;
       }
     },
-
-    succeed() {
-      this.showSave = true;
+    // 计算字数
+    words() {
+      this.textNum = this.wishContent.length;
+    },
+    // 成功提交
+    async succeed() {
+      if (this.wishContent !== "" && this.limit !== "") {
+        if (this.textNum <= 90) {
+          switch (Number(this.limit)) {
+            case 0:
+              {
+                await axios
+                  .post("/dream/wishing", {
+                    wishType: this.limit,
+                    wishContent: this.wishContent,
+                    userId: this.userid
+                  })
+                  .then(res => {
+                    if (res) {
+                      this.showSave = true;
+                      wishContent = "";
+                      limit = "";
+                    }
+                  });
+              }
+              break;
+            case 1:
+              {
+                if (this.money === "") {
+                  this.$dialog.alert({
+                    message: "请输入金额"
+                  });
+                } else {
+                  await axios
+                    .post("/dream/wishing", {
+                      wishType: this.limit,
+                      wishContent: this.wishContent,
+                      userId: this.userid,
+                      price: this.money
+                    })
+                    .then(res => {
+                      if (res) {
+                        this.showSave = true;
+                        this.wishContent = "";
+                        this.limit = "";
+                        this.money = "";
+                      }
+                    });
+                }
+              }
+              break;
+            case 2:
+              {
+                if (this.energy === "") {
+                  this.$dialog.alert({
+                    message: "请输入能量"
+                  });
+                } else {
+                  await axios
+                    .post("/dream/wishing", {
+                      wishType: this.limit,
+                      wishContent: this.wishContent,
+                      userId: this.userid,
+                      price: this.energy
+                    })
+                    .then(res => {
+                      if (res) {
+                        this.showSave = true;
+                        this.wishContent = "";
+                        this.limit = "";
+                        this.energy = "";
+                      }
+                    });
+                }
+              }
+              break;
+          }
+        } else {
+          this.$dialog.alert({
+            message: "超过限制字数"
+          });
+        }
+      } else {
+        this.$dialog.alert({
+          message: "内容或者权限设置不能为空"
+        });
+      }
     }
   }
 };
@@ -152,6 +250,14 @@ export default {
   padding: 30px;
   height: 98px;
   margin: 20px 0 25px;
+  position: relative;
+}
+.content > span {
+  font-size: 14px;
+  color: #000;
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
 }
 .content > textarea {
   width: 100%;
@@ -212,9 +318,9 @@ export default {
   bottom: 50px;
 }
 /* 保存成功 */
-.shadow{
-    width: 300px;
-    height: 400px;
+.shadow {
+  width: 300px;
+  height: 400px;
 }
 .savewish {
   position: absolute;
@@ -223,16 +329,5 @@ export default {
   background: url("/img/savewish.png");
   background-size: 100%;
 }
-.share {
-  width: 219px;
-  height: 48px;
-  position: absolute;
-  left: 50px;
-  bottom: 10px;
-  background: url("/img/share.png");
-  border: none;
-  background-size: 100%;
-}
-
 </style>
 
