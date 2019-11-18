@@ -197,7 +197,7 @@ export default {
     };
   },
   mounted() {
-    axios.post("/waws/homepage/queryData").then(res => {
+    axios.post("/homepage/queryData").then(res => {
       this.ul_wrap = res.data.data;
     });
     window.sessionStorage.setItem('userId','w63234')

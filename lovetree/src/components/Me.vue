@@ -14,29 +14,29 @@
           <div class="photo_wrap">
             <img src="photo" alt />
           </div>
-          <span class="username">11</span>
+          <span class="username">{{ $store.state.me.self.userName }}</span>
         </div>
       </div>
       <div class="tree">
         <div class="my_energy" @click="details">
           <p class="energy">我的能量</p>
-          <p class="num">1</p>
+          <p class="num">{{ $store.state.me.self.userEnergy }}</p>
         </div>
         <div class="line"></div>
         <div class="my_trees" @click="tree_details">
           <p class="trees">我的树</p>
-          <p class="num">1</p>
+          <p class="num">{{ $store.state.me.self.userTreenum }}</p>
         </div>
       </div>
       <div class="signed">
         <img class="singedlogo" src="/img/singedlogo.jpg" alt />
         <span class="signedsum">
           累计签到
-          <b class="count">1</b>天
+          <b class="count">{{ $store.state.me.self.daynum }}</b>天
         </span>
         <span class="energysum">
           获得
-          <b class="count">1</b>个能量
+          <b class="count">{{ $store.state.me.self.daynum }}</b>个能量
         </span>
       </div>
     </template>
@@ -45,14 +45,14 @@
       <ul>
         <li class="energy_list" v-for="item of $store.state.me.energylist">
           <div class="energy_logo">
-            <img :src="item.img" alt />
+            <img :src=" $store.state.me.self.userImage " alt />
           </div>
-          <span class="signedto">{{ item.way }}</span>
+          <span class="signedto">{{ item.type }}</span>
           <div class="infor">
             <template>
-              <span class="amount">{{ item.sum }}能量</span>
+              <p class="amount">{{ item.energyNum }}能量</p>
             </template>
-            <span class="time">{{ item.time }}</span>
+            <p class="time">{{ item.createTime }}</p>
           </div>
         </li>
       </ul>
@@ -61,9 +61,9 @@
     <template v-if="$store.state.me.detail==2">
       <div class="personalinfo">
         <div class="touxiang">
-          <img src alt />
+          <img :src=" $store.state.me.self.userImage " alt />
         </div>
-        <p class="name">1</p>
+        <p class="name">{{ $store.state.me.self.userName }}</p>
         <p class="chengjiu">已累计认养了0颗树，消耗碳0.00吨</p>
       </div>
       <div class="tree_nav">
@@ -140,11 +140,14 @@ export default {
     ];
     return {
       treekindarr: arr,
-      nowseled: arr[0]
+      nowseled: arr[0],
+      // username : this.$store.state.me.self[0].data.userName
     };
   },
   
   mounted(){
+    // 挂载时请求个人信息
+    this.$store.dispatch('me/getselfinfo',window.sessionStorage.getItem('userId'))
     // 挂载时请求认养记录数据
     // 生态公益林认养
     this.$store.dispatch('me/getecology',3)
@@ -266,6 +269,7 @@ export default {
   border-top: 1px solid #ccc;
   display: flex;
   align-items: center;
+  position: relative;
 }
 .energy_logo {
   width: 38px;
@@ -280,12 +284,16 @@ export default {
 }
 .infor {
   width: 90px;
-  height: 38px;
-  margin-left: 170px;
+  height: 50px;
+  position: absolute;
+  right: 0px;
+  /* margin-left: 150px; */
+  /* display: flex; */
+  /* align-items: center; */
 }
 .amount,
 .time {
-  float: right;
+  /* float: right; */
   font-size: 14px;
 }
 /* 我的树 */

@@ -13,12 +13,12 @@
       <span @click="cleartext" class="cleartext">X</span>
     </div>
     <ul v-if="flag">
-      <li :key="item.name" v-for="item of list" @click="find">
+      <li :key="item.data[0].userName" v-for="item of list" >
         <div class="block">
-          <img :src="item.img" alt />
+          <img :src="item.data[0].userImage" alt />
         </div>
-        <span class="nickname">{{ item.name }}</span>
-        <span class="ph">{{ item.phonenumber }}</span>
+        <span class="nickname">{{ item.data[0].userName }}</span>
+        <span class="ph">{{ item.data[0].userPhone }}</span>
         <span class="goto">&gt;</span>
       </li>
     </ul>
@@ -42,26 +42,25 @@ export default {
       this.$refs.text.value = "";
       this.flag = false;
     },
-    search() {
+    async search() {
       this.flag = true;
-      axios
-        .post("/waws/wish/find/friends", {
+      await axios
+        .post("/dream/friends", {
           data: { queryUser: this.$refs.text.value }
         })
         .then(response => {
           this.list = response.data;
+          // console.log(this.list)
           for (let i of this.list) {
-            i.phonenumber = i.phonenumber.replace(
+            console.log(i.data[0].userId)
+            i.data[0].userPhone = i.data[0].userPhone.replace(
               /^(\d{3})\d*(\d{4})$/g,
               "$1****$2"
             );
           }
         });
     },
-    find() {
-      this.$router.go(-1);
-      // 发请求
-    }
+    
   }
 };
 </script>

@@ -5,8 +5,9 @@ export default {
     state: {
         detail: 0,
         energylist: [],
-        loginstatus:false,
-        treearr:[]
+        loginstatus: false,
+        treearr: [],
+        self: ''
     },
     mutations: {
         details(state, status) {
@@ -19,12 +20,15 @@ export default {
             state.detail = status
 
         },
-        changeme(state,loginstatus) {
+        changeme(state, loginstatus) {
             state.detail = 2;
-            state.loginstatus=loginstatus
+            state.loginstatus = loginstatus
         },
-        getecology(state,arr){
+        getecology(state, arr) {
             state.treearr = arr;
+        },
+        getselfinfo(state, obj) {
+            state.self = obj;
         }
     },
     actions: {
@@ -33,8 +37,36 @@ export default {
         },
         async getlist(context) {
 
-            let res = await axios.post('/waws/wish/me/energy')
-            context.commit('getlist', res.data)
+            let res = await axios.post('/dream/energy/list')
+            for (let i of res.data[0].data) {
+                if(i.energyNum>0){
+                    switch (i.type) {
+                    case 1:
+                        i.type = '签到';
+                        break;
+                    case 2:
+                        i.type = '买树';
+                        break;
+                    case 3:
+                        i.type = '好友心愿查看';
+                        break;
+                    }
+                }
+                else{
+                    switch (i.type) {
+                        case 1:
+                            i.type = '查看心愿';
+                            break;
+                        case 2:
+                            i.type = '许愿';
+                            break;
+                        }
+                }
+                i.createTime=i.createTime.slice(0,10)
+            }
+            console.log(res.data[0].data)
+            context.commit('getlist', res.data[0].data)
+
         },
         treedetails(context, num) {
             context.commit('treedetails', num)
@@ -42,9 +74,14 @@ export default {
         changeme(context, loginstatus) {
             context.commit('changeme', loginstatus)
         },
-        async getecology(context,treetypenumber){
-            let res = await axios.post('/waws/order/queryOrder',{userId:window.sessionStorage.getItem('userId'),treeTypeId:treetypenumber})
-            context.commit('getecology',res.data)
+        async getecology(context, treetypenumber) {
+            let res = await axios.post('/order/queryOrder', { userId: window.sessionStorage.getItem('userId'), treeTypeId: treetypenumber })
+            context.commit('getecology', res.data)
+        },
+        async getselfinfo(context, selfid) {
+            let res = await axios.get(`/dream/me?userId=${selfid}`)
+            
+            context.commit('getselfinfo', res.data[0].data)
         }
     },
     modules: {
