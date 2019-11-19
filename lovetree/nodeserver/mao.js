@@ -112,54 +112,54 @@ app.get('/homepage/treetype', function (req, res) {
 });
 app.get('/treedetail', function (req, res) {
     console.log(req.query.treeId)
-        res.send({
-            'success': true,
-            "message": "成功",
-            "code": 200,
-            "data": {
-                "tree_id": "1234",
-                "tree_name": "杉树",
-                "tree_price": "999",
-                "tree_age": "20",
-                "tree_type_id": 1,
-                "tree_publisher": "安徽省九华镇人民政府",
-                "tree_detail_img": "dfghj.png",
-                "tree_detail_desc": "XXXXXXXXXXXXXXXXXXXXXXXXXXX"
-            }
-        },
-        )
+    res.send({
+        'success': true,
+        "message": "成功",
+        "code": 200,
+        "data": {
+            "tree_id": "1234",
+            "tree_name": "杉树",
+            "tree_price": "999",
+            "tree_age": "20",
+            "tree_type_id": 1,
+            "tree_publisher": "安徽省九华镇人民政府",
+            "tree_detail_img": "dfghj.png",
+            "tree_detail_desc": "XXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        }
+    },
+    )
 });
 app.get('/order/sureOrder', function (req, res) {
     console.log(req.query.treeId)
-  
-        res.send({
-            "success": true,
-            "message": null,
-            "data": {
-                "treeId": 1,
-                "treeName": "金钱松",
-                "treePrice": 99,
-                "treeTypeId": 3,
-                "tree_thumbnail": "http://img.timewoods.com/news_1904161928500000.png",
-                "tree_publisher": "安徽人民政府",
-                "tree_age": 300
-            }
 
-        },
-        )
-    
+    res.send({
+        "success": true,
+        "message": null,
+        "data": {
+            "treeId": 1,
+            "treeName": "金钱松",
+            "treePrice": 99,
+            "treeTypeId": 3,
+            "tree_thumbnail": "http://img.timewoods.com/news_1904161928500000.png",
+            "tree_publisher": "安徽人民政府",
+            "tree_age": 300
+        }
+
+    },
+    )
+
 
 });
 app.get('/order/treeOrder', function (req, res) {
-        res.send({
-            "success": true,
-            "message": "下单成功",
-            "Code": 201,
-            "data": {
+    res.send({
+        "success": true,
+        "message": "下单成功",
+        "Code": 201,
+        "data": {
 
-            }
-        },
-        )
+        }
+    },
+    )
 
 });
 //以上  是全的部分
@@ -294,55 +294,97 @@ app.get("/user/balance", function (req, res) {
     }])
 
 });
-app.post('/waws/wish/find/friends', function (req, res) {
+// 好友查找
+app.post('/dream/friends', function (req, res) {
     res.send([
+
         {
-            img: '123',
-            name: 'zhangsan',
-            phonenumber: '13111112121'
+            message: "成功",
+            code: 200,
+            success: true,
+            data: [
+                {
+                    userId: "10025",
+                    userName: "w945312",
+                    userImage: "1904161928500000.png",
+                    userPhone: "17612341627",
+                }
+            ]
         },
         {
-            img: '1234',
-            name: 'lisi',
-            phonenumber: '18885347769'
-        }
+            message: "成功",
+            code: 200,
+            success: true,
+            data: [
+                {
+                    userId: "10026",
+                    userName: "w945313",
+                    userImage: "1904161928500000.png",
+                    userPhone: "17612341628",
+                }
+            ]
+        },
+
     ]
     )
 });
-app.post('/waws/wish/me/energy', function (req, res) {
+// 个人信息查询
+app.get('/dream/me', function (req, res) {
     res.send([
         {
-            img: '123',
-            way: '签到',
-            sum: '+1',
-            time: '2019-01-01'
-        },
-        {
-            img: '1235',
-            way: '许愿',
-            sum: '-11',
-            time: '2019-01-02'
+            success: true,
+            message: "成功",
+            code: 200,
+            data: {
+                userId: 1861,
+                userName: "哈哈哈",
+                userImage: 'ghjkhgfghjk.png',
+                userPhone: '17825151515',
+                userSex: 1,
+                userBirthday: "1996-04-21 14:57:39",
+                userMoney: 300,
+                userEnergy: 21,
+                userTreenum: 15,
+                userCreatetime: "2019-04-21 14:57:39",
+                daynum: 12
+            }
         }
+
     ]
     )
 });
-app.post('/waws/wish/me/energy', function (req, res) {
+// 个人能量查询
+app.post('/dream/energy/list', function (req, res) {
     res.send([
+        // {
+        //     img: '123',
+        //     way: '签到',
+        //     sum: '+1',
+        //     time: '2019-01-01'
+        // },
         {
-            img: '123',
-            way: '签到',
-            sum: '+1',
-            time: '2019-01-01'
-        },
-        {
-            img: '1235',
-            way: '许愿',
-            sum: '-11',
-            time: '2019-01-02'
+            message: "成功",
+            success: true,
+            code: 200,
+            data: [
+                {
+                    type: 1,
+                    energyNum: -2,
+                    createTime: '2019-04-21 14:57:39',
+                },
+                {
+                    type: 2,
+                    energyNum: 2,
+                    createTime: "2019-05-21 14:57:39",
+                }
+            
+            ]
         }
+            
     ]
-    )
+)
 });
+// 能否许愿状态查询
 app.post('/waws/wish/status', function (req, res) {
     res.send(
         {
@@ -352,7 +394,7 @@ app.post('/waws/wish/status', function (req, res) {
 
     )
 });
-app.post('/waws/homepage/queryData', function (req, res) {
+app.post('/homepage/queryData', function (req, res) {
     res.send(
         {
             "success": true,
@@ -402,7 +444,7 @@ app.post('/waws/homepage/queryData', function (req, res) {
 
     )
 });
-app.post('/waws/order/queryOrder', function (req, res) {
+app.post('/order/queryOrder', function (req, res) {
     res.send(
         {
             success: true,
