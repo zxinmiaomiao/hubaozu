@@ -12,7 +12,7 @@
       <div class="bg">
         <div class="info">
           <div class="photo_wrap">
-            <img src="photo" alt />
+            <img :src="$store.state.me.self.userImage|imgFomate()" alt />
           </div>
           <span class="username">{{ $store.state.me.self.userName }}</span>
         </div>
@@ -44,9 +44,9 @@
     <!-- 我的能量 -->
     <template v-if="$store.state.me.detail==1">
       <ul>
-        <li class="energy_list" v-for="item of $store.state.me.energylist">
+        <li class="energy_list" :key="index" v-for="(item,index) of $store.state.me.energylist">
           <div class="energy_logo">
-            <img :src=" $store.state.me.self.userImage " alt />
+            <img :src="$store.state.me.self.userImage|imgFomate() " alt />
           </div>
           <span class="signedto">{{ item.type }}</span>
           <div class="infor">
@@ -62,7 +62,7 @@
     <template v-if="$store.state.me.detail==2">
       <div class="personalinfo">
         <div class="touxiang">
-          <img :src=" $store.state.me.self.userImage " alt />
+          <img :src=" $store.state.me.self.userImage|imgFomate() " alt />
         </div>
         <p class="name">{{ $store.state.me.self.userName }}</p>
         <p class="chengjiu">已累计认养了0颗树，消耗碳0.00吨</p>
@@ -74,8 +74,7 @@
             :class="[{active:nowseled==one}]"
             @click="select(one)"
             v-for="one of treekindarr"
-          >{{one.title}}
-          </li>
+          >{{one.title}}</li>
         </ul>
       </div>
       <div class="kind">
@@ -88,13 +87,12 @@
         <ul class="datainfo">
           <template v-if="$store.state.me.treearr">
             <li :key="one.orderId" v-for="one of $store.state.me.treearr">
-                        <span>{{ one.orderCode }}</span>
-                        <span>{{ one.treeName }}</span>
-                        <span>{{ one.orderTreenum }}</span>
-                        <span>{{ one.orderAccount }}</span>
-                        </li>
+              <span>{{ one.orderCode }}</span>
+              <span>{{ one.treeName }}</span>
+              <span>{{ one.orderTreenum }}</span>
+              <span>{{ one.orderAccount }}</span>
+            </li>
           </template>
-          
         </ul>
       </div>
     </template>
@@ -132,7 +130,7 @@ export default {
     },
     select(one) {
       this.nowseled = one;
-      this.$store.dispatch('me/getecology',one.id)
+      this.$store.dispatch("me/getecology", one.id);
     }
   },
   data() {
@@ -144,16 +142,19 @@ export default {
     ];
     return {
       treekindarr: arr,
-      nowseled: arr[0],
+      nowseled: arr[0]
       // username : this.$store.state.me.self[0].data.userName
     };
   },
-  
-  mounted(){
-      this.$store.dispatch('me/getselfinfo',window.sessionStorage.getItem('userId'))
+
+  mounted() {
+    this.$store.dispatch(
+      "me/getselfinfo",
+      window.sessionStorage.getItem("userId")
+    );
     // 挂载时请求认养记录数据
     // 生态公益林认养
-    this.$store.dispatch('me/getecology',3)
+    this.$store.dispatch("me/getecology", 3);
   }
 };
 </script>
@@ -191,6 +192,7 @@ export default {
   border-radius: 50%;
   background-color: #fff;
   float: left;
+  overflow: hidden;
 }
 .username {
   float: left;
@@ -281,6 +283,7 @@ export default {
   background-color: #ccc;
   margin-right: 15px;
   margin-left: 14.6px;
+  overflow: hidden;
 }
 .signedto {
   font-size: 14px;
@@ -320,6 +323,7 @@ export default {
   float: left;
   margin-top: 22px;
   margin-left: 5px;
+  overflow: hidden;
 }
 .personalinfo .chengjiu {
   float: left;
@@ -344,7 +348,7 @@ export default {
 .kind {
   width: 350px;
   height: 45px;
-  margin: auto; 
+  margin: auto;
 }
 .kind .kindtitle {
   overflow: hidden;
@@ -356,7 +360,6 @@ export default {
   text-align: center;
   height: 100%;
   line-height: 45px;
-
 }
 .kind .datainfo {
   overflow: hidden;

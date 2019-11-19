@@ -6,7 +6,8 @@
       <img src="/img/wishbg.png" alt />
       <div class="wish_top">
         <p class="naver">
-          <span class="back" @click="back">&lt;</span>
+          <span class="iconfont icon-arrow-left  back" @click="back"></span>
+          <!-- <span class="back" @click="back"></span> -->
           <span class="wish">许愿</span>
           <span class="mywishes" @click="gotomywish">我的心愿</span>
         </p>
@@ -14,26 +15,31 @@
     </div>
     <div class="wish_text">
       <!-- 能量够，可许愿状态 -->
-      <template v-if="$store.state.canornotwish.wishstatus">
+      <template v-if="$store.state.canornotwish.wishstatus==0">
         <div class="btn" @click="gotowish()">
           <img src="/img/wishbutton.png" alt />
         </div>
         <p class="wish_status">
-          剩余次数
-          <span class="wish_count">1</span>次
+          赶紧许愿吧
         </p>
       </template>
       <!-- 能量不够不可许愿 -->
-      <template v-if="!$store.state.canornotwish.wishstatus">
+      <template v-if="$store.state.canornotwish.wishstatus==1">
         <div class="btn">
           <img src="/img/cantwishbtn.png" alt />
         </div>
         <p class="wish_status" style="color:red">能量不足,不可许愿</p>
       </template>
-
+      <!-- 许愿次数已达上限 -->
+      <template v-if="$store.state.canornotwish.wishstatus==2">
+        <div class="btn">
+          <img src="/img/cantwishbtn.png" alt />
+        </div>
+        <p class="wish_status" style="color:red">许愿次数已达上限,不可许愿</p>
+      </template>
       <div class="game">
         <p class="rule">活动规则</p>
-        <p class="rule_inner">1.每次消耗2能量，每天最多三次</p>
+        <p class="rule_inner">1.每次消耗2能量,每天最多许愿1次</p>
         <p class="rule_inner">2.愿望可公开、赠送能量、赠送金额可见</p>
       </div>
     </div>

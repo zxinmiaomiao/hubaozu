@@ -5,7 +5,7 @@
       <span class="title">确认订单</span>
     </header>
     <div class="content">
-      <img src="../../../public/img/tree.jpg" />
+      <img :src="orderlist.treeThumbnail|treeImg()" />
       <p class="name">{{orderlist.treeName}}</p>
       <p class="age">树龄：{{orderlist["tree_age"]}}</p>
       <p class="address">{{orderlist["tree_publisher"]}}</p>
@@ -27,7 +27,7 @@
       </li>
       <li>
         <span>代付金额</span>
-        <span class="p1">￥{{orderlist.treePrice*this.value}}</span>
+        <span class="p1">￥{{(orderlist.treePrice*this.value).toFixed(2)}}</span>
       </li>
       <li>
         <span>支付方式</span>
@@ -51,6 +51,7 @@
       </ul>
 
       <div v-if="no" class="paid">支付成功</div>
+      <div v-if="nomoney" class="paid">余额不足，请充值</div>
     </van-popup>
   </div>
 </template>
@@ -66,7 +67,8 @@ export default {
       show: false,
       value: 1,
       ok: true,
-      no: false
+      no: false,
+      nomoney: false
     };
   },
   async mounted() {
@@ -74,10 +76,10 @@ export default {
     await axios
       .get("/order/sureOrder", { params: { treeId: this.$route.query.treeid } })
       .then(result => {
-        //   console.log(result.data);
-        console.log(result);
+      
+  
         this.orderlist = result.data.data;
-        console.log(this.orderlist);
+     
       });
   },
   methods: {
@@ -106,19 +108,26 @@ export default {
           }
         })
         .then(result => {
-          console.log(result.data);
           if (result.data.success === true) {
             setTimeout(function() {
               _this.show = true;
               _this.no = true;
-     
             }, 500);
+            setTimeout(function() {
+              _this.show = false;
+              _this.$router.push({ name: "naver" });
+            }, 2000);
+          } else {
+        
+            setTimeout(function() {
+              _this.show = true;
+              _this.nomoney = true;
+            }, 500);
+            setTimeout(function() {
+              _this.show = false;
+              _this.$router.push("/money");
+            }, 2000);
           }
-          setTimeout(function() {
-            _this.show = false;
-            // this.$router.push({name:'naver'})
-                     _this.$router.push("/Naver");
-          }, 2000);
         });
     },
     cancel() {
@@ -127,12 +136,12 @@ export default {
   },
   computed: {
     detail() {
-      //  console.log(this.$route.query);
+
       return this.$route.query;
     },
     showw() {
       return this.orderlist;
-      console.log(this.orderlist);
+
     }
   }
 };

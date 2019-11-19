@@ -40,7 +40,7 @@
     <div class="ul_wrap">
       <ul class="tree_list">
         <li :key="item.treeId" v-for="item of ul_wrap.popularList" @click="viewdetail(item)">
-          <img :src="item.treeThumbnail" alt />
+          <img :src="item.treeThumbnail|treeImg()" alt />
           <p class="treename">{{item.treeName }}</p>
           <div class="showprice">
             <span class="price">{{item.treePrice }}</span>
@@ -56,7 +56,7 @@
       <p class="title">古树名木认养</p>
       <ul class="oldtree">
         <li :key="item.treeId" v-for="item of ul_wrap.ecologyList" @click="viewdetail(item)">
-          <img :src="item.treeThumbnail" alt />
+          <img :src="item.treeThumbnail|treeImg()" alt />
           <h3 class="tree_name">{{item.treeName }}</h3>
           <p class="tree_age">树龄：{{item.treeAge }}年</p>
           <div class="tree_price">
@@ -70,7 +70,7 @@
       <p class="title">生态公益林认养</p>
       <ul class="oldtree">
         <li :key="item.treeId" v-for="item of ul_wrap.ancientList" @click="viewdetail(item)">
-          <img :src="item.treeThumbnail" alt />
+          <img :src="item.treeThumbnail|treeImg()" alt />
           <h3 class="tree_name">{{item.treeName }}</h3>
           <p class="tree_age">树龄：{{item.treeAge }}年</p>
           <div class="tree_price">
@@ -201,13 +201,15 @@ export default {
 .tree_list {
   white-space: nowrap;
   overflow-x: scroll;
-  background-color: #ccc;
+  /* background-color: #ccc; */
   overflow-x: auto;
+ 
 }
 .tree_list li {
   width: 135px;
   height: 212px;
   display: inline-block;
+   margin-right: 20px;
 }
 .tree_list li img {
   display: inline-block;

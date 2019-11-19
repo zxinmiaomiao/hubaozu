@@ -48,7 +48,10 @@
 
       <!-- 保存成功 -->
       <van-popup v-model="showSave" class="shadow">
-        <div class="savewish"></div>
+        <!-- <div class="savewish">
+
+        </div>-->
+        <router-link to='/wishcomponent' class="savewish"></router-link>
       </van-popup>
     </div>
   </div>
@@ -56,7 +59,7 @@
 
 <script>
 import axios from "axios";
-import qs from 'qs'
+import qs from "qs";
 export default {
   data() {
     return {
@@ -118,15 +121,15 @@ export default {
           switch (Number(this.limit)) {
             case 1:
               {
-                let data ={
-                    wishType: this.limit,
-                    wishContent: this.wishContent,
-                    userId: this.userId,
-                  }
+                let data = {
+                  wishType: this.limit,
+                  wishContent: this.wishContent,
+                  userId: this.userId
+                };
                 await axios
                   .post("/dream/wishing", qs.stringify(data))
                   .then(res => {
-                    console.log(res.data.success)
+               
                     if (res.data.success) {
                       this.showSave = true;
                       this.wishContent = "";
@@ -143,12 +146,12 @@ export default {
                   });
                 } else {
                   let data = {
-                      wishType: this.limit,
-                      wishContent: this.wishContent,
-                      userId: this.userId,
-                      price: this.money
-                    };
-                  console.log(data)
+                    wishType: this.limit,
+                    wishContent: this.wishContent,
+                    userId: this.userId,
+                    price: this.money
+                  };
+           
                   await axios
                     .post("/dream/wishing", qs.stringify(data))
                     .then(res => {
@@ -170,14 +173,14 @@ export default {
                   });
                 } else {
                   let data = {
-                      wishType: this.limit,
-                      wishContent: this.wishContent,
-                      userId: this.userId,
-                      price: this.energy
-                    }
-                  console.log(data)
+                    wishType: this.limit,
+                    wishContent: this.wishContent,
+                    userId: this.userId,
+                    price: this.energy
+                  };
+           
                   await axios
-                    .post("/dream/wishing", qs.stringify(data) )
+                    .post("/dream/wishing", qs.stringify(data))
                     .then(res => {
                       if (res.data.success) {
                         this.showSave = true;

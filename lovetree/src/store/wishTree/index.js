@@ -10,7 +10,7 @@ export default {
         userInfo: {},
 
         dreamList: [],
-        signSucceed:'',
+        signSucceed: '',
 
     },
     mutations: {
@@ -31,7 +31,7 @@ export default {
             }
         },
         // 更新数据
-        upadteWishtree(state,userData) {
+        upadteWishtree(state, userData) {
             state.signFlag = userData.signFlag;
             state.rankList = userData.rankList;
             state.dreamList = userData.dreamList;
@@ -49,15 +49,15 @@ export default {
                 params: { userId: userId }
             }).then((userdata) => {
 
-                console.log(userdata.data.data);
+          
                 commit('initWishtree', userdata.data.data);
             })
         },
         // 发送签到请求
         async signed({ commit }, userId) {
             let data = { userId: userId };
-            await axios.post('/dream/signin',qs.stringify(data)).then(async(result)=>{
-                commit('signTrue',result.data.success)
+            await axios.post('/dream/signin', qs.stringify(data)).then(async (result) => {
+                commit('signTrue', result.data.success)
             })
         },
         async update({ commit }, userId) {
@@ -67,5 +67,18 @@ export default {
                 commit('upadteWishtree', userdata.data.data);
             })
         },
-    }
+        // 读取心愿列表
+        async hasstate(context, state) {
+            // 如果读取的到数据  则可以显示出  心愿内容表
+            return await axios.get('/dream/dreamlist', { params: { "userId": sessionStorage.getItem('userId') } }).then((res) => {
+                return res.data.data  //返回心愿的数据直接给前端 不需要存store
+            })
+        },
+        // 读取的是心愿的列表
+        async readlist(context, state) {
+            return await axios.post('/dream/dreamdetail', qs.stringify(state)).then((res) => {
+                return res.data.data
+            })
+        },
+    },
 }

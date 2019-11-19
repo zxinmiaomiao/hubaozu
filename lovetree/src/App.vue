@@ -45,10 +45,10 @@ export default {
     cook() {
       this.hascook = window.sessionStorage.getItem("userId");
       if (this.hascook) {
-        console.log(1);
+   
         this.$router.push({ name: "login" });
       } else {
-        console.log(2);
+    
         this.$router.push({ name: "logining" });
       }
     },

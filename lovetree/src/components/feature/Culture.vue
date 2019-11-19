@@ -2,8 +2,6 @@
   <div class="Culture">
     <!-- 大图片 -->
     <div class="culturebig">
-      <!-- <img src="../../../public/img/Culturesbig.jpg" /> -->
-      <!-- <img src="../../../public/img/Culturebig.jpg" /> -->
       <van-swipe :autoplay="3000" indicator-color="white">
         <van-swipe-item :key="image.id" v-for="image of images">
           <img :src="image.pic" alt />
@@ -24,7 +22,7 @@
       <ul>
         <li @click="goDetails(tree)" :key="tree.id" v-for="tree of treeslist">
           <div class="div_img">
-            <img :src="tree.treeThumbnail" />
+            <img :src="tree.treeThumbnail|treeImg()" />
           </div>
           <div class="title">
             <p class="title_name">{{tree.treeName}}</p>
@@ -63,7 +61,7 @@ export default {
     await axios
       .get("/homepage/treetype/1")
       .then(result => {
-        // console.log(result.data.data);
+      
         this.treeslist = result.data.data;
       });
   },
@@ -73,7 +71,7 @@ export default {
     },
     goDetails(tree) {
       //点击事件 传参 把当前页面的点击itme 传给转跳的详情页
-      // console.log(itme);
+  
       this.$router.push({
         name: "detail",
        query: { nm: tree.treeName, treeid: tree.treeId }

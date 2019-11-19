@@ -15,7 +15,7 @@ export default {
             state.readmemory = res
             if (state.readmemory.length != '') {
                 // 如果有数据的话  就显示数据
-                // console.log(state.readmemory.length)
+             
                 state.status = false
             }
         }
@@ -45,7 +45,7 @@ export default {
         // 读取日记  发送post请求   里面跟  userid和diaryid  日记详情
         async readdiary(context, state) {
             let comValue = qs.stringify(state)
-            console.log(comValue)
+        
             return await axios.post('/dream/queryDiarydetail', comValue).then((res) => {
                 return res.data.data
             })

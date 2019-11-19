@@ -13,12 +13,12 @@
       <span @click="cleartext" class="cleartext">X</span>
     </div>
     <ul v-if="flag">
-      <li :key="item.data[0].userName" v-for="item of list" >
+      <li :key="item.userId" v-for="item of list">
         <div class="block">
-          <img :src="item.data[0].userImage" alt />
+          <img :src="item.userImage|imgFomate()" alt />
         </div>
-        <span class="nickname">{{ item.data[0].userName }}</span>
-        <span class="ph">{{ item.data[0].userPhone }}</span>
+        <span class="nickname">{{ item.userName }}</span>
+        <span class="ph">{{ item.userPhone|telphone() }}</span>
         <span class="goto">&gt;</span>
       </li>
     </ul>
@@ -26,6 +26,7 @@
 </template>
 <script>
 import axios from "axios";
+import qs from "qs";
 export default {
   name: "Findfriends",
   data() {
@@ -45,23 +46,21 @@ export default {
     async search() {
       this.flag = true;
       await axios
-        .post("/dream/friends", {
-          data: { queryUser: this.$refs.text.value }
-        })
+        .get("/dream/friends", { params: { queryUser: this.$refs.text.value } })
         .then(response => {
-          this.list = response.data;
-          // console.log(this.list)
-          for (let i of this.list) {
-            console.log(i.data[0].userId)
-            i.data[0].userPhone = i.data[0].userPhone.replace(
-              /^(\d{3})\d*(\d{4})$/g,
-              "$1****$2"
-            );
-          }
+          this.list = response.data.data;
+          
+          
+  
         });
-    },
-    
+    }
+  },
+  filters:{
+    telphone(value){
+      return value.replace(/^(\d{3})\d*(\d{4})$/g,"$1****$2");
+    }
   }
+  
 };
 </script>
 <style scoped>
@@ -120,6 +119,7 @@ ul li {
   margin-left: 13px;
   margin-right: 13px;
   float: left;
+  overflow: hidden;
 }
 .nickname {
   font-size: 14px;

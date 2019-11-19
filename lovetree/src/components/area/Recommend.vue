@@ -15,7 +15,7 @@
 
     <!-- 图片 -->
     <div>
-      <img src="../../../public/img/Culturebig.jpg" />
+      <img src="../../../public/img/Culturesbig.jpg" />
     </div>
     <div class="tille">
       <!-- 项目简介 -->

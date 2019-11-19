@@ -8,7 +8,7 @@
     <div class="opendow">
       <!-- 图片 -->
       <div class="oImg">
-        <img src="../../../public/img/xiangqing_1.jpg" />
+        <!-- <img src="../../../public/img/xiangqing_1.jpg" /> -->
 
         <!-- 树木价格 -->
         <div class="oPrice">
@@ -92,7 +92,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route)
+
   },
   computed: {
     nm() {

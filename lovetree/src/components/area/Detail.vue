@@ -5,7 +5,7 @@
       <span class="title">{{title}}</span>
     </header>
     <div class="pic">
-      <img :src="detaillists.treeThumbnail" />
+      <img :src="detaillists.treeThumbnail|treeImg()" />
     </div>
     <div class="detail_">
       <h4>{{detaillists.treeName}}</h4>
@@ -17,14 +17,14 @@
       <h4>历史典故</h4>
       <p class="history_">{{detaillist.treeDetailDesc}}</p>
     </div>
-    <img :src="detaillist.treeDetailImg" />
+    <img :src="detaillist.treeDetailImg|treeImg()" />
     <div class="content">{{detaillist.treeDetailDesc}}</div>
     <footer>
       <p class="select">
         <input type="checkbox" />您已阅读并同意
       </p>
       <span @click="toAgreement">《古树名木认养协议》</span>
-      <img class="thislogo" src="../../../public/img/kefu.jpg" @click="toService" />
+      <img class="thislogo" src="../../../public/img/12.jpg" @click="toService" />
       <p class="button" @click="toOrder">我要认养</p>
     </footer>
   </div>
@@ -49,14 +49,14 @@ export default {
   },
   async mounted() {
     //请求 1.3、查询树木详情/homepage/treedetail
-    // console.log(this.$route.query.treeid)
+   
     this.treeid = this.$route.query.treeid;
-    console.log(this.treeid);
+   
     await axios
       .get("/homepage/treedetail", { params: { treeId: this.treeid } })
       .then(result => {
-        //   console.log(result.data);
-        console.log(result.data.data.data);
+    
+     
         this.detaillists = result.data.data[0];
         this.detaillist = result.data.data[1];
       });
@@ -120,6 +120,11 @@ header .title {
   height: 280px;
   /* background: url(../../../public/img/pic1.jpg) no-repeat; */
 }
+.pic img {
+  width: 100%;
+  height: 100%;
+  display: inline-block
+}
 .detail_ {
   padding: 15px;
   border-radius: 10px;
@@ -158,6 +163,7 @@ p {
   margin-top: 70px;
   margin-left: 14px;
   border: 1px solid #ccc;
+  background-color: #fff;
 }
 h4 {
   font-size: 16px;

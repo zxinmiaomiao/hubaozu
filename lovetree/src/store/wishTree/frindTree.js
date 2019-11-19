@@ -26,7 +26,7 @@ export default {
             await axios.get('/dream/dreamlist',{
                 params:{userId:userId}
             }).then((wishData)=>{
-                console.log(wishData.data.data)
+            
                 let dreamlist = wishData.data.data
                 commit('initWishData',dreamlist.slice(0,3))
             })
@@ -36,7 +36,7 @@ export default {
             await axios.get('user/mymoney',{
                 params:{userId:myId}
             }).then(result=>{
-                console.log(result.data.data)
+              
                 commit('initMoney',result.data.data);
             })
         }

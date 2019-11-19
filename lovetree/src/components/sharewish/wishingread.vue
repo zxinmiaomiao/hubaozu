@@ -18,9 +18,9 @@
         <p class="item">{{list.dreamContent}}</p>
         <p class="time">{{list.dreamCreatetime}}</p>
         <div class="smalllog"></div>
-        <div class="lookstatus" v-if="list.dreamStatus==0">公开</div>
-        <div class="lookstatus" v-else-if="list.dreamStatus==1">付费可见</div>
-        <div class="lookstatus" v-else-if="list.dreamStatus==2">能量可见</div>
+        <div class="lookstatus" v-if="list.dreamStatus==1">公开</div>
+        <div class="lookstatus" v-else-if="list.dreamStatus==2">付费可见</div>
+        <div class="lookstatus" v-else-if="list.dreamStatus==3">能量可见</div>
       </div>
     </div>
   </div>
@@ -34,8 +34,10 @@ export default {
   async mounted() {
     //   挂载的时候去向后端获取数据   判断他的心愿是否存在  //同时获取到心愿的内容，事件和ID
     //   如果不存在的话   显示false
-    // console.log(sessionStorage.getItem('userId'))
-    this.wishlist = await this.$store.dispatch("wishtree/hasstate",{userId:sessionStorage.getItem('userId')});
+   
+    this.wishlist = await this.$store.dispatch("wishtree/hasstate", {
+      userId: sessionStorage.getItem("userId")
+    });
     if (this.wishlist.length !== 0) {
       this.state = false;
     } else {
@@ -57,7 +59,7 @@ export default {
   height: 100%;
   background: url("/img/wishbackground.png");
   background-size: 100% 100%;
-  overflow: hidden;
+  overflow: auto;
 }
 .nowishread {
   margin-top: 152px;
@@ -143,6 +145,10 @@ export default {
   background: url("/img/smalllog.jpg") no-repeat;
   background-size: 100% 100%;
   margin-left: 30px;
+}
+.haswishread {
+  /* height: 100%;
+  overflow: auto; */
 }
 .lookstatus {
   width: 65px;

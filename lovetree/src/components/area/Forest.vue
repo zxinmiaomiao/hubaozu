@@ -17,7 +17,7 @@
         <li v-for="tree of treeslist" :key="tree.id" @click="fosterjump(tree)">
           <div class="tree_left">
             <div class="treeimg">
-              <img :src="tree.treeThumbnail" />
+              <img :src="tree.treeThumbnail|treeImg()" />
             </div>
             <div class="treeinfor">
               <div>
@@ -48,7 +48,7 @@ export default {
     const images = [
       {
         id: 1,
-        pic: require("../../../public/img/Culturebig.jpg")
+        pic: require("../../../public/img/Culturesbig.jpg")
       },
       {
         id: 2,
@@ -75,7 +75,6 @@ export default {
   async mounted() {
     //请求 1.2、特色认养/区域认养（首页进入）4古树认养区域的数据
     await axios.get("/homepage/treetype/3").then(result => {
-      // console.log(result.data);
       this.treeslist = result.data.data;
     });
   }

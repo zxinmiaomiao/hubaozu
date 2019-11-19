@@ -13,7 +13,7 @@ export default {
 
         async sendyzm(context, data) {
             // let comValue = qs.stringify(data)
-            // console.log(comValue)
+        
             return await axios.post(`/user/sendmsm/${data}`).then((res) => {
                 return res.data
             })
@@ -29,7 +29,7 @@ export default {
         // 发送用户id  获取到用户信息   用户名  userid  头像  余额
         async getinfo(context, data) {
             return await axios.get("/homepage/getUserInfo", { params: data }).then((res) => {
-                console.log(res.data.data)
+           
                 return res.data.data
             })
         },
@@ -50,9 +50,9 @@ export default {
         },
         // 点击充值明细  得到充值的详情页
         async moneydetail(context, data) {
-            console.log(data);
+   
             return axios.get("/user/balance", { params: data }).then((res) => {
-                console.log(res.data.data)
+       
                 return res.data.data
             })
         },

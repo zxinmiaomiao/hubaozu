@@ -10,13 +10,13 @@
     <!-- 心愿的内容 -->
     <div class="wishItem">
       <p>
-        <span class="headlog"></span>
-        <span class="name">11111111</span>
+        <span class="headlog"><img :src="readitem.userImage|imgFomate()" alt=""></span>
+        <span class="name">{{readitem.userName}}</span>
       </p>
       <div class="mainItem">{{readitem.dreamContent}}</div>
-      <div class="mainstatus" v-if="readitem.dreamStatus==0">公开</div>
-      <div class="mainstatus" v-else-if="readitem.dreamStatus==1">付费可见</div>
-      <div class="mainstatus" v-else-if="readitem.dreamStatus==2">能量可见</div>
+      <div class="mainstatus" v-if="readitem.dreamStatus==1">公开</div>
+      <div class="mainstatus" v-else-if="readitem.dreamStatus==2">付费可见</div>
+      <div class="mainstatus" v-else-if="readitem.dreamStatus==3">能量可见</div>
     </div>
   </div>
 </template>
@@ -32,7 +32,7 @@ export default {
       "wishtree/readlist",
       {userId:sessionStorage.getItem('userId'),dreamId:this.$route.query.wishid}
     );
-    console.log(this.readitem);
+
   },
   methods: {
     back() {
@@ -87,6 +87,7 @@ export default {
   background: red;
   margin-left: 20px;
   float: left;
+  overflow: hidden;
 }
 .name {
   height: 43px;

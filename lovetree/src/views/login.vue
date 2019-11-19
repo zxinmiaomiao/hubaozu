@@ -10,7 +10,7 @@
         <router-link to="/personInfo">
           <div class="headlog">
             <!-- 头像 -->
-            <img :src="userinfo.userImage" alt class="head" />
+            <img :src="userinfo.userImage|imgFomate()" alt class="head" />
             <!-- 用户名 -->
             <div class="username">
               {{userinfo.userName}}
@@ -112,9 +112,9 @@ export default {
     };
   },
   async mounted() {
-    // console.log(sessionStorage.getItem("userId"))
+  
    this.userinfo= await this.$store.dispatch("login/getinfo",{userId:sessionStorage.getItem('userId')})
-  console.log( this.userinfo.userName)
+
   },
   methods: {
     pushme() {

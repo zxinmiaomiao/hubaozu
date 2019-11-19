@@ -61,7 +61,7 @@ export default {
       "login/getusermoney",
       this.userId
     );
-    console.log(this.moneyinfo);
+   
   },
   methods: {
     back() {
@@ -72,7 +72,7 @@ export default {
     },
     // 充值成功后   把金额传给  后端
     async submit() {
-      console.log(this.$refs.num.value);
+
       if (this.$refs.num.value != "" && this.$refs.num.value != 0) {
         // 点击充值按钮  发数据给后端  进行充值
         this.recharge = await this.$store.dispatch("login/recharge", {

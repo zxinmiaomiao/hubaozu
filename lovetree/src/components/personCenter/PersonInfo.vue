@@ -143,7 +143,8 @@ export default {
       showDate: false,
       showSex: false,
       showName: false,
-      showphoto: false
+      showphoto: false,
+      changeInfo:{},
     };
   },
   computed: {
@@ -231,7 +232,7 @@ export default {
       this.showphoto = false;
     },
     async onRead(file) {
-      console.log(file.file);
+   
       let params = new FormData(); //创建form对象
       params.append("file", file.file); //通过append向form对象添加数据//第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
       let config = {
@@ -241,7 +242,7 @@ export default {
         }
       };
       await axios.post("user/portrait", params, config).then(res => {
-        console.log(res); // 获得后端url
+ 
         // this.this.getInfo.userImage = res;
       });
     },
@@ -249,16 +250,26 @@ export default {
     // 确认保存所有修改信息
 
     async confirm() {
-      let reg = /-/g;
-      let time = this.getInfo.userBirthday.replace(reg, "/");
-      let changeInfo = {
-        userId: this.userId,
-        userName: this.getInfo.userName,
-        userBirthday: time,
-        userSex: this.getInfo.userSex,
-        userImage: this.getInfo.userImage
-      };
-      await this.$store.dispatch("changeInfo/modification", changeInfo);
+ 
+      if (this.getInfo.userBirthday) {
+        let reg = /-/g;
+        let time = this.getInfo.userBirthday.replace(reg, "/");
+        this.changeInfo = {
+          userId: this.userId,
+          userName: this.getInfo.userName,
+          userBirthday: time,
+          userSex: this.getInfo.userSex,
+          userImage: this.getInfo.userImage
+        };
+      } else {
+        this.changeInfo = {
+          userId: this.userId,
+          userName: this.getInfo.userName,
+          userSex: this.getInfo.userSex,
+          userImage: this.getInfo.userImage
+        };
+      }
+      await this.$store.dispatch("changeInfo/modification", this.changeInfo);
       if (this.succeed) {
         this.$dialog.alert({
           message: "修改成功"

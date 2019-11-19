@@ -11,7 +11,7 @@
     <article>
       <div class="detail_center">
         <div class="detail_img">
-          <img :src="detaillists.treeThumbnail" />
+          <img :src="detaillists.treeThumbnail|treeImg()" />
         </div>
         <!-- 信息 -->
         <div class="detailinfor">
@@ -32,7 +32,7 @@
           <h4>历史典故</h4>
           <p>{{detaillist.treeDetailDesc}}</p>
           <h5>=======详情 =======</h5>
-          <img :src="detaillist.treeDetailImg" />
+          <img :src="detaillist.treeDetailImg|treeImg()" />
 
           <p>{{detaillist.treeDetailDesc}}</p>
         </div>
@@ -48,7 +48,7 @@
         <p @click="toAgreement" class="read1">古墓古树认养协议</p>
       </div>
 
-      <img @click="toService" class="pic" src="../../../public/img/kefu_03.jpg" />
+      <img @click="toService" class="pic" src="../../../public/img/12.jpg" />
       <button class="button" @click="toOrder">我要认养</button>
     </footer>
   </div>
@@ -73,12 +73,10 @@ export default {
   },
   async mounted() {
     //请求 1.3、查询树木详情/homepage/treedetail
-    // console.log(this.$route.query.treeid)
+   
     this.treeid=this.$route.query.treeid
-    // console.log(this.treeid)
+   
     await axios.get("/homepage/treedetail",{params:{treeId:this.treeid}}).then(result => {
-    //   console.log(result.data);
-        console.log(result.data.data);
       this.detaillists = result.data.data[0];
         this.detaillist = result.data.data[1];
 
@@ -86,9 +84,6 @@ export default {
   },
   methods: {
     forestmed(detailInfor) {
-      console.log(detailInfor.count);
-      // detailInfor.count--;
-      // console.log(n);
     },
     back(){
             //跳转上一级页面
@@ -110,7 +105,7 @@ export default {
         },
         toAgreement(){
             //跳转agreement页面
-            // console.log(this.$router)
+       
             this.$router.push({name: 'agreeOn'});
         },
   }

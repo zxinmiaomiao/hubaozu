@@ -77,7 +77,7 @@ export default {
   computed: {},
   methods: {
     erroyzm() {
-      console.log(this.$refs.successyzm.value);
+    
       if (this.$refs.successyzm.value == "") {
         this.errofont = "验证码不能为空";
       } else {
@@ -85,7 +85,7 @@ export default {
       }
     },
     phonetext() {
-      console.log(this.$refs.phone.value);
+    
       if (!/^1[3456789]\d{9}$/.test(this.$refs.phone.value)) {
         this.errofont = "手机号码有误，请重填";
         if (this.$refs.phone.value == "") {
@@ -120,7 +120,7 @@ export default {
     },
     toUser() {
       //跳转agreement页面
-      // console.log(this.$router)
+  
       this.$router.push({ name: "agreeOn" });
     },
 

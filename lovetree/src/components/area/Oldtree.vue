@@ -17,7 +17,7 @@
     </div>
     <ul class="list">
       <li v-for="tree of treeslist" :key="tree.tree_id" @click="toDetail(tree)">
-        <img :src="tree.tree_thumbnail" />
+        <img :src="tree.treeThumbnail|treeImg()" />
         <p class="name">{{tree.treeName}}</p>
         <p class="price">{{tree.treePrice}}.00/株</p>
         <p class="age">树龄：{{tree.treeAge}}年</p>
@@ -37,7 +37,7 @@ export default {
     const images = [
       {
         id: 1,
-        pic: require("../../../public/img/Culturebig.jpg")
+        pic: require("../../../public/img/Culturesbig.jpg")
       },
       {
         id: 2,
@@ -53,14 +53,14 @@ export default {
   async mounted() {
     //请求 1.2、特色认养/区域认养（首页进入）4古树认养区域的数据
    await axios.get('/homepage/treetype/4').then((result)=>{
-        // console.log(result.data);
+     
            this.treeslist = result.data.data;
     })    
   },
 
   methods: {
     toDetail(tree) {
-      // console.log(this.$router)
+ 
       this.$router.push({
         name: "detail",
         // params: { id: tree.tree_id },

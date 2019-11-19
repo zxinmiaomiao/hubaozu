@@ -26,7 +26,7 @@ export default {
         },
         getecology(state, arr) {
             state.treearr = arr;
-            console.log(arr)
+      
         },
         getselfinfo(state, obj) {
             state.self = obj;
@@ -54,18 +54,19 @@ export default {
             }
             let comValue = qs.stringify(obj)
             let res = await axios.post('/order/queryOrder', comValue)
-            // console.log(res.data.data.myTreeList)
+        
             context.commit('getecology', res.data.data.myTreeList)
         },
         async getselfinfo(context, selfid) {
             let res = await axios.get(`/dream/me?userId=${selfid}`)
-            console.log(res.data.data)
+         
             context.commit('getselfinfo', res.data.data)
         },
         async getlist(context) {
 
-            let res = await axios.get('/dream/energy/list', { params: sessionStorage.getItem('userId') })
-            for (let i of res.data[0].data) {
+            let res = await axios.get('/dream/energy/list', { params: { "userId": sessionStorage.getItem('userId') } })
+         
+            for (let i of res.data.data) {
                 if (i.energyNum > 0) {
                     switch (i.type) {
                         case 1:
@@ -89,10 +90,12 @@ export default {
                             break;
                     }
                 }
+                if(i.energyNum>0){
+                    i.energyNum = '+'+i.energyNum
+                }
                 i.createTime = i.createTime.slice(0, 10)
             }
-            console.log(res.data[0].data)
-            context.commit('getlist', res.data[0].data)
+            context.commit('getlist', res.data.data)
 
         },
     },
