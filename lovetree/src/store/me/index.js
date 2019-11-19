@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import qs from 'qs'
 export default {
     namespaced: true,
     state: {
@@ -26,48 +26,21 @@ export default {
         },
         getecology(state, arr) {
             state.treearr = arr;
+            console.log(arr)
         },
         getselfinfo(state, obj) {
             state.self = obj;
-        }
+        },
     },
     actions: {
         details(context, item) {
             context.commit('details', item)
         },
-        async getlist(context) {
+        // async getlist(context) {
 
-            let res = await axios.post('/dream/energy/list')
-            for (let i of res.data[0].data) {
-                if(i.energyNum>0){
-                    switch (i.type) {
-                    case 1:
-                        i.type = '签到';
-                        break;
-                    case 2:
-                        i.type = '买树';
-                        break;
-                    case 3:
-                        i.type = '好友心愿查看';
-                        break;
-                    }
-                }
-                else{
-                    switch (i.type) {
-                        case 1:
-                            i.type = '查看心愿';
-                            break;
-                        case 2:
-                            i.type = '许愿';
-                            break;
-                        }
-                }
-                i.createTime=i.createTime.slice(0,10)
-            }
-            console.log(res.data[0].data)
-            context.commit('getlist', res.data[0].data)
-
-        },
+        //     let res = await axios.get('/dream/energy/list')
+        //     context.commit('getlist', res.data)
+        // },
         treedetails(context, num) {
             context.commit('treedetails', num)
         },
@@ -75,15 +48,56 @@ export default {
             context.commit('changeme', loginstatus)
         },
         async getecology(context, treetypenumber) {
-            let res = await axios.post('/order/queryOrder', { userId: window.sessionStorage.getItem('userId'), treeTypeId: treetypenumber })
-            context.commit('getecology', res.data)
+            let obj = {
+                userId: window.sessionStorage.getItem('userId'),
+                treeTypeId: treetypenumber
+            }
+            let comValue = qs.stringify(obj)
+            let res = await axios.post('/order/queryOrder', comValue)
+            // console.log(res.data.data.myTreeList)
+            context.commit('getecology', res.data.data.myTreeList)
         },
         async getselfinfo(context, selfid) {
             let res = await axios.get(`/dream/me?userId=${selfid}`)
-            
-            context.commit('getselfinfo', res.data[0].data)
-        }
+            console.log(res.data.data)
+            context.commit('getselfinfo', res.data.data)
+        },
+        async getlist(context) {
+
+            let res = await axios.get('/dream/energy/list', { params: sessionStorage.getItem('userId') })
+            for (let i of res.data[0].data) {
+                if (i.energyNum > 0) {
+                    switch (i.type) {
+                        case 1:
+                            i.type = '签到';
+                            break;
+                        case 2:
+                            i.type = '买树';
+                            break;
+                        case 3:
+                            i.type = '好友心愿查看';
+                            break;
+                    }
+                }
+                else {
+                    switch (i.type) {
+                        case 1:
+                            i.type = '查看心愿';
+                            break;
+                        case 2:
+                            i.type = '许愿';
+                            break;
+                    }
+                }
+                i.createTime = i.createTime.slice(0, 10)
+            }
+            console.log(res.data[0].data)
+            context.commit('getlist', res.data[0].data)
+
+        },
     },
+
+
     modules: {
 
     }

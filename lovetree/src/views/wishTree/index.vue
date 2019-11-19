@@ -94,7 +94,6 @@ export default {
   },
 
   async mounted() {
-    sessionStorage.setItem("userId", 15);
     // 获取用户ID
     this.userId = sessionStorage.getItem("userId");
     // 向后端获取用户信息

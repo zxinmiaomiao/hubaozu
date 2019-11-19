@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="time">
-      <span>{{detail.createTime}}</span>
+      <span>{{detail.diaryCreatetime}}</span>
     </p>
     <div class="item">{{detail.diaryContent}}</div>
   </div>

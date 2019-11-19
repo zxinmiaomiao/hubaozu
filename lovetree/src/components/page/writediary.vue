@@ -40,7 +40,7 @@ export default {
       if (this.$refs.text.value != "") {
         // 把日记的  用户名  和日记的内容传给后端
         this.successd = await this.$store.dispatch("page/writediary", {
-          userId: sessionStorage.getItem('userId'),
+          userId: sessionStorage.getItem("userId"),
           diaryContext: this.$refs.text.value
         });
         if (this.successd == "成功") {

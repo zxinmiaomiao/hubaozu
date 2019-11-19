@@ -23,10 +23,10 @@
         <span></span>
         <!-- 金额从后端获取 -->
         <template v-if="detail.balanceType==1">
-          <span>+100.00</span>
+          <span>+{{detail.balanceMoney}}</span>
         </template>
         <template v-if="detail.balanceType==2">
-          <span style="color:red">-100.00</span>
+          <span style="color:red">-{{detail.balanceMoney}}</span>
         </template>
       </p>
     </div>
@@ -43,7 +43,7 @@ export default {
   async mounted() {
     // 挂载的时候    获取到数据
     this.details = await this.$store.dispatch("login/moneydetail", {
-      uesrId: sessionStorage.getItem("userId")
+      userId: sessionStorage.getItem("userId")
     });
   },
   methods: {
