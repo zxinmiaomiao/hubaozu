@@ -46,14 +46,14 @@
       <ul>
         <li class="energy_list" v-for="item of $store.state.me.energylist">
           <div class="energy_logo">
-            <img :src="item.img" alt />
+            <img :src=" $store.state.me.self.userImage " alt />
           </div>
-          <span class="signedto">{{ item.way }}</span>
+          <span class="signedto">{{ item.type }}</span>
           <div class="infor">
             <template>
-              <span class="amount">{{ item.sum }}能量</span>
+              <p class="amount">{{ item.energyNum }}能量</p>
             </template>
-            <span class="time">{{ item.time }}</span>
+            <p class="time">{{ item.createTime }}</p>
           </div>
         </li>
       </ul>
@@ -62,9 +62,9 @@
     <template v-if="$store.state.me.detail==2">
       <div class="personalinfo">
         <div class="touxiang">
-          <img src alt />
+          <img :src=" $store.state.me.self.userImage " alt />
         </div>
-        <p class="name">1</p>
+        <p class="name">{{ $store.state.me.self.userName }}</p>
         <p class="chengjiu">已累计认养了0颗树，消耗碳0.00吨</p>
       </div>
       <div class="tree_nav">
@@ -144,7 +144,8 @@ export default {
     ];
     return {
       treekindarr: arr,
-      nowseled: arr[0]
+      nowseled: arr[0],
+      // username : this.$store.state.me.self[0].data.userName
     };
   },
   
@@ -271,6 +272,7 @@ export default {
   border-top: 1px solid #ccc;
   display: flex;
   align-items: center;
+  position: relative;
 }
 .energy_logo {
   width: 38px;
@@ -285,12 +287,16 @@ export default {
 }
 .infor {
   width: 90px;
-  height: 38px;
-  margin-left: 170px;
+  height: 50px;
+  position: absolute;
+  right: 0px;
+  /* margin-left: 150px; */
+  /* display: flex; */
+  /* align-items: center; */
 }
 .amount,
 .time {
-  float: right;
+  /* float: right; */
   font-size: 14px;
 }
 /* 我的树 */

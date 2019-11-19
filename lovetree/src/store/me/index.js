@@ -36,11 +36,11 @@ export default {
         details(context, item) {
             context.commit('details', item)
         },
-        async getlist(context) {
+        // async getlist(context) {
 
-            let res = await axios.get('/dream/energy/list')
-            context.commit('getlist', res.data)
-        },
+        //     let res = await axios.get('/dream/energy/list')
+        //     context.commit('getlist', res.data)
+        // },
         treedetails(context, num) {
             context.commit('treedetails', num)
         },
@@ -64,22 +64,22 @@ export default {
         },
         async getlist(context) {
 
-            let res = await axios.post('/dream/energy/list')
+            let res = await axios.get('/dream/energy/list', { params: sessionStorage.getItem('userId') })
             for (let i of res.data[0].data) {
-                if(i.energyNum>0){
+                if (i.energyNum > 0) {
                     switch (i.type) {
-                    case 1:
-                        i.type = '签到';
-                        break;
-                    case 2:
-                        i.type = '买树';
-                        break;
-                    case 3:
-                        i.type = '好友心愿查看';
-                        break;
+                        case 1:
+                            i.type = '签到';
+                            break;
+                        case 2:
+                            i.type = '买树';
+                            break;
+                        case 3:
+                            i.type = '好友心愿查看';
+                            break;
                     }
                 }
-                else{
+                else {
                     switch (i.type) {
                         case 1:
                             i.type = '查看心愿';
@@ -87,9 +87,9 @@ export default {
                         case 2:
                             i.type = '许愿';
                             break;
-                        }
+                    }
                 }
-                i.createTime=i.createTime.slice(0,10)
+                i.createTime = i.createTime.slice(0, 10)
             }
             console.log(res.data[0].data)
             context.commit('getlist', res.data[0].data)
