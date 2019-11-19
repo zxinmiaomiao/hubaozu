@@ -5,19 +5,20 @@
       <span class="title">{{title}}</span>
     </header>
     <div class="pic">
-      <img :src="detaillist.tree_thumbnail" />
+      <img :src="detaillists.treeThumbnail" />
     </div>
     <div class="detail_">
-      <h4>{{detaillist['tree_name']}}</h4>
-      <p class="age">树龄：{{detaillist['tree_age']}}年</p>
-      <p class="address">{{detaillist['tree_publisher']}}</p>
-      <p class="price">{{detaillist['tree_price']}}.00/株</p>
+      <h4>{{detaillists.treeName}}</h4>
+      <p class="age">树龄：{{detaillists.treeAge}}年</p>
+      <p class="address">{{detaillists.treePublisher}}</p>
+      <p class="price">{{detaillists.treePrice}}.00/株</p>
     </div>
     <div class="history">
       <h4>历史典故</h4>
-      <p class="history_">{{detaillist['tree_detail_desc']}}</p>
+      <p class="history_">{{detaillist.treeDetailDesc}}</p>
     </div>
-    <div class="content">{{detaillist['tree_detail_desc']}}</div>
+    <img :src="detaillist.treeDetailImg" />
+    <div class="content">{{detaillist.treeDetailDesc}}</div>
     <footer>
       <p class="select">
         <input type="checkbox" />您已阅读并同意
@@ -34,7 +35,8 @@ export default {
   name: "Detail",
   data() {
     return {
-      detaillist: {},
+      detaillists: "",
+      detaillist: "",
       treeid: ""
     };
   },
@@ -51,11 +53,12 @@ export default {
     this.treeid = this.$route.query.treeid;
     console.log(this.treeid);
     await axios
-      .get("/treedetail", { params: { treeId: this.treeid } })
+      .get("/homepage/treedetail", { params: { treeId: this.treeid } })
       .then(result => {
         //   console.log(result.data);
-        console.log(result);
-        this.detaillist = result.data.data;
+        console.log(result.data.data.data);
+        this.detaillists = result.data.data[0];
+        this.detaillist = result.data.data[1];
       });
   },
   methods: {
@@ -172,6 +175,7 @@ h4 {
   /* border: 1px solid #ccc; */
   margin-left: 14px;
   margin-top: 15px;
+  font-size: 14px;
 }
 footer {
   position: fixed;

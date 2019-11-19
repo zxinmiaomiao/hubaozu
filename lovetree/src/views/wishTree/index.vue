@@ -99,7 +99,7 @@ export default {
   },
 
   async mounted() {
-    sessionStorage.setItem("userId", 123);
+    // sessionStorage.setItem("userId", 1);
     // 获取用户ID
     this.userId = sessionStorage.getItem("userId");
      // 向后端获取用户信息

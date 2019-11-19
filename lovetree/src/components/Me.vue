@@ -14,29 +14,30 @@
           <div class="photo_wrap">
             <img src="photo" alt />
           </div>
-          <span class="username">11</span>
+          <span class="username">{{ $store.state.me.self.userName }}</span>
         </div>
       </div>
       <div class="tree">
         <div class="my_energy" @click="details">
           <p class="energy">我的能量</p>
-          <p class="num">1</p>
+          <p class="num">{{ $store.state.me.self.userEnergy }}</p>
         </div>
         <div class="line"></div>
         <div class="my_trees" @click="tree_details">
           <p class="trees">我的树</p>
-          <p class="num">1</p>
+          <p class="num">{{ $store.state.me.self.userTreenum }}</p>
         </div>
       </div>
       <div class="signed">
         <img class="singedlogo" src="/img/singedlogo.jpg" alt />
+        <!-- 此处缺少累计签到天数 -->
         <span class="signedsum">
           累计签到
-          <b class="count">1</b>天
+          <b class="count">{{ $store.state.me.self.daynum}}</b>天
         </span>
         <span class="energysum">
           获得
-          <b class="count">1</b>个能量
+          <b class="count">{{ $store.state.me.self.daynum }}</b>个能量
         </span>
       </div>
     </template>
@@ -85,12 +86,15 @@
           <li>总价</li>
         </ul>
         <ul class="datainfo">
-          <li :key="one.orderId" v-for="one of $store.state.me.treearr.data.treeList.data.myTreeList">
-            <span>{{ one.orderCode }}</span>
-            <span>{{ one.treeName }}</span>
-            <span>{{ one.orderTreenum }}</span>
-            <span>{{ one.orderAccount }}</span>
-            </li>
+          <template v-if="$store.state.me.treearr">
+            <li :key="one.orderId" v-for="one of $store.state.me.treearr">
+                        <span>{{ one.orderCode }}</span>
+                        <span>{{ one.treeName }}</span>
+                        <span>{{ one.orderTreenum }}</span>
+                        <span>{{ one.orderAccount }}</span>
+                        </li>
+          </template>
+          
         </ul>
       </div>
     </template>
@@ -145,6 +149,7 @@ export default {
   },
   
   mounted(){
+      this.$store.dispatch('me/getselfinfo',window.sessionStorage.getItem('userId'))
     // 挂载时请求认养记录数据
     // 生态公益林认养
     this.$store.dispatch('me/getecology',3)

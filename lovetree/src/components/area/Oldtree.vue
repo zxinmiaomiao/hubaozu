@@ -18,10 +18,10 @@
     <ul class="list">
       <li v-for="tree of treeslist" :key="tree.tree_id" @click="toDetail(tree)">
         <img :src="tree.tree_thumbnail" />
-        <p class="name">{{tree.tree_name}}</p>
-        <p class="price">{{tree.tree_price}}.00/株</p>
-        <p class="age">树龄：{{tree.tree_age}}年</p>
-        <p class="address">{{tree.tree_publisher}}</p>
+        <p class="name">{{tree.treeName}}</p>
+        <p class="price">{{tree.treePrice}}.00/株</p>
+        <p class="age">树龄：{{tree.treeAge}}年</p>
+        <p class="address">{{tree.treePublisher}}</p>
 
         <p class="click">我要认养</p>
       </li>
@@ -52,9 +52,9 @@ export default {
   
   async mounted() {
     //请求 1.2、特色认养/区域认养（首页进入）4古树认养区域的数据
-   await axios.get('/homepage/treetype',{params:{treeType:4}}).then((result)=>{
+   await axios.get('/homepage/treetype/4').then((result)=>{
         // console.log(result.data);
-        this.treeslist=result.data.data.treeList;
+           this.treeslist = result.data.data;
     })    
   },
 
@@ -64,7 +64,7 @@ export default {
       this.$router.push({
         name: "detail",
         // params: { id: tree.tree_id },
-        query: { 'nm': tree.tree_name ,'treeid':tree.tree_id}
+      query: { nm: tree.treeName, treeid: tree.treeId }
       });
     },
     toRecommend() {

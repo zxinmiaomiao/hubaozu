@@ -39,46 +39,14 @@
     </div>
     <div class="ul_wrap">
       <ul class="tree_list">
-        <li :key="item.tree_id" v-for="item of ul_wrap.prpularList" @click="viewdetail(item)">
-          <img src alt />
-          <p class="treename">{{item.tree_name }}</p>
+        <li :key="item.treeId" v-for="item of ul_wrap.popularList" @click="viewdetail(item)">
+          <img :src="item.treeThumbnail" alt />
+          <p class="treename">{{item.treeName }}</p>
           <div class="showprice">
-            <span class="price">{{item.tree_price }}</span>
+            <span class="price">{{item.treePrice }}</span>
             <span>元</span>
           </div>
         </li>
-        <!-- <li>
-          <img src alt />
-          <p class="treename">112</p>
-          <div class="showprice">
-            <span class="price">1</span>
-            <span>元</span>
-          </div>
-        </li>
-        <li>
-          <img src alt />
-          <p class="treename">112</p>
-          <div class="showprice">
-            <span class="price">1</span>
-            <span>元</span>
-          </div>
-        </li>
-        <li>
-          <img src alt />
-          <p class="treename">112</p>
-          <div class="showprice">
-            <span class="price">1</span>
-            <span>元</span>
-          </div>
-        </li>
-        <li>
-          <img src alt />
-          <p class="treename">112</p>
-          <div class="showprice">
-            <span class="price">1</span>
-            <span>元</span>
-          </div>
-        </li>-->
       </ul>
     </div>
     <div class="poster">
@@ -87,101 +55,29 @@
     <div class="support">
       <p class="title">古树名木认养</p>
       <ul class="oldtree">
-         <li :key="item.tree_id" v-for="item of ul_wrap.ecologyList" @click="viewdetail(item)">
-          <img src="" alt />
-          <h3 class="tree_name">{{item.tree_name }}</h3>
-          <p class="tree_age">树龄：{{item.tree_age }}年</p>
+        <li :key="item.treeId" v-for="item of ul_wrap.ecologyList" @click="viewdetail(item)">
+          <img :src="item.treeThumbnail" alt />
+          <h3 class="tree_name">{{item.treeName }}</h3>
+          <p class="tree_age">树龄：{{item.treeAge }}年</p>
           <div class="tree_price">
-            <span>{{item.tree_price }}</span>元
+            <span>{{item.treePrice }}</span>元
             <span class="gettree">认养></span>
           </div>
         </li>
-        <!-- <li>
-          <img src alt />
-          <h3 class="tree_name">细叶青冈</h3>
-          <p class="tree_age">树龄：820年</p>
-          <div class="tree_price">
-            <span>42000.00</span>元
-            <span class="gettree">认养></span>
-          </div>
-        </li>
-        <li>
-          <img src alt />
-          <h3 class="tree_name">细叶青冈</h3>
-          <p class="tree_age">树龄：820年</p>
-          <div class="tree_price">
-            <span>42000.00</span>元
-            <span class="gettree">认养></span>
-          </div>
-        </li>
-        <li>
-          <img src alt />
-          <h3 class="tree_name">细叶青冈</h3>
-          <p class="tree_age">树龄：820年</p>
-          <div class="tree_price">
-            <span>42000.00</span>元
-            <span class="gettree">认养></span>
-          </div>
-        </li>
-        <li>
-          <img src alt />
-          <h3 class="tree_name">细叶青冈</h3>
-          <p class="tree_age">树龄：820年</p>
-          <div class="tree_price">
-            <span>42000.00</span>元
-            <span class="gettree">认养></span>
-          </div>
-        </li> -->
       </ul>
     </div>
     <div class="support_sec">
       <p class="title">生态公益林认养</p>
       <ul class="oldtree">
-        <li :key="item.tree_id" v-for="item of ul_wrap.ancientList" @click="viewdetail(item)">
-          <img src="" alt />
-          <h3 class="tree_name">{{item.tree_name }}</h3>
-          <p class="tree_age">树龄：{{item.tree_age }}年</p>
+        <li :key="item.treeId" v-for="item of ul_wrap.ancientList" @click="viewdetail(item)">
+          <img :src="item.treeThumbnail" alt />
+          <h3 class="tree_name">{{item.treeName }}</h3>
+          <p class="tree_age">树龄：{{item.treeAge }}年</p>
           <div class="tree_price">
-            <span>{{item.tree_price }}</span>元
+            <span>{{item.treePrice }}</span>元
             <span class="gettree">认养></span>
           </div>
         </li>
-        <!-- <li>
-          <img src alt />
-          <h3 class="tree_name">细叶青冈</h3>
-          <p class="tree_age">树龄：820年</p>
-          <div class="tree_price">
-            <span>42000.00</span>元
-            <span class="gettree">认养></span>
-          </div>
-        </li>
-        <li>
-          <img src alt />
-          <h3 class="tree_name">细叶青冈</h3>
-          <p class="tree_age">树龄：820年</p>
-          <div class="tree_price">
-            <span>42000.00</span>元
-            <span class="gettree">认养></span>
-          </div>
-        </li>
-        <li>
-          <img src alt />
-          <h3 class="tree_name">细叶青冈</h3>
-          <p class="tree_age">树龄：820年</p>
-          <div class="tree_price">
-            <span>42000.00</span>元
-            <span class="gettree">认养></span>
-          </div>
-        </li>
-        <li>
-          <img src alt />
-          <h3 class="tree_name">细叶青冈</h3>
-          <p class="tree_age">树龄：820年</p>
-          <div class="tree_price">
-            <span>42000.00</span>元
-            <span class="gettree">认养></span>
-          </div>
-        </li> -->
       </ul>
     </div>
   </div>
@@ -197,20 +93,18 @@ export default {
     };
   },
   mounted() {
-    axios.post("/waws/homepage/queryData").then(res => {
+    axios.post("homepage/queryData").then(res => {
       this.ul_wrap = res.data.data;
     });
-    window.sessionStorage.setItem('userId','w63234')
+    // window.sessionStorage.setItem("userId", "w63234");
   },
   methods: {
     gotowish() {
-      if(window.sessionStorage.getItem('userId')){
+      if (window.sessionStorage.getItem("userId")) {
         this.$router.push({ name: "wishTree" });
-      }
-      else{
+      } else {
         this.$router.push({ name: "logining" });
       }
-      
     },
     gotoareasupport() {
       this.$router.push({ name: "area" });
@@ -227,16 +121,17 @@ export default {
       this.$router.push({
         name: "forestdetail",
         query: {
-          tree_id: 1,
-          tree_name: item.tree_name,
-          tree_price: item.tree_price,
-          tree_age: item.tree_age,
-          tree_type_id: item.tree_type_id,
-          tree_publisher: item.tree_publisher
+          treeid: item.treeId,
+          nm: item.treeName
+          // nm=女贞&treeid=12
+          // treeName: item.treeName,
+          // treePrice: item.treePrice,
+          // treeAge: item.treeAge,
+          // treeTypeId: item.treeTypeId,
+          // treePublisher: item.treePublisher
         }
       });
-    },
-    
+    }
   }
 };
 </script>

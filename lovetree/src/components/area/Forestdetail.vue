@@ -3,41 +3,40 @@
     <!-- 头部 -->
     <header>
       <div class="detail_title">
-        <span @click='back' class='back'>&lt;</span>
-        <h4>{{detaillist.tree_name}}</h4>
+        <span @click="back" class="back">&lt;</span>
+        <h4>{{detaillists.treeName}}</h4>
       </div>
     </header>
     <!-- 中间 -->
     <article>
       <div class="detail_center">
         <div class="detail_img">
-          <img :src="detaillist.tree_detail_img" />
+          <img :src="detaillists.treeThumbnail" />
         </div>
         <!-- 信息 -->
         <div class="detailinfor">
           <div class="detail_inner_top">
             <div class="treeinfor">
               <div>
-                <p class="treename">{{detaillist.tree_name}}</p>
+                <p class="treename">{{detaillists.treeName}}</p>
                 <span class="treelv"></span>
               </div>
-              <p class="treeage">{{detaillist.tree_age+'余年'}}</p>
-              <p>{{detaillist.tree_publisher}}</p>
+              <p class="treeage">{{detaillists.treeAge+'余年'}}</p>
+              <p>{{detaillists.treePublisher}}</p>
             </div>
-            <span class="price">{{detaillist.tree_price+'元'}}</span>
+            <span class="price">{{detaillists.treePrice+'元'}}</span>
           </div>
         </div>
 
         <div class="detail_inner">
           <h4>历史典故</h4>
-          <p>{{detaillist.tree_detail_desc}}</p>
+          <p>{{detaillist.treeDetailDesc}}</p>
           <h5>=======详情 =======</h5>
-          <img :src="detaillist.tree_detail_img" />
-          
-          <p>{{detaillist.tree_detail_desc}}</p>
+          <img :src="detaillist.treeDetailImg" />
+
+          <p>{{detaillist.treeDetailDesc}}</p>
         </div>
       </div>
-      数量
       <!-- {{detailInfor.count}} -->
     </article>
 
@@ -61,7 +60,8 @@ export default {
 
   data() {
     return {
-      detaillist: {},
+      detaillists: '',
+      detaillist:'',
       treeid:''
     };
   },
@@ -76,10 +76,11 @@ export default {
     // console.log(this.$route.query.treeid)
     this.treeid=this.$route.query.treeid
     // console.log(this.treeid)
-    await axios.get("/treedetail",{params:{treeId:this.treeid}}).then(result => {
+    await axios.get("/homepage/treedetail",{params:{treeId:this.treeid}}).then(result => {
     //   console.log(result.data);
-    console.log(result)
-      this.detaillist = result.data.data;
+        console.log(result.data.data);
+      this.detaillists = result.data.data[0];
+        this.detaillist = result.data.data[1];
 
     });
   },

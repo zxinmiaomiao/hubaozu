@@ -9,12 +9,12 @@
       <p class="name">{{orderlist.treeName}}</p>
       <p class="age">树龄：{{orderlist["tree_age"]}}</p>
       <p class="address">{{orderlist["tree_publisher"]}}</p>
-      <p class="price">￥{{orderlist.treePrice}}.00</p>
+      <p class="price">￥{{orderlist.treePrice}}</p>
     </div>
     <ul class="list">
       <li>
         <span>单价</span>
-        <span class="p1">￥{{orderlist.treePrice}}.00</span>
+        <span class="p1">￥{{orderlist.treePrice}}</span>
       </li>
       <li>
         <span>数量</span>
@@ -27,7 +27,7 @@
       </li>
       <li>
         <span>代付金额</span>
-        <span class="p1">￥{{orderlist.treePrice*this.value}}.00</span>
+        <span class="p1">￥{{orderlist.treePrice*this.value}}</span>
       </li>
       <li>
         <span>支付方式</span>
@@ -37,20 +37,20 @@
     <!-- <div class="confirm">确认支付</div> -->
     <div is-link @click="showPopup" class="confirm">确认支付</div>
     <van-popup v-model="show" class="showlist">
-      <ul v-if='ok'  class="buydetail">
+      <ul v-if="ok" class="buydetail">
         <!-- <li>树ID:{{showw.treeId}}</li> -->
         <!-- <li>认养人：</li> -->
-        <li>树的名字：{{showw.treeName}}</li>
-        <li>树的类型：{{showw.treeTypeId}}</li>
+        <li>树的名字：{{orderlist.treeName}}</li>
+        <li>树的类型：{{orderlist.treeTypeId}}</li>
         <li>数量：{{this.value}}颗</li>
-        <li>订单总金额：￥{{orderlist.treePrice*this.value}}.00</li>
+        <li>订单总金额：￥{{orderlist.treePrice*this.value}}</li>
         <li>
           <span class="yes" @click="pay">确认</span>
-          <span class="no" @click='cancel'>取消</span>
+          <span class="no" @click="cancel">取消</span>
         </li>
       </ul>
-      
-      <div v-if='no' class='paid'>支付成功</div>
+
+      <div v-if="no" class="paid">支付成功</div>
     </van-popup>
   </div>
 </template>
@@ -65,19 +65,19 @@ export default {
       orderlist: {},
       show: false,
       value: 1,
-      ok:true,
-      no:false,
-     
+      ok: true,
+      no: false
     };
   },
   async mounted() {
     //请求 3.1确认订单(我要认养) /order/sureOrder
     await axios
-      .get("/order/sureOrder", { params: { treeId: 111 } })
+      .get("/order/sureOrder", { params: { treeId: this.$route.query.treeid } })
       .then(result => {
         //   console.log(result.data);
+        console.log(result);
         this.orderlist = result.data.data;
-        
+        console.log(this.orderlist);
       });
   },
   methods: {
@@ -86,30 +86,42 @@ export default {
     },
     showPopup() {
       this.show = true;
-      this.ok=true;
+      this.ok = true;
     },
     async pay() {
       this.show = false;
-      this.ok=false;
-      let _this=this;
+      this.ok = false;
+      let _this = this;
       //点击确认按钮支付  发送请求并返回后端需要的参数
 
-      await axios.get("/order/treeOrder", { params: { treeId: this.$route.query.treeid ,userId:window.sessionStorage.getItem('userId'),treeName:'金钱松',treeTypeId:3,orderTreenum:this.value,orderAccount:this.orderlist.treePrice*this.value} }).then(result => {
-          console.log(result.data);
-          if(result.data.success===true){
-            setTimeout(function(){
-            _this.show = true;
-            _this.no=true;
-          },500)
-           
+      await axios
+        .get("/order/treeOrder", {
+          params: {
+            treeId: this.$route.query.treeid,
+            userId: window.sessionStorage.getItem("userId"),
+            treeName: this.orderlist.treeName,
+            treeTypeId: this.orderlist.treeTypeId,
+            orderTreenum: this.value,
+            orderAccount: this.orderlist.treePrice * this.value
           }
-          setTimeout(function(){
+        })
+        .then(result => {
+          console.log(result.data);
+          if (result.data.success === true) {
+            setTimeout(function() {
+              _this.show = true;
+              _this.no = true;
+     
+            }, 500);
+          }
+          setTimeout(function() {
             _this.show = false;
-          },2000)
-         
-      });
+            // this.$router.push({name:'naver'})
+                     _this.$router.push("/Naver");
+          }, 2000);
+        });
     },
-    cancel(){
+    cancel() {
       this.show = false;
     }
   },
@@ -131,7 +143,7 @@ export default {
 .paid {
   text-align: center;
   line-height: 180px;
-  font-size:20px;
+  font-size: 20px;
 }
 .showlist {
   font-size: 16px;
@@ -259,7 +271,7 @@ p {
   bottom: 20px;
   font-size: 16px;
 }
-.buydetail{
-    margin-top: 20px;
+.buydetail {
+  margin-top: 20px;
 }
 </style>

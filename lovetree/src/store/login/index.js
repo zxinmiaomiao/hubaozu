@@ -1,30 +1,34 @@
 import axios from 'axios'
+import qs from 'qs'
 export default {
     namespaced: true,
     state: {
 
     },
     mutations: {
-   
+
     },
     actions: {
         // 发送验证码
+
         async sendyzm(context, data) {
-            return await axios.post("/user/sendmsm", { mobile: data }).then((res) => {
+            // let comValue = qs.stringify(data)
+            // console.log(comValue)
+            return await axios.post(`/user/sendmsm/${data}`).then((res) => {
                 return res.data
             })
         },
         // 发送手机号码   并且把用户信息存储到store给用户的
         async sendphone(context, data) {
-            return await axios.post("/user/login", data).then((res) => {
-     
+            let comValue = qs.stringify(data)
+            return await axios.post("/user/login", comValue).then((res) => {
                 return res.data
             })
         },
 
         // 发送用户id  获取到用户信息   用户名  userid  头像  余额
-        async getinfo(context,data){
-            return await axios.post("/homepage/getUserInfo", data).then((res) => {
+        async getinfo(context, data) {
+            return await axios.get("/homepage/getUserInfo", { params: data }).then((res) => {
                 console.log(res.data.data)
                 return res.data.data
             })
@@ -39,16 +43,17 @@ export default {
         },
         // 发送用户id和充值金额  
         async recharge(context, data) {
-            return axios.post("/user/recharge", data).then((res) => {
+            let comValue = qs.stringify(data)
+            return axios.post("/user/recharge", comValue).then((res) => {
                 return res.data
             })
         },
         // 点击充值明细  得到充值的详情页
         async moneydetail(context, data) {
             console.log(data);
-            return axios.get("/user/balance",{params:data}).then((res) => {
-                console.log(res.data.data.Balance)
-                return res.data.data.Balance
+            return axios.get("/user/balance", { params: data }).then((res) => {
+                console.log(res.data.data)
+                return res.data.data
             })
         },
 

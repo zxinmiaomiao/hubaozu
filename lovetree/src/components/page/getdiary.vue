@@ -11,8 +11,8 @@
         v-for="items in readdate"
       >
         <div class="time">
-          <p class="month">{{items.createTime|month()}}</p>
-          <p class="year">{{items.createTime|year()}}</p>
+          <p class="month">{{items.diaryCreatetime|month()}}</p>
+          <p class="year">{{items.diaryCreatetime|year()}}</p>
         </div>
         <!-- 内容部分 -->
         <p class="item">{{items.diaryContent}}</p>
@@ -33,7 +33,7 @@ export default {
   async mounted() {
     //   挂载的时候去向后端获取数据   判断他的日记是否存在  //同时获取到日记的内容，事件和ID
     //   如果不存在的话   显示false
-    await this.$store.dispatch("page/hasstate", { userId: 111 });
+    await this.$store.dispatch("page/hasstate", { userId: window.sessionStorage.getItem("userId") });
     this.state = this.$store.state.page.status;
     this.readdate = this.$store.state.page.readmemory.data;
   },

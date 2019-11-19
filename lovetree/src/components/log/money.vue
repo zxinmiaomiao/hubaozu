@@ -88,6 +88,7 @@ export default {
             close;
             this.show = false;
             this.$refs.num.value = "";
+            window.history.go(0)
           });
         }
       } else {

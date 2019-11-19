@@ -3,27 +3,27 @@ import axios from 'axios'
 export default {
     namespaced: true,
     state: {
-        wishstatus:true
+        wishstatus: true
     },
     mutations: {
-        getstatus(state,status){
-            if(status.energysum>=2){
+        getstatus(state, status) {
+            if (status.success ==true) {
                 state.wishstatus = true;
-            }else{
+            } else {
                 state.wishstatus = false;
             }
-            
+
         }
-      
+
     },
     actions: {
-        async getstatus(context,status){
-            let res = await axios.post('/waws/wish/status',{id:111})
-            context.commit('getstatus',res.data) 
-            
+        async getstatus(context, status) {
+            let res = await axios.get('/dream/gowish',{params:{userId:1}})
+            context.commit('getstatus', res.data)
+
         }
     },
     modules: {
-        
+
     }
 }

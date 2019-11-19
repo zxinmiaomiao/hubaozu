@@ -17,20 +17,20 @@
         <li v-for="tree of treeslist" :key="tree.id" @click="fosterjump(tree)">
           <div class="tree_left">
             <div class="treeimg">
-              <img :src="tree.tree_thumbnail" />
+              <img :src="tree.treeThumbnail" />
             </div>
             <div class="treeinfor">
               <div>
-                <p class="treename">{{tree.tree_name}}</p>
+                <p class="treename">{{tree.treeName}}</p>
                 <span class="treelv"></span>
               </div>
 
-              <p class="treeage">{{tree.tree_age}}</p>
-              <p>{{tree.tree_publisher}}</p>
+              <p class="treeage">树龄:{{tree.treeAge}}年</p>
+              <p>{{tree.treePublisher}}</p>
             </div>
           </div>
           <div class="tree_right">
-            <p class="moneyage">{{tree.tree_price+"元/年"}}</p>
+            <p class="moneyage">{{tree.treePrice+"元/年"}}</p>
             <p>
               <button>我要认养</button>
             </p>
@@ -57,7 +57,7 @@ export default {
     ];
     return {
       images,
-      treeslist:''
+      treeslist: ""
     };
   },
 
@@ -65,7 +65,7 @@ export default {
     fosterjump(tree) {
       this.$router.push({
         name: "forestdetail",
-        query: { 'nm': tree.tree_name ,'treeid':tree.tree_id}
+   query: { nm: tree.treeName, treeid: tree.treeId }
       }); //点击认养要跳转的连接
     },
     toRecommend() {
@@ -74,11 +74,11 @@ export default {
   },
   async mounted() {
     //请求 1.2、特色认养/区域认养（首页进入）4古树认养区域的数据
-   await axios.get('/homepage/treetype',{params:{treeType:3}}).then((result)=>{
-        // console.log(result.data);
-        this.treeslist=result.data.data.treeList;
-    })    
-  },
+    await axios.get("/homepage/treetype/3").then(result => {
+      // console.log(result.data);
+      this.treeslist = result.data.data;
+    });
+  }
 };
 </script>            
 <style scoped>
@@ -177,7 +177,7 @@ export default {
 .tree_right .moneyage {
   color: #ff908a;
   margin: 4px 0 23px 0;
-  text-align: center
+  text-align: center;
 }
 .tree_right button {
   width: 67px;

@@ -5,7 +5,8 @@ import store from './store'
 import 'amfe-flexible'
 
 
-import { Popup , Stepper,Uploader , DatetimePicker,RadioGroup, Radio,Picker, Swipe, SwipeItem, CountDown , Dialog } from 'vant';
+
+import { Popup, Stepper, Uploader, DatetimePicker, RadioGroup, Radio, Picker, Swipe, SwipeItem, CountDown, Dialog } from 'vant';
 import 'vant/lib/uploader/style';
 import 'vant/lib/picker/style'
 import 'vant/lib/uploader/style';

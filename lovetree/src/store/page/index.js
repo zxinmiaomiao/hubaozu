@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'qs'
 export default {
     namespaced: true,
     state: {
@@ -33,14 +34,19 @@ export default {
         },
         // 写日记利用POST请求发送给后端  后端会返回一个success
         async writediary(context, state) {
-            return await axios.post('/dream/writediary', { data: state }).then((res) => {
-             
+            let comValue = qs.stringify(state)
+            return await axios.post('/dream/writediary', comValue
+            ).then((res) => {
+
                 return res.data.message
             })
         },
+
         // 读取日记  发送post请求   里面跟  userid和diaryid  日记详情
         async readdiary(context, state) {
-            return await axios.post('/dream/queryDiarydetail', { data: state }).then((res) => {
+            let comValue = qs.stringify(state)
+            console.log(comValue)
+            return await axios.post('/dream/queryDiarydetail', comValue).then((res) => {
                 return res.data.data
             })
         }
