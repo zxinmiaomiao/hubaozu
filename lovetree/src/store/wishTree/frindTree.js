@@ -5,60 +5,40 @@ export default {
     namespaced:true,
 
     state:{
-        // dreamList:[],
-        Money:{
-            myMoney:5.01,
-          },
-        dreamList:[
-            {
-                dreamId: 111,
-                dreamStatus: 1,
-                dreamContent: "hhhhh",
-                dreamCreatetime: "2019-04-21 14:57:39",
-                dreamCost: 0,
-            },{
-                dreamId: 112,
-                dreamStatus: 2,
-                dreamContent: "heeeehhhh",
-                dreamCreatetime: "2019-04-22 14:57:39",
-                dreamCost: 6,
-            },
-            {
-                dreamId: 113,
-                dreamStatus: 3,
-                dreamContent: "heeeehhhh",
-                dreamCreatetime: "2019-04-22 14:57:39",
-                dreamCost: 6,
-            }            
-        ]
+        Money:{},
+        dreamList:[],
     },
 
     mutations:{
-        // initWishData(state,wishData){
-        //     state.dreamList = wishData;
-        // }
+        initWishData(state,wishData){
+            state.dreamList = wishData;
+        },
 
 
-        // initMoney(state,myMoney){
-        //     state.Money = myMoney;
-        // }
+        initMoney(state,myMoney){
+            state.Money = myMoney;
+        }
     },
 
     actions:{
-        // async getWish({commit},userId){
-        //     await axios.get('dream/dreamlist',{
-        //         params:{userId:userId}
-        //     }).then((wishData)=>{
-        //         commit('initWishData',wishData)
-        //     })
-        // }
+        // 获取好友心愿列表
+        async getWish({commit},userId){
+            await axios.get('/dream/dreamlist',{
+                params:{userId:userId}
+            }).then((wishData)=>{
+                console.log(wishData.data.data)
+                let dreamlist = wishData.data.data
+                commit('initWishData',dreamlist.slice(0,3))
+            })
+        },
 
-        // async getMoney({commit},myId){
-        //     await axios.get('user/mymoney',{
-        //         params:{userId:myId}
-        //     }).then(result=>{
-        //         commit('initMoney',result);
-        //     })
-        // }
+        async getMoney({commit},myId){
+            await axios.get('user/mymoney',{
+                params:{userId:myId}
+            }).then(result=>{
+                console.log(result.data.data)
+                commit('initMoney',result.data.data);
+            })
+        }
     }
 }

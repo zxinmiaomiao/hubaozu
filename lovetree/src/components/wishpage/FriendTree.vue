@@ -13,7 +13,7 @@
           <!-- 用户信息 -->
           <div class="info">
             <div class="userPic">
-              <img :src='userInfo.userImage' />
+              <img :src="userInfo.userImage|imgFomate()" />
             </div>
             <span class="userName">{{userInfo.userName}}</span>
           </div>
@@ -35,32 +35,34 @@
         >
           <!-- 判断类型 1公开 2付费 3送能量 -->
           <!-- 公开可见 -->
-          <div :class="'wishContent wishContent-'+index">
-            <div class="text">{{dream.dreamContent}}</div>
-            <div class="type">{{dream.dreamStatus|wishType()}}</div>
-            <span @click="closeWish($event)">×</span>
-          </div>
-          <!-- 支付余额查看心愿 -->
-          <template v-if="dream.dreamStatus==2">
-            <div :class="'pay payM-'+(index+1)">
-              <div class="payContent">
-                <div class="payM">￥{{dream.dreamCost}}</div>
-                <span>余额支付</span>
-                <button class="surePayM" @click="payfor($event,dream)"></button>
-              </div>
-              <div class="close" @click="closePay($event)">X</div>
+          <!-- <template v-if="index<3"> -->
+            <div :class="'wishContent wishContent-'+index">
+              <div class="text">{{dream.dreamContent}}</div>
+              <div class="type">{{dream.dreamStatus|wishType()}}</div>
+              <span @click="closeWish($event)">×</span>
             </div>
-          </template>
-          <!-- 支付能量可见 -->
-          <template v-if="dream.dreamStatus==3">
-            <div :class="'pay payE-'+(index+1)">
-              <div class="payContent">
-                <div class="pic"></div>
-                <div class="payE">赠送{{dream.dreamCost}}个能量</div>
-                <button class="surePayE" @click="payfor($event,dream)"></button>
+            <!-- 支付余额查看心愿 -->
+            <template v-if="dream.dreamStatus==2">
+              <div :class="'pay payM-'+(index+1)">
+                <div class="payContent">
+                  <div class="payM">￥{{dream.dreamCost}}</div>
+                  <span>余额支付</span>
+                  <button class="surePayM" @click="payfor($event,dream)"></button>
+                </div>
+                <div class="close" @click="closePay($event)">X</div>
               </div>
-              <div class="close" @click="closePay($event)">X</div>
-            </div>
+            </template>
+            <!-- 支付能量可见 -->
+            <template v-if="dream.dreamStatus==3">
+              <div :class="'pay payE-'+(index+1)">
+                <div class="payContent">
+                  <div class="pic"></div>
+                  <div class="payE">赠送{{dream.dreamCost}}个能量</div>
+                  <button class="surePayE" @click="payfor($event,dream)"></button>
+                </div>
+                <div class="close" @click="closePay($event)">X</div>
+              </div>
+            <!-- </template> -->
           </template>
         </li>
       </ul>
@@ -70,6 +72,7 @@
 
 <script>
 import axios from "axios";
+import qs from "qs";
 
 export default {
   name: "friendtree",
@@ -79,7 +82,7 @@ export default {
       friendId: "",
       myId: "",
       myEnergy: "",
-      userInfo:{},
+      userInfo: {}
     };
   },
   computed: {
@@ -89,7 +92,6 @@ export default {
     myMoney() {
       return this.$store.state.friendtree.Money;
     }
-    
   },
 
   async mounted() {
@@ -100,11 +102,11 @@ export default {
     // 获取好友ID
     this.friendId = this.$route.query.userId;
     // 获取好友信息
-    this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+    this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
     // 获取好友心愿
-    // await this.$store.dispatch("friendtree/getWish", this.friendId);
+    await this.$store.dispatch("friendtree/getWish", this.friendId);
     // 获取我的ID
-    // await this.$store.dispatch("friendtree/getMoney", this.myId);
+    await this.$store.dispatch("friendtree/getMoney", this.myId);
   },
 
   methods: {
@@ -139,13 +141,14 @@ export default {
     async payfor($event, dream) {
       if (dream.dreamStatus == 2) {
         if (this.myMoney.myMoney >= dream.dreamCost) {
+          let data = {
+            userId: this.myId,
+            othersId: this.friendId,
+            dreamStatus: dream.dreamStatus,
+            dreamCost: dream.dreamCost
+          };
           await axios
-            .post("/dream/opendream", {
-              userId: this.myId,
-              othersId: this.friendId,
-              dreamStatus: dream.dreamStatus,
-              dreamCost: dream.dreamCost
-            })
+            .post("/dream/opendream", qs.stringify(data))
             .then(result => {
               if (result) {
                 $event.path[2].style.display = "none";
@@ -164,13 +167,14 @@ export default {
         }
       } else {
         if (this.myEnergy >= dream.dreamCost) {
+          let data = {
+            userId: this.myId,
+            othersId: this.friendId,
+            dreamStatus: dream.dreamStatus,
+            dreamCost: dream.dreamCost
+          };
           await axios
-            .post("/dream/opendream", {
-              userId: this.myId,
-              othersId: this.friendId,
-              dreamStatus: dream.dreamStatus,
-              dreamCost: dream.dreamCost
-            })
+            .post("/dream/opendream", qs.stringify(data))
             .then(result => {
               if (result) {
                 $event.path[2].style.display = "none";
@@ -277,6 +281,7 @@ export default {
 .info .userPic > img {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
 }
 /* 能量logo */
 .info .energyLogo {

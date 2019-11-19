@@ -9,14 +9,14 @@
           <!-- 用户信息 -->
           <div class="info">
             <div class="userPic">
-              <img :src="user.userImage" />
+              <img :src="user.userImage|imgFomate()" />
             </div>
             <span class="userName">{{user.userName}}</span>
           </div>
           <!-- 能量值 -->
           <div class="info energy">
             <div class="energyLogo"></div>
-            <span class="energyNum">{{user.userEnergy}}</span>
+            <span class="energyNum">{{user.userEnergy|energy()}}</span>
           </div>
         </div>
         <!-- 公益林 -->
@@ -41,13 +41,7 @@
 
       <!-- 签到、许愿、记日记 -->
       <div class="btnWrap">
-        <button
-          class="sign"
-          @click="sign()"
-          :style="{background:background}"
- 
-          ref="signing"
-        ></button>
+        <button class="sign" @click="sign()" :style="{background:background}" ref="signing"></button>
         <router-link :to="{name:'wishcomponent'}" class="wishing"></router-link>
         <router-link :to="{name:'diary'}" class="diary"></router-link>
       </div>
@@ -74,7 +68,6 @@ export default {
   name: "wishTree",
   data() {
     return {
-      // signFlag: "",
       showSign: "none", // 显示签到框
       userId: "",
       // 签到的背景图更换
@@ -92,38 +85,39 @@ export default {
     },
 
     // 签到标记
-    signed(){
+    signed() {
       return this.$store.state.wishtree.signFlag;
+    },
+    signsucceed() {
+      return this.$store.state.wishtree.signSucceed;
     }
-
   },
 
   async mounted() {
-    sessionStorage.setItem("userId", 123);
+    sessionStorage.setItem("userId", 15);
     // 获取用户ID
     this.userId = sessionStorage.getItem("userId");
-     // 向后端获取用户信息
+    // 向后端获取用户信息
     await this.$store.dispatch("wishtree/wishtree", this.userId);
-     // 获取签到信息
-    // this.signFlag = this.$store.state.wishtree.signFlag;
-    // console.log(this.signFlag)
-    // if (this.signFlag) {
-    //   // 已签到
-    //   this.background = "url('/img/sign.png') 0 54px";
-    
-    if(this.signed){
+    // 获取签到信息,
+
+    if (!this.signed) {
+      // 已签到
       this.background = "url('/img/sign.png') 0 54px";
     }
   },
   methods: {
     // 签到按钮
-    sign() {
+    async sign() {
       // 未签到
-      if (!this.signed) {
+      if (this.signed) {
         // 向后端发送签到请求
-        this.$store.dispatch("wishtree/signed", this.userId); 
-        this.showSign = "block";
-        this.background = "url('/img/sign.png') 0 54px";
+        await this.$store.dispatch("wishtree/signed", this.userId);
+        if (this.signsucceed) {
+          this.showSign = "block";
+          this.background = "url('/img/sign.png') 0 54px";
+          this.$store.dispatch("wishtree/update", this.userId)
+        }
       }
     },
     // 关闭签到框
@@ -166,11 +160,20 @@ export default {
       return dreamType;
     },
     // 签到标记转换
-    signType: function(value){
-      switch(Number(value)){
-        case 0: return false;break;
-        case 1: return true; break;
+    signType: function(value) {
+      switch (Number(value)) {
+        case 0:
+          return true;
+          break;
+        case 1:
+          return false;
+          break;
       }
+    },
+
+    // 转换能量
+    energy: function(value) {
+      return Math.abs(value);
     }
   },
 
@@ -229,12 +232,12 @@ export default {
   height: 22px;
   border: 1px solid #fff;
   border-radius: 50%;
-  background: green;
   margin-right: 5px;
 }
 .info .userPic > img {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
 }
 /* 能量logo */
 .info .energyLogo {

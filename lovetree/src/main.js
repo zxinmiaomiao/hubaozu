@@ -25,6 +25,10 @@ Vue.use(Swipe).use(SwipeItem);
 Vue.use(Dialog);
 Vue.config.productionTip = false
 
+Vue.filter('imgFomate', function (value) {
+  return (value && "http://116.62.38.0:8888/" +value.replace(".jpg", "_100x100.jpg")) || '';
+  });
+
 new Vue({
     router,
     store,

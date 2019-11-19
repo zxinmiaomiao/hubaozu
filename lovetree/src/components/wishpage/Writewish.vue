@@ -22,13 +22,13 @@
 
       <!-- 权限类别 -->
       <van-radio-group v-model="limit">
-        <van-radio name="0" checked-color="#07c160" @click="select()">
+        <van-radio name="1" checked-color="#07c160" @click="select()">
           <span class="color">公开</span>
         </van-radio>
-        <van-radio name="1" checked-color="#07c160" @click="select()">
+        <van-radio name="2" checked-color="#07c160" @click="select()">
           <span class="color">付费可见</span>
         </van-radio>
-        <van-radio name="2" checked-color="#07c160" @click="select()">
+        <van-radio name="3" checked-color="#07c160" @click="select()">
           <span class="color">送能量可见</span>
         </van-radio>
       </van-radio-group>
@@ -56,6 +56,7 @@
 
 <script>
 import axios from "axios";
+import qs from 'qs'
 export default {
   data() {
     return {
@@ -84,21 +85,21 @@ export default {
     // 权限设置选择
     select() {
       switch (Number(this.limit)) {
-        case 0:
+        case 1:
           this.tips = "*完成后，任何人能查看到愿望";
           this.showM = "none";
           this.showE = "none";
           this.money = "";
           this.energy = "";
           break;
-        case 1:
+        case 2:
           this.tips =
             "*分享后好友需要支付设置金额才能查看愿望，支付的金额将返回至您的余额";
           this.showM = "block";
           this.showE = "none";
           this.energy = "";
           break;
-        case 2:
+        case 3:
           this.tips = "*好友送设置的能量后能查看愿望，能量将累计至您的能量账户";
           this.showE = "block";
           this.showM = "none";
@@ -115,39 +116,43 @@ export default {
       if (this.wishContent !== "" && this.limit !== "") {
         if (this.textNum <= 90) {
           switch (Number(this.limit)) {
-            case 0:
+            case 1:
               {
-                await axios
-                  .post("/dream/wishing", {
+                let data ={
                     wishType: this.limit,
                     wishContent: this.wishContent,
-                    userId: this.userid
-                  })
+                    userId: this.userId,
+                  }
+                await axios
+                  .post("/dream/wishing", qs.stringify(data))
                   .then(res => {
-                    if (res) {
+                    console.log(res.data.success)
+                    if (res.data.success) {
                       this.showSave = true;
-                      wishContent = "";
-                      limit = "";
+                      this.wishContent = "";
+                      this.limit = "";
                     }
                   });
               }
               break;
-            case 1:
+            case 2:
               {
                 if (this.money === "") {
                   this.$dialog.alert({
                     message: "请输入金额"
                   });
                 } else {
-                  await axios
-                    .post("/dream/wishing", {
+                  let data = {
                       wishType: this.limit,
                       wishContent: this.wishContent,
-                      userId: this.userid,
+                      userId: this.userId,
                       price: this.money
-                    })
+                    };
+                  console.log(data)
+                  await axios
+                    .post("/dream/wishing", qs.stringify(data))
                     .then(res => {
-                      if (res) {
+                      if (res.data.success) {
                         this.showSave = true;
                         this.wishContent = "";
                         this.limit = "";
@@ -157,22 +162,24 @@ export default {
                 }
               }
               break;
-            case 2:
+            case 3:
               {
                 if (this.energy === "") {
                   this.$dialog.alert({
                     message: "请输入能量"
                   });
                 } else {
-                  await axios
-                    .post("/dream/wishing", {
+                  let data = {
                       wishType: this.limit,
                       wishContent: this.wishContent,
-                      userId: this.userid,
+                      userId: this.userId,
                       price: this.energy
-                    })
+                    }
+                  console.log(data)
+                  await axios
+                    .post("/dream/wishing", qs.stringify(data) )
                     .then(res => {
-                      if (res) {
+                      if (res.data.success) {
                         this.showSave = true;
                         this.wishContent = "";
                         this.limit = "";

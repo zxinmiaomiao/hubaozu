@@ -200,7 +200,7 @@ export default {
     axios.post("/waws/homepage/queryData").then(res => {
       this.ul_wrap = res.data.data;
     });
-    window.sessionStorage.setItem('userId','w63234')
+    window.sessionStorage.setItem('userId','1')
   },
   methods: {
     gotowish() {

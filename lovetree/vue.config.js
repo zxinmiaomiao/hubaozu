@@ -6,7 +6,7 @@ module.exports = {
     devServer: {
         proxy: {
             '/dream': {
-                target: 'http://localhost:7000',
+                target: 'http://10.31.163.29:9082',
                 ws: true,
                 changeOrigin: true
             },
@@ -16,13 +16,13 @@ module.exports = {
                 changeOrigin: true
             },
             '/user': {
-                target: 'http://localhost:7000',
+                target: 'http://10.31.163.29:9083',
                 ws: true,
                 changeOrigin: true
             },
-              // 全  新增
+              // 全 新增
             '/homepage': {
-               target: 'http://localhost:7000',
+               target: 'http://10.31.163.29:9081',
                ws: true,
                changeOrigin: true
            },

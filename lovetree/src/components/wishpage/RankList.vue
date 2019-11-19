@@ -8,29 +8,36 @@
       </p>
     </div>
     <ul class="friendsList">
+      <li class="my">
+        <div class="rankNum">{{myRink.userRank}}</div>
+        <div class="photo">
+          <img :src="myRink.userImage|imgFomate()" />
+        </div>
+        <div class="name">
+          <p class="friendsNm">{{myRink.userName}}</p>
+          <p class="treeNum">认领{{myRink.userTreenum}}棵树</p>
+        </div>
+        <div class="power">{{myRink.userEnergy|energy()}}能量</div>
+      </li>
+
       <li :key="rank.userId" v-for="(rank,index) of friendList">
-        <!-- 我的排名 -->
-        <template v-if="index === 0">
-          <div class="rankNum">{{myRink.userRank}}</div>
-        </template>
-        <!-- 前三名 -->
-        <template v-else-if="index>0&&index<4">
-          <div :class="'rankNum rank-'+index"></div>
+        <template v-if="index<3">
+          <div :class="'rankNum rank-'+(index+1)"></div>
         </template>
         <!-- 4-10名 -->
         <template v-else>
-          <div class="rankNum">{{index}}</div>
+          <div class="rankNum">{{index+1}}</div>
         </template>
         <div class="photo">
-          <img :src="rank.userImage" />
+          <img :src="rank.userImage|imgFomate()" />
         </div>
         <div class="name">
           <p class="friendsNm">{{rank.userName}}</p>
           <p class="treeNum">认领{{rank.userTreenum}}棵树</p>
         </div>
-        <div class="power">{{rank.userEnergy}}能量</div>
+        <div class="power">{{rank.userEnergy|energy()}}能量</div>
         <!-- 传一个好友ID参数 -->
-        <template v-if="index>0">
+        <template v-if="myRink.userId != rank.userId">
           <div class="look" @click="toFriendTree(rank)">查看TA的愿望</div>
         </template>
       </li>
@@ -48,8 +55,12 @@ export default {
     },
     // 接收一个id参数
     toFriendTree(rank) {
-      let userInfo = {'userName':rank.userName,"userEnergy":rank.userEnergy,"userImage":rank.userImage}
-      sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
+      let userInfo = {
+        userName: rank.userName,
+        userEnergy: rank.userEnergy,
+        userImage: rank.userImage
+      };
+      sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
       this.$router.push({
         name: "friendtree",
         query: { userId: rank.userId, myEnergy: this.myRink.userEnergy }
@@ -64,6 +75,12 @@ export default {
     friendList() {
       return this.$store.state.wishtree.rankList;
     }
+  },
+  filters: {
+    // 转换能量
+    energy: function(value) {
+      return Math.abs(value);
+    },
   }
 };
 </script>
@@ -166,6 +183,7 @@ export default {
 .photo > img {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
 }
 
 /* 好友名字 */

@@ -10,7 +10,7 @@
     <div class="changePhoto" is-link @click="photo()">
       <span>头像</span>
       <div class="pic">
-        <img :src="picUrl" />
+        <img :src="getInfo.userImage|imgFomate()" />
         <span class="rightArr iconfont icon-arrow-right"></span>
       </div>
     </div>
@@ -19,19 +19,19 @@
       <li is-link @click="changeName()">
         <span>昵称</span>
         <div class="name">
-          <em class="userName">{{currentName}}</em>
+          <em class="userName">{{getInfo.userName}}</em>
           <span class="rightArr iconfont icon-arrow-right"></span>
         </div>
       </li>
       <li>
         <span>手机号</span>
-        <em class="phone">{{phone}}</em>
+        <em class="phone">{{getInfo.userPhone}}</em>
       </li>
       <!-- 性别显示栏 -->
       <li is-link @click="showsex">
         <span>性别</span>
         <div class="sex">
-          <em>{{sex|sexFormat()}}</em>
+          <em>{{getInfo.userSex|sexFormat()}}</em>
           <span class="rightArr iconfont icon-arrow-right"></span>
         </div>
       </li>
@@ -39,7 +39,7 @@
       <li is-link @click="showdate">
         <span>生日</span>
         <div class="birth">
-          <em ref="time">{{currentDate}}</em>
+          <em ref="time">{{getInfo.userBirthday}}</em>
           <span class="rightArr iconfont icon-arrow-right"></span>
         </div>
       </li>
@@ -65,6 +65,7 @@
         v-model="changeDate"
         type="date"
         :min-date="minDate"
+        :max-date="maxDate"
         title="选择日期"
         @confirm="sureDate"
         @cancel="cancel()"
@@ -76,15 +77,36 @@
       <h5>请选择性别</h5>
       <p>
         <label for="m">男</label>
-        <input type="radio" name="sex" value="1" id="m" v-model="sex" @click="changeSex" />
+        <input
+          type="radio"
+          name="sex"
+          value="1"
+          id="m"
+          v-model="getInfo.userSex"
+          @click="changeSex"
+        />
       </p>
       <p>
         <label for="w">女</label>
-        <input type="radio" name="sex" value="2" id="w" v-model="sex" @click="changeSex" />
+        <input
+          type="radio"
+          name="sex"
+          value="2"
+          id="w"
+          v-model="getInfo.userSex"
+          @click="changeSex"
+        />
       </p>
       <p>
         <label for="s">保密</label>
-        <input type="radio" name="sex" value="3" id="s" v-model="sex" @click="changeSex" />
+        <input
+          type="radio"
+          name="sex"
+          value="3"
+          id="s"
+          v-model="getInfo.userSex"
+          @click="changeSex"
+        />
       </p>
     </van-popup>
 
@@ -104,25 +126,33 @@
 
 <script>
 import axios from "axios";
+
 export default {
   name: "personInfo",
 
   data() {
     return {
       userId: "",
-      currentDate: this.$store.state.changeInfo.userInfo.userBirthday,
-      sex: this.$store.state.changeInfo.userInfo.userSex,
-      currentName: this.$store.state.changeInfo.userInfo.userName,
-      picUrl: this.$store.state.changeInfo.userInfo.userImage,
-      phone: this.$store.state.changeInfo.userInfo.userPhone,
+      currentDate: "",
+      picUrl: "",
+      phone: "",
       afterName: "",
       changeDate: new Date(),
       minDate: new Date(1900, 0, 1),
+      maxDate: new Date(),
       showDate: false,
       showSex: false,
       showName: false,
       showphoto: false
     };
+  },
+  computed: {
+    getInfo() {
+      return this.$store.state.changeInfo.userInfo;
+    },
+    succeed() {
+      return this.$store.state.changeInfo.modifiySuccee;
+    }
   },
 
   async mounted() {
@@ -144,7 +174,7 @@ export default {
       let year = value.getFullYear();
       let month = value.getMonth() + 1;
       let date = value.getDate();
-      this.currentDate = year + "-" + month + "-" + date;
+      this.getInfo.userBirthday = year + "-" + month + "-" + date;
       this.showDate = false;
     },
     // 取消修改时间
@@ -173,7 +203,7 @@ export default {
       if (this.afterName !== "") {
         if (this.afterName.length < 7 && this.afterName.length > 1) {
           if (reg.test(this.afterName)) {
-            this.currentName = this.afterName;
+            this.getInfo.userName = this.afterName;
             this.showName = false;
             this.afterName = "";
           } else {
@@ -201,6 +231,7 @@ export default {
       this.showphoto = false;
     },
     async onRead(file) {
+      console.log(file.file);
       let params = new FormData(); //创建form对象
       params.append("file", file.file); //通过append向form对象添加数据//第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
       let config = {
@@ -209,39 +240,32 @@ export default {
           "Content-Type": "multipart/form-data"
         }
       };
-      let url = "user/portrait";
-      await axios
-        .post(url, params, config)
-        .then(res => {
-          console.log(res); // 获得后端url
-          this.picUrl = res;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      await axios.post("user/portrait", params, config).then(res => {
+        console.log(res); // 获得后端url
+        // this.this.getInfo.userImage = res;
+      });
     },
 
     // 确认保存所有修改信息
-    confirm() {
-      let time = this.$refs.time.innerHTML;
 
-      axios
-        .post("/user/usernewinfo", {
-          userId: this.userId,
-          userName: this.currentName,
-          userBirthday: time,
-          userSex: this.sex,
-          userImage: this.picUrl
-        })
-        .then(result => {
-          if (result.success) {
-            this.$dialog.alert({
-              message: "修改成功"
-            });
-          }
+    async confirm() {
+      let reg = /-/g;
+      let time = this.getInfo.userBirthday.replace(reg, "/");
+      let changeInfo = {
+        userId: this.userId,
+        userName: this.getInfo.userName,
+        userBirthday: time,
+        userSex: this.getInfo.userSex,
+        userImage: this.getInfo.userImage
+      };
+      await this.$store.dispatch("changeInfo/modification", changeInfo);
+      if (this.succeed) {
+        this.$dialog.alert({
+          message: "修改成功"
         });
+      }
     },
-    quit(){
+    quit() {
       sessionStorage.clear();
     }
   },
@@ -256,7 +280,7 @@ export default {
           return "女";
           break;
         case 3:
-          return "未知";
+          return "保密";
           break;
       }
     }
